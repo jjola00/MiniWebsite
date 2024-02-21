@@ -90,7 +90,7 @@
     </div>
     <div class="coordinator-card">
         <h3>View Current Event Registrations</h3>
-        <button class="club-button" onclick="redirectToMembershipDetails('Football')">View Registered Users</button>
+        <button class="club-button" onclick="redirectToEventRegistrations('/coordinator_view_event_registrations')">View Event Registrations</button>
     </div>
     <div class="coordinator-card">
         <h3>View Pending Registrations</h3>
@@ -107,6 +107,11 @@
     <div id="circle" class="circle"></div>
     <script>
         function redirectToRegistrations(url) {
+            window.location.href = url;
+        }
+    </script>
+    <script>
+        function redirectToEventRegistrations(url) {
             window.location.href = url;
         }
     </script>
