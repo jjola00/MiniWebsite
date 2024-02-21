@@ -141,9 +141,9 @@ def coordinator_view_club_memberships():
 def coordinator_view_club_pending_memberships():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
-    userID = Login.get_user_id(username)
+    UserID = Login.get_user_id(username)
     pending_memberships = []
-    for item in Clubs.coordinator_view_club_pending_memberships(userID):
+    for item in Clubs.coordinator_view_club_pending_memberships(UserID):
         pending_memberships.append(item)
     return render_template('pending_members.html', pending_memberships=pending_memberships, roleCheck=roleCheck, username=username)
 
@@ -166,8 +166,28 @@ def coordinator_view_event_registrations():
     event_registrations = Events.coordinator_view_event_registrations(UserID)
     return render_template('coordinator_view_event_registrations.html', event_registrations=event_registrations, UserID=UserID, roleCheck=roleCheck, username=username)
 
-@app.route('/coordinator_accept_registration', methods=['POST'])
-def coordinator_accept_registration():
+@app.route('/coordinator_accept_club_registration', methods=['POST'])
+def coordinator_accept_club_registration():
+    roleCheck = session.get("roleCheck", 0)
+    username = session.get("username", "base")
+    if request.method == 'POST':
+        UserID = Login.get_user_id(username)
+        roleCheck=roleCheck
+        MembershipID = request.form['membershipID']
+        ClubID = request.form['clubID']
+
+        if Clubs.coordinator_accept_club_registration(UserID, MembershipID, ClubID):
+            flash("Club registration approved successfully!", "success")
+        else:
+            flash("Club registration not found or already approved.", "error")
+
+        return redirect(url_for('coordinator_view_club_pending_memberships'))
+
+    flash("Invalid request method", "error")
+    return redirect(url_for('coordinator_view_club_pending_memberships'))
+
+@app.route('/coordinator_accept_event_registration', methods=['POST'])
+def coordinator_accept_event_registration():
     if request.method == 'POST':
         user_id = request.form['userID']
         event_id = request.form['eventID']
@@ -176,8 +196,6 @@ def coordinator_accept_registration():
             flash("Event registration approved successfully!", "success")
         else:
             flash("Event registration not found or already approved.", "error")
-
-        # Redirect to the coordinator_view_event_registrations route
         return redirect(url_for('coordinator_view_event_registrations'))
 
     # Handle invalid request method

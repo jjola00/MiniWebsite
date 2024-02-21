@@ -90,7 +90,19 @@ def user_views_memberships(userID):
     
     return result
 
-
+def coordinator_accept_club_registration(MembershipID, ClubID, UserID):
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM ClubMemberships WHERE ClubID = (SELECT ClubID FROM ViewClubCoordinators WHERE UserID = ?)", (UserID,))
+    row = cursor.fetchone()
+    if row:
+        cursor.execute("UPDATE ClubMemberships SET ApprovalStatus = 'approved' WHERE MembershipID = ? AND ClubID = ?", (MembershipID, ClubID))
+        conn.commit()
+        conn.close()
+        return True
+    else:
+        conn.close()
+        return False
 
 def coordinator_view_club_memberships(UserID):
     conn = sqlite3.connect('MiniEpic.db')
@@ -100,9 +112,7 @@ def coordinator_view_club_memberships(UserID):
     club_members = [list(row) for row in rows]
     conn.close()
     return club_members
-##UserID = 2
-##for record in coordinator_view_club_memberships(UserID):
-  ##  print(record)
+
 
 def coordinator_view_club_pending_memberships(UserID):
     conn = sqlite3.connect('MiniEpic.db')

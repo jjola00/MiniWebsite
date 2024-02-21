@@ -75,9 +75,8 @@
         <thead>
             <tr>
                 <th>Membership ID</th>
-                <th>Coordinator ID</th>
+                <th>Club ID</th>
                 <th>User ID</th>
-                <th>User Name</th>
                 <th>Approval Status</th>
             </tr>
         </thead>
@@ -86,12 +85,20 @@
             <tr>
                 <td>{{ membership[0] }}</td> <!-- Membership ID -->
                 <td>{{ membership[1] }}</td> <!-- User ID -->
-                <td>{{ membership[2] }}</td> <!-- Club ID -->
-                <td>{{ membership[3] }}</td> <!-- User Name -->
+                <td>{{ membership[3] }}</td> <!-- Club ID -->
                 <td>{{ membership[4] }}</td> <!-- Approval Status-->
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <div class="container">
+        <h2>Accept Registration</h2>
+        <form action="/coordinator_view_club_pending_memberships" method="post">
+            <label for="membershipID">Membership ID:</label>
+            <input type="text" id="membershipID" name="membershipID"><br><br>
+            <label for="clubID">Club ID:</label>
+            <input type="text" id="clubID" name="clubID"><br><br> <!-- Make sure the name attribute is 'event_id' -->
+            <input type="submit" value="Accept">
+        </form>
 </div>
 {% endblock %}
