@@ -163,10 +163,8 @@ def coordinator_view_event_registrations():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
     UserID = Login.get_user_id(username)
-    event_registrations = []
-    for item in Events.coordinator_view_event_registrations(UserID):
-        event_registrations.append(item)
-        return render_template('coordinator_view_event_registrations.html', event_registrations=event_registrations, UserID=UserID, roleCheck=roleCheck, username=username)
+    event_registrations = Events.coordinator_view_event_registrations(UserID)
+    return render_template('coordinator_view_event_registrations.html', event_registrations=event_registrations, UserID=UserID, roleCheck=roleCheck, username=username)
 
 @app.route('/coordinator_accept_registration', methods=['POST'])
 def coordinator_accept_registration():
@@ -175,13 +173,16 @@ def coordinator_accept_registration():
         event_id = request.form['eventID']
 
         if Events.verify_event_registration(user_id, event_id):
-            # Registration verified and updated to 'approved'
-            return "Event registration approved successfully!"
+            flash("Event registration approved successfully!", "success")
         else:
-            # Registration not found or already approved
-            return "Event registration not found or already approved."
-    else:
-        return "Invalid request method"
+            flash("Event registration not found or already approved.", "error")
+
+        # Redirect to the coordinator_view_event_registrations route
+        return redirect(url_for('coordinator_view_event_registrations'))
+
+    # Handle invalid request method
+    flash("Invalid request method", "error")
+    return redirect(url_for('coordinator_view_event_registrations'))
 
 @app.route("/memberships")
 def memberships():

@@ -105,9 +105,9 @@ def coordinator_view_event_registrations(UserID):
     result = [list(row) for row in registrations]
     conn.close()
     return result
-##UserID = 2
-##for record in coordinator_view_event_registrations(UserID):
-    ##print(record)
+UserID = 2
+for record in coordinator_view_event_registrations(UserID):
+    print(record)
 
 # Function to retrieve all events for admin view
 def admin_view_events(): 
@@ -133,19 +133,15 @@ def admin_view_events_pending():
 def verify_event_registration(user_id, event_id): 
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-
-    # Check if a registration with the given UserID and EventID exists
     cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
     row = cursor.fetchone()
 
     if row:
-        # If a registration exists, update the ApprovalStatus to 'approved'
         cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE UserID = ? AND EventID = ?", (user_id, event_id))
         conn.commit()
         conn.close()
         return True
     else:
-        # If no registration exists for the given UserID and EventID, return False
         conn.close()
         return False
 
