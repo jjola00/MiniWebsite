@@ -50,6 +50,17 @@ def register_for_event(event_id, user_id):
     cursor = conn.cursor()
     cursor.execute("INSERT INTO EventRegistration (EventID, UserID) VALUES (?, ?)", (event_id, user_id))
     conn.commit()
+    
+    cursor.execute("SELECT ClubID FROM Events WHERE EventID=?", (event_id,))
+    club = cursor.fetchone()
+    cursor.execute("SELECT ApprovalStatus FROM ClubsMemberships WHERE ClubID = ? AND UserID = ?", (club, user_id))
+    approval = cursor.fetchone()
+    if approval is not None:
+        cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE EventID = ? AND UserID = ?", (event_id, user_id))
+        conn.commit()
+
+
+
 
 #views             
     
