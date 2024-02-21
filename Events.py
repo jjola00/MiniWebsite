@@ -65,7 +65,7 @@ def view_events():
 
 
 # Function to retrieve details of events user is registered for
-def fetch_event_registrations(userID): 
+def fetch_user_event_registrations(userID): 
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ?", (userID,))
@@ -89,12 +89,25 @@ def coordinator_view_events(UserID):
 
 # Function to retrieve events coordinated by a specific user with pending approvals
 def coordinator_view_events_pending(UserID):
-    conn, cursor = connect_to_database()
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
     cursor.execute("SELECT Events.* FROM ViewClubCoordinators JOIN Events on ViewClubCoordinators.ClubID = Events.ClubID WHERE ViewClubCoordinators.UserID = ?", (UserID,))
     events = cursor.fetchall()
     result = [list(row) for row in events]
     conn.close()
     return result
+
+def coordinator_view_event_registrations(UserID):
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT EventRegistration.* FROM ViewClubCoordinators JOIN Events ON ViewClubCoordinators.ClubID = Events.ClubID JOIN EventRegistration ON Events.EventID = EventRegistration.EventID WHERE ViewClubCoordinators.UserID = ?", (UserID,))
+    registrations = cursor.fetchall()
+    result = [list(row) for row in registrations]
+    conn.close()
+    return result
+UserID = 2
+for record in coordinator_view_event_registrations(UserID):
+    print(record)
 
 # Function to retrieve all events for admin view
 def admin_view_events(): 

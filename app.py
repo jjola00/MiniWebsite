@@ -106,7 +106,7 @@ def user_views_event_registrations():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
     userID = Login.get_user_id(username)
-    registered_events = Events.fetch_event_registrations(userID)
+    registered_events = Events.fetch_user_event_registrations(userID)
     return render_template('view_event_registrations.html', event_registrations=registered_events, userID=userID, roleCheck=roleCheck, username=username)
 
 @app.route('/register_event', methods=['POST'])
@@ -157,6 +157,16 @@ def coordinator_view_club_events():
     for item in Events.coordinator_view_events(UserID):
         club_events.append(item)
     return render_template('view_club_events.html', club_events=club_events, UserID=UserID, roleCheck=roleCheck, username=username)
+
+@app.route('/coordinator_view_event_registrations')
+def coordinator_view_event_registrations():
+    roleCheck = session.get("roleCheck", 0)
+    username = session.get("username", "base")
+    UserID = Login.get_user_id(username)
+    event_registrations = []
+    for item in Events.coordinator_view_event_registrations(UserID):
+        event_registrations.append(item)
+        return render_template('coordinator_view_event_registrations.html', event_registrations=event_registrations, UserID=UserID, roleCheck=roleCheck, username=username)
 
 @app.route("/memberships")
 def memberships():
