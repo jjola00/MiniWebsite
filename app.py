@@ -168,6 +168,21 @@ def coordinator_view_event_registrations():
         event_registrations.append(item)
         return render_template('coordinator_view_event_registrations.html', event_registrations=event_registrations, UserID=UserID, roleCheck=roleCheck, username=username)
 
+@app.route('/coordinator_accept_registration', methods=['POST'])
+def coordinator_accept_registration():
+    if request.method == 'POST':
+        user_id = request.form['userID']
+        event_id = request.form['eventID']
+
+        if Events.verify_event_registration(user_id, event_id):
+            # Registration verified and updated to 'approved'
+            return "Event registration approved successfully!"
+        else:
+            # Registration not found or already approved
+            return "Event registration not found or already approved."
+    else:
+        return "Invalid request method"
+
 @app.route("/memberships")
 def memberships():
     roleCheck = session.get("roleCheck", 0)

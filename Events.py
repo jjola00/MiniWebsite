@@ -48,7 +48,7 @@ def create_event(club_id, title, description, date_, time_, venue_id):
 def register_for_event(event_id, user_id):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO Event_Registration (Event_id, User_id) VALUES (?, ?)", (event_id, user_id))
+    cursor.execute("INSERT INTO EventRegistration (EventID, UserID) VALUES (?, ?)", (event_id, user_id))
     conn.commit()
 
 #views             
@@ -105,9 +105,9 @@ def coordinator_view_event_registrations(UserID):
     result = [list(row) for row in registrations]
     conn.close()
     return result
-UserID = 2
-for record in coordinator_view_event_registrations(UserID):
-    print(record)
+##UserID = 2
+##for record in coordinator_view_event_registrations(UserID):
+    ##print(record)
 
 # Function to retrieve all events for admin view
 def admin_view_events(): 
@@ -130,13 +130,24 @@ def admin_view_events_pending():
     return result
 
 # Function to verify if a user is registered for a specific event
-def verify_event_registration(user_id, EventID): 
+def verify_event_registration(user_id, event_id): 
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM Event_Registration WHERE User_id = ? AND Event_id = ?", (user_id, EventID))
+
+    # Check if a registration with the given UserID and EventID exists
+    cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
     row = cursor.fetchone()
-    conn.close()
-    return row is not None
+
+    if row:
+        # If a registration exists, update the ApprovalStatus to 'approved'
+        cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE UserID = ? AND EventID = ?", (user_id, event_id))
+        conn.commit()
+        conn.close()
+        return True
+    else:
+        # If no registration exists for the given UserID and EventID, return False
+        conn.close()
+        return False
 
 #updates     #######################################
     
