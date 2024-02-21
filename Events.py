@@ -105,9 +105,9 @@ def coordinator_view_event_registrations(UserID):
     result = [list(row) for row in registrations]
     conn.close()
     return result
-UserID = 2
-for record in coordinator_view_event_registrations(UserID):
-    print(record)
+##UserID = 2
+##for record in coordinator_view_event_registrations(UserID):
+    ##print(record)
 
 # Function to retrieve all events for admin view
 def admin_view_events(): 
