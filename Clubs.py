@@ -41,6 +41,30 @@ def creating_club(Name, CoordinatorID, Description):
     else:
         print("Club Creation Denied")
 
+def get_club_id(sport_name):
+    try:
+        conn = sqlite3.connect('MiniEpic.db') 
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT ClubID FROM Clubs WHERE Name = ?", (sport_name,))
+        club_id = cursor.fetchone()
+
+        if club_id:
+            return club_id[0]  # Return the first element of the tuple (ClubID)
+        else:
+            print(f"No club found for sport name: {sport_name}")
+            return None
+
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+        return None
+
+    finally:
+        if conn:
+            conn.close()
+print("test")
+    
+
 
 def verify_clubs_joined(UserID):
     conn = sqlite3.connect('MiniEpic.db')
@@ -58,15 +82,15 @@ def club_registration(UserID, ClubID):
         row = cursor.fetchone()
 
         if row is None:
-            print("Club does not exist")
+            raise ValueError("Club does not exist")
         else:
             clubID = row[0]
             cursor.execute("INSERT INTO ClubMemberships (UserID, ClubID) VALUES (?,?)", (UserID, clubID))
             conn.commit()
             print("Club Registration Successful")
     else:
-        print("Club Registration Denied")
-        print("Too many clubs joined")
+        raise ValueError("Too many clubs joined")
+    conn.close()
 
 
 ################################################################################################################################################################################################################

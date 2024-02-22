@@ -148,7 +148,26 @@ def is_valid_email(email):
     pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
     return bool(re.match(pattern, email))
 
+def get_username_from_user_id(user_id):
+    try:
+        conn = sqlite3.connect('MiniEpic.db')
+        cursor = conn.cursor()
 
+        # Execute the SQL query to retrieve the username based on user_id
+        cursor.execute("SELECT username FROM AdminAccountView WHERE UserID = ?", (user_id,))
+        row = cursor.fetchone()
+
+        if row:
+            username = row[0]  # Assuming username is the first column in the result
+            conn.close()
+            return username
+        else:
+            conn.close()
+            return None  # User not found with the given user_id
+
+    except Exception as e:
+        print("Error:", e)
+        return None
 
 
 

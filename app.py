@@ -169,7 +169,29 @@ def coordinator_reject_club_membership():
 
         # Redirect back to the same page (refresh)
         return redirect(request.referrer or '/')
+    
+@app.route('/add_membership', methods=['POST'])
+def add_membership():
+    if request.method == 'POST':
+        sport_name = request.form.get('sportName')
+        username = session.get('username')  # Get the username from the session
 
+        if username:
+            UserID = Login.get_user_id(username)
+            ClubID = Clubs.get_club_id(sport_name)
+
+            if ClubID is not None:  # Check if ClubID is valid
+                try:
+                    Clubs.club_registration(UserID, ClubID)
+                    flash(f"Membership added successfully for {sport_name}.", "success")
+                except Exception as e:
+                    flash(f"Failed to add membership for {sport_name}. Error: {str(e)}", "error")
+            else:
+                flash(f"Club ID not found for {sport_name}.", "error")
+        else:
+            flash("Username not found in session.", "error")
+
+        return redirect('/memberships')
 
 @app.route('/coordinator_view_club_events')
 def coordinator_view_club_events():
