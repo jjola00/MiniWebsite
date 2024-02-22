@@ -1,7 +1,6 @@
 import sqlite3, os,Login,Clubs,Events
 
 from flask import Flask, redirect, url_for, render_template, request, session, flash
-
 # importing real time to create permanent session for perios of time
 from datetime import timedelta
 app = Flask(__name__)
@@ -150,6 +149,52 @@ def coordinator_view_club_pending_memberships():
         pending_memberships.append(item)
     return render_template('pending_members.html', pending_memberships=pending_memberships, roleCheck=roleCheck, username=username)
 
+@app.route('/coordinator_accept_club_membership', methods=['POST'])
+def coordinator_accept_club_membership():
+    if request.method == 'POST':
+        membership_id = request.form.get('MembershipID')
+        club_id = request.form.get('ClubID')
+
+        # Call the function to update the membership status
+        Clubs.update_membership_status(membership_id, club_id)
+
+        # Redirect back to the same page (refresh)
+        return redirect(request.referrer or '/')
+    
+@app.route('/coordinator_reject_club_membership', methods=['POST'])
+def coordinator_reject_club_membership():
+    if request.method == 'POST':
+        membership_id = request.form.get('MembershipID')
+        club_id = request.form.get('ClubID')
+        
+        # Call the function to reject the club membership
+        Clubs.reject_club_membership(membership_id, club_id)
+
+        # Redirect back to the same page (refresh)
+        return redirect(request.referrer or '/')
+    
+@app.route('/add_membership', methods=['POST'])
+def add_membership():
+    if request.method == 'POST':
+        sport_name = request.form.get('sportName')
+        username = session.get('username')  # Get the username from the session
+
+        if username:
+            UserID = Login.get_user_id(username)
+            ClubID = Clubs.get_club_id(sport_name)
+
+            if ClubID is not None:  # Check if ClubID is valid
+                try:
+                    Clubs.club_registration(UserID, ClubID)
+                    flash(f"Membership added successfully for {sport_name}.", "success")
+                except Exception as e:
+                    flash(f"Failed to add membership for {sport_name}. Error: {str(e)}", "error")
+            else:
+                flash(f"Club ID not found for {sport_name}.", "error")
+        else:
+            flash("Username not found in session.", "error")
+
+        return redirect('/memberships')
 
 @app.route('/coordinator_view_club_events')
 def coordinator_view_club_events():
@@ -169,25 +214,13 @@ def coordinator_view_event_registrations():
     event_registrations = Events.coordinator_view_event_registrations(UserID)
     return render_template('coordinator_view_event_registrations.html', event_registrations=event_registrations, UserID=UserID, roleCheck=roleCheck, username=username)
 
-@app.route('/coordinator_accept_club_registration', methods=['POST'])
-def coordinator_accept_club_registration():
+@app.route("/coordinator_view_pending_event_registrations")
+def coordinator_view_pending_event_regsitrations():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
-    if request.method == 'POST':
-        UserID = Login.get_user_id(username)
-        roleCheck=roleCheck
-        MembershipID = request.form['membershipID']
-        ClubID = request.form['clubID']
-
-        if Clubs.coordinator_accept_club_registration(UserID, MembershipID, ClubID):
-            flash("Club registration approved successfully!", "success")
-        else:
-            flash("Club registration not found or already approved.", "error")
-
-        return redirect(url_for('coordinator_view_club_pending_memberships'))
-
-    flash("Invalid request method", "error")
-    return redirect(url_for('coordinator_view_club_pending_memberships'))
+    UserID = Login.get_user_id(username)
+    pending_event_registrations = Events.coordinator_view_pending_event_registrations(UserID)
+    return render_template("coordinator_view_pending_event_registrations.html", pending_event_registrations=pending_event_registrations, roleCheck=roleCheck, username=username)
 
 @app.route('/coordinator_accept_event_registration', methods=['POST'])
 def coordinator_accept_event_registration():
@@ -201,7 +234,6 @@ def coordinator_accept_event_registration():
             flash("Event registration not found or already approved.", "error")
         return redirect(url_for('coordinator_view_event_registrations'))
 
-    # Handle invalid request method
     flash("Invalid request method", "error")
     return redirect(url_for('coordinator_view_event_registrations'))
 

@@ -81,20 +81,24 @@
 
 <div class="coordinator-container">
     <div class="coordinator-card">
-        <h3>View Club Members</h3>
-        <button class="join-button" onclick="redirectToRegistrations('/coordinator_view_club_memberships')">View Registered Users</button>
+        <h3>Club Members</h3>
+        <button class="join-button" onclick="redirectToRegistrations('/coordinator_view_club_memberships')">View Registered Members</button>
     </div>
     <div class="coordinator-card">
-        <h3>View Your Club's Upcoming Events</h3>
+        <h3>Your Club's Upcoming Events</h3>
         <button class="view-events-button" onclick="redirectToEvents('/coordinator_view_club_events')">View Club Events</button>
     </div>
     <div class="coordinator-card">
-        <h3>View Current Event Registrations</h3>
+        <h3>Current Event Registrations</h3>
         <button class="club-button" onclick="redirectToEventRegistrations('/coordinator_view_event_registrations')">View Event Registrations</button>
     </div>
     <div class="coordinator-card">
-        <h3>View Pending Registrations</h3>
-        <button class="join-button" onclick="redirectToPendingRegistrations('/coordinator_view_club_pending_memberships')">View Pending Registrations</button>
+        <h3>Pending Event Registrations</h3>
+        <button class="club-button" onclick="redirectToPendingEventRegistrations('/coordinator_view_pending_event_registrations')">View Pending Event Registrations</button>
+    </div>
+    <div class="coordinator-card">
+        <h3>Pending Club Registrations</h3>
+        <button class="join-button" onclick="redirectToPendingRegistrations('/coordinator_view_club_pending_memberships')">View Pending Club Registrations</button>
     </div>
     <div class="coordinator-card">
         <h3>Create Event</h3>
@@ -117,6 +121,11 @@
     </script>
     <script>
         function redirectToPendingRegistrations(url) {
+            window.location.href = url;
+        }
+    </script>
+    <script>
+        function redirectToPendingEventRegistrations(url) {
             window.location.href = url;
         }
     </script>
