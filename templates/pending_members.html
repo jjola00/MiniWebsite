@@ -70,7 +70,7 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="event-heading">Club Memberships</h1> <!-- Apply the class to change the font -->
+    <h1 class="event-heading">Club Memberships</h1>
     <table class="event-table">
         <thead>
             <tr>
@@ -78,6 +78,7 @@
                 <th>Club ID</th>
                 <th>User ID</th>
                 <th>Approval Status</th>
+                <th>Action</th> <!-- New column for action buttons -->
             </tr>
         </thead>
         <tbody>
@@ -85,20 +86,24 @@
             <tr>
                 <td>{{ membership[0] }}</td> <!-- Membership ID -->
                 <td>{{ membership[1] }}</td> <!-- User ID -->
-                <td>{{ membership[3] }}</td> <!-- Club ID -->
-                <td>{{ membership[4] }}</td> <!-- Approval Status-->
+                <td>{{ membership[2] }}</td> <!-- Club ID -->
+                <td>{{ membership[3] }}</td> <!-- Approval Status-->
+                <td>
+                    <form action="/coordinator_accept_club_membership" method="post" style="display: inline;">
+                        <input type="hidden" name="MembershipID" value="{{ membership[0] }}">
+                        <input type="hidden" name="ClubID" value="{{ membership[2] }}">
+                        <button type="submit" class="accept-button">Accept</button>
+                    </form>
+                    <form action="/coordinator_reject_club_membership" method="post" style="display: inline;">
+                        <input type="hidden" name="MembershipID" value="{{ membership[0] }}">
+                        <input type="hidden" name="ClubID" value="{{ membership[2] }}">
+                        <button type="submit" class="reject-button">Reject</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <div class="container">
-        <h2>Accept Registration</h2>
-        <form action="/coordinator_view_club_pending_memberships" method="post">
-            <label for="membershipID">Membership ID:</label>
-            <input type="text" id="membershipID" name="membershipID"><br><br>
-            <label for="clubID">Club ID:</label>
-            <input type="text" id="clubID" name="clubID"><br><br> <!-- Make sure the name attribute is 'event_id' -->
-            <input type="submit" value="Accept">
-        </form>
 </div>
 {% endblock %}
+
