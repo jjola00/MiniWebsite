@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Event Registrations{% endblock %}
+{% block title %}Pending Registrations{% endblock %}
 
 {% block style %}
 <style>
@@ -51,6 +51,25 @@
         background-color: #444;
     }
 
+    .action-buttons button {
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        margin-right: 5px;
+    }
+
+    .action-buttons button.reject-button {
+        background-color: #ff0000; /* Red color for reject buttons */
+    }
+
+    .action-buttons button:hover {
+        background-color: #45a049;
+    }
+
     footer {
         position: fixed;
         right: 0;
@@ -75,16 +94,28 @@
                     <th>Event ID</th>
                     <th>User ID</th>
                     <th>Approval Status</th>
+                    <th>Action</th> <!-- New column for action buttons -->
                 </tr>
             </thead>
             <tbody>
-                <!-- Loop through event registrations data and populate the table -->
-                {% for registration in event_registrations %}
+                {% for registration in pending_event_registrations %}
                 <tr>
                     <td>{{ registration[0] }}</td> <!-- Registration ID -->
                     <td>{{ registration[1] }}</td> <!-- Event ID -->
                     <td>{{ registration[2] }}</td> <!-- User ID -->
                     <td>{{ registration[3] }}</td> <!-- Approval Status -->
+                    <td class="action-buttons">
+                        <form action="/coordinator_accept_event_registration" method="post" style="display: inline;">
+                            <input type="hidden" name="eventID" value="{{ registration[1] }}">
+                            <input type="hidden" name="userID" value="{{ registration[2] }}">
+                            <button type="submit" class="accept-button">Accept</button>
+                        </form>
+                        <form action="/reject_registration" method="post" style="display: inline;">
+                            <input type="hidden" name="userID" value="{{ registration[2] }}">
+                            <input type="hidden" name="eventID" value="{{ registration[1] }}">
+                            <button type="submit" class="reject-button">Reject</button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

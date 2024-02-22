@@ -28,12 +28,12 @@
         margin-top: 20px;
         background-color: rgba(0, 0, 0, 0.8); /* Solid black background with some transparency */
         box-shadow: 0 0 10px 5px #121212, 0 0 20px 10px #141414; /* Outer glow effect */
-            transition: box-shadow 0.3s ease-in-out;
+        transition: box-shadow 0.3s ease-in-out;
     }
 
     .event-table:hover {
-            box-shadow: 0 0 20px 15px #161617, 0 0 40px 20px #1c1c1c; /* Adjusted glow on hover */
-        }
+        box-shadow: 0 0 20px 15px #161617, 0 0 40px 20px #1c1c1c; /* Adjusted glow on hover */
+    }
 
     .event-table th,
     .event-table td {
@@ -54,6 +54,26 @@
     .event-table tbody tr:hover {
         background-color: #444;
     }
+
+    .action-buttons button {
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        margin-right: 5px;
+    }
+
+    .action-buttons button.reject-button {
+        background-color: #ff0000; /* Red color for reject buttons */
+    }
+
+    .action-buttons button:hover {
+        background-color: #45a049;
+    }
+
     footer {
         position: fixed;
         right: 0;
@@ -88,7 +108,7 @@
                 <td>{{ membership[1] }}</td> <!-- User ID -->
                 <td>{{ membership[2] }}</td> <!-- Club ID -->
                 <td>{{ membership[3] }}</td> <!-- Approval Status-->
-                <td>
+                <td class="action-buttons">
                     <form action="/coordinator_accept_club_membership" method="post" style="display: inline;">
                         <input type="hidden" name="MembershipID" value="{{ membership[0] }}">
                         <input type="hidden" name="ClubID" value="{{ membership[2] }}">
@@ -106,4 +126,3 @@
     </table>
 </div>
 {% endblock %}
-

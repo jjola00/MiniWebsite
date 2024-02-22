@@ -53,7 +53,7 @@ def register_for_event(event_id, user_id):
     
     cursor.execute("SELECT ClubID FROM Events WHERE EventID=?", (event_id,))
     club = cursor.fetchone()
-    cursor.execute("SELECT ApprovalStatus FROM ClubsMemberships WHERE ClubID = ? AND UserID = ?", (club, user_id))
+    cursor.execute("SELECT ApprovalStatus FROM ClubMemberships WHERE ClubID = ? AND UserID = ?", (club, user_id))
     approval = cursor.fetchone()
     if approval is not None:
         cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE EventID = ? AND UserID = ?", (event_id, user_id))
@@ -111,14 +111,20 @@ def coordinator_view_events_pending(UserID):
 def coordinator_view_event_registrations(UserID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT EventRegistration.* FROM ViewClubCoordinators JOIN Events ON ViewClubCoordinators.ClubID = Events.ClubID JOIN EventRegistration ON Events.EventID = EventRegistration.EventID WHERE ViewClubCoordinators.UserID = ?", (UserID,))
+    cursor.execute("SELECT EventRegistration.* FROM ViewClubCoordinators JOIN Events ON ViewClubCoordinators.ClubID = Events.ClubID JOIN EventRegistration ON Events.EventID = EventRegistration.EventID WHERE ViewClubCoordinators.UserID = ? AND EventRegistration.ApprovalStatus = ?", (UserID, "approved"))
     registrations = cursor.fetchall()
     result = [list(row) for row in registrations]
     conn.close()
     return result
-##UserID = 2
-##for record in coordinator_view_event_registrations(UserID):
-    ##print(record)
+
+def coordinator_view_pending_event_registrations(UserID):
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT EventRegistration.* FROM ViewClubCoordinators JOIN Events ON ViewClubCoordinators.ClubID = Events.ClubID JOIN EventRegistration ON Events.EventID = EventRegistration.EventID WHERE ViewClubCoordinators.UserID = ? AND EventRegistration.ApprovalStatus = ?", (UserID, "pending"))
+    registrations = cursor.fetchall()
+    result = [list(row) for row in registrations]
+    conn.close()
+    return result
 
 # Function to retrieve all events for admin view
 def admin_view_events(): 

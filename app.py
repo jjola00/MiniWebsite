@@ -211,6 +211,14 @@ def coordinator_view_event_registrations():
     event_registrations = Events.coordinator_view_event_registrations(UserID)
     return render_template('coordinator_view_event_registrations.html', event_registrations=event_registrations, UserID=UserID, roleCheck=roleCheck, username=username)
 
+@app.route("/coordinator_view_pending_event_registrations")
+def coordinator_view_pending_event_regsitrations():
+    roleCheck = session.get("roleCheck", 0)
+    username = session.get("username", "base")
+    UserID = Login.get_user_id(username)
+    pending_event_registrations = Events.coordinator_view_pending_event_registrations(UserID)
+    return render_template("coordinator_view_pending_event_registrations.html", pending_event_registrations=pending_event_registrations, roleCheck=roleCheck, username=username)
+
 @app.route('/coordinator_accept_event_registration', methods=['POST'])
 def coordinator_accept_event_registration():
     if request.method == 'POST':
@@ -223,7 +231,6 @@ def coordinator_accept_event_registration():
             flash("Event registration not found or already approved.", "error")
         return redirect(url_for('coordinator_view_event_registrations'))
 
-    # Handle invalid request method
     flash("Invalid request method", "error")
     return redirect(url_for('coordinator_view_event_registrations'))
 
