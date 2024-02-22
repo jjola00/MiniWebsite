@@ -48,8 +48,19 @@ def create_event(club_id, title, description, date_, time_, venue_id):
 def register_for_event(event_id, user_id):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO Event_Registration (Event_id, User_id) VALUES (?, ?)", (event_id, user_id))
+    cursor.execute("INSERT INTO EventRegistration (EventID, UserID) VALUES (?, ?)", (event_id, user_id))
     conn.commit()
+    
+    cursor.execute("SELECT ClubID FROM Events WHERE EventID=?", (event_id,))
+    club = cursor.fetchone()
+    cursor.execute("SELECT ApprovalStatus FROM ClubsMemberships WHERE ClubID = ? AND UserID = ?", (club, user_id))
+    approval = cursor.fetchone()
+    if approval is not None:
+        cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE EventID = ? AND UserID = ?", (event_id, user_id))
+        conn.commit()
+
+
+
 
 #views             
     
@@ -65,7 +76,7 @@ def view_events():
 
 
 # Function to retrieve details of events user is registered for
-def fetch_event_registrations(userID): 
+def fetch_user_event_registrations(userID): 
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ?", (userID,))
@@ -89,12 +100,25 @@ def coordinator_view_events(UserID):
 
 # Function to retrieve events coordinated by a specific user with pending approvals
 def coordinator_view_events_pending(UserID):
-    conn, cursor = connect_to_database()
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
     cursor.execute("SELECT Events.* FROM ViewClubCoordinators JOIN Events on ViewClubCoordinators.ClubID = Events.ClubID WHERE ViewClubCoordinators.UserID = ?", (UserID,))
     events = cursor.fetchall()
     result = [list(row) for row in events]
     conn.close()
     return result
+
+def coordinator_view_event_registrations(UserID):
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT EventRegistration.* FROM ViewClubCoordinators JOIN Events ON ViewClubCoordinators.ClubID = Events.ClubID JOIN EventRegistration ON Events.EventID = EventRegistration.EventID WHERE ViewClubCoordinators.UserID = ?", (UserID,))
+    registrations = cursor.fetchall()
+    result = [list(row) for row in registrations]
+    conn.close()
+    return result
+##UserID = 2
+##for record in coordinator_view_event_registrations(UserID):
+    ##print(record)
 
 # Function to retrieve all events for admin view
 def admin_view_events(): 
@@ -117,13 +141,20 @@ def admin_view_events_pending():
     return result
 
 # Function to verify if a user is registered for a specific event
-def verify_event_registration(user_id, EventID): 
+def verify_event_registration(user_id, event_id): 
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM Event_Registration WHERE User_id = ? AND Event_id = ?", (user_id, EventID))
+    cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
     row = cursor.fetchone()
-    conn.close()
-    return row is not None
+
+    if row:
+        cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE UserID = ? AND EventID = ?", (user_id, event_id))
+        conn.commit()
+        conn.close()
+        return True
+    else:
+        conn.close()
+        return False
 
 #updates     #######################################
     

@@ -4,7 +4,6 @@
 
 {% block style %}
     <style>
-        /* Add your CSS styles here */
         body {
             background-color: #000000;
             margin: 0;
@@ -13,12 +12,12 @@
             font-family: Arial, sans-serif;
         }
         .sport-container {
-            margin-top: 50px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            padding: 20px;
         }
-        .sport-card {
+        .club-card {
             width: 300px;
             margin: 20px;
             padding: 20px;
@@ -27,11 +26,11 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0.5, 0.5);
             text-align: center;
         }
-        .sport-card h3 {
-            margin-top: 0;
+        .club-card h3 {
             font-size: 24px;
+            margin-top: 0;
         }
-        .sport-card p {
+        .club-card p {
             margin-bottom: 20px;
         }
         .join-button {
@@ -51,7 +50,7 @@
             margin-top: 50px;
             font-size: 16px;
         }
-        /* Additional CSS styles */
+        /* Circle around mouse cursor */
         .circle {
             position: fixed;
             border: 2px solid rgba(255, 0, 0, 0.5);
@@ -105,22 +104,20 @@
     <!-- Add more sport cards as needed -->
 </div>
 
-    <p>Joining our sports clubs offers fitness, teamwork, competition, and a vibrant community. Don't miss out – join today!</p>
+<p>Joining our sports clubs offers fitness, teamwork, competition, and a vibrant community. Don't miss out – join today!</p>
 
-    <!-- Circle around mouse cursor -->
-    <div id="circle" class="circle"></div>
-    <script>
-        function redirectToMembershipDetails(sportName) {
-            window.location.href = 'membership_details.html?sport=' + sportName;
-        }
-    </script>
-    <script>
-        // JavaScript to track mouse movement and update circle position
-        window.addEventListener('mousemove', function (e) {
-            var circle = document.getElementById('circle');
-            circle.style.top = e.clientY - (circle.offsetHeight / 2) + 'px';
-            circle.style.left = e.clientX - (circle.offsetWidth / 2) + 'px';
-        });
-    </script>
+<!-- Circle around mouse cursor -->
+<div id="circle" class="circle"></div>
+<script>
+    function redirectToMembershipDetails(sportName) {
+        window.location.href = 'membership_details.html?sport=' + sportName;
+    }
 
+    // JavaScript to track mouse movement and update circle position
+    window.addEventListener('mousemove', function (e) {
+        var circle = document.getElementById('circle');
+        circle.style.top = e.clientY - (circle.offsetHeight / 2) + 'px';
+        circle.style.left = e.clientX - (circle.offsetWidth / 2) + 'px';
+    });
+</script>
 {% endblock %}
