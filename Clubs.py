@@ -43,7 +43,7 @@ def creating_club(Name, CoordinatorID, Description):
     else:
         return "Club Creation Denied"
 
-def get_club_id(sport_name):
+def get_club_id_using_sport_name(sport_name):
     try:
         conn = sqlite3.connect('MiniEpic.db') 
         cursor = conn.cursor()
@@ -52,7 +52,7 @@ def get_club_id(sport_name):
         club_id = cursor.fetchone()
 
         if club_id:
-            return club_id[0]  # Return the first element of the tuple (ClubID)
+            return club_id[0]
         else:
             print(f"No club found for sport name: {sport_name}")
             return None
@@ -64,9 +64,19 @@ def get_club_id(sport_name):
     finally:
         if conn:
             conn.close()
-print("test")
     
+def get_club_id_for_user(UserID):
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT ClubID FROM ViewClubCoordinators WHERE UserID = ?", (UserID,))
+    club_id = cursor.fetchone()
+    conn.close()
+    if club_id:
+        return club_id[0]
+    else:
+        return None
 
+    
 
 def verify_clubs_joined(UserID):
     conn = sqlite3.connect('MiniEpic.db')

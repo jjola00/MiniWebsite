@@ -34,13 +34,12 @@ def verify_role(UserID):
 
 
 # Function to create a new event in the database
-def create_event(club_id, title, description, date_, time_, venue_id):
+def create_event(club_id, title, description, date_, time_, venue_id, user_id):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO Events (Club_id, Title, Description, Date_, Time_, Venue_id) VALUES (?, ?, ?, ?, ?, ?)",
+    cursor.execute("INSERT INTO Events (ClubID, Title, Description, Date_, Time_, VenueID) VALUES (?, ?, ?, ?, ?, ?)",
                    (club_id, title, description, date_, time_, venue_id))
     conn.commit()
-   
     print("Event Created")
     conn.close()
 
@@ -66,12 +65,12 @@ def register_for_event(event_id, user_id):
     
 def view_events(): 
     conn, cursor = connect_to_database()
-    cursor.execute("SELECT * FROM View_Events")
+    cursor.execute("SELECT * FROM Events")
     events = cursor.fetchall()
     result = [list(row) for row in events]
     
     conn.close()
-    return events
+    return result
 #changed above
 
 
@@ -290,6 +289,7 @@ def get_venue_details(venue_id):
 # Function to retrieve all venues stored in the database
 def get_all_venues():
     conn, cursor = connect_to_database()
-    cursor.execute("SELECT * FROM Venues")
-    all_venues = cursor.fetchall()
+    cursor.execute("SELECT VenueName FROM Venues")
+    all_venues = [venue[0] for venue in cursor.fetchall()]
     conn.close()
+    return all_venues

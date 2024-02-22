@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}View Events{% endblock %}
+{% block title %}Create Event{% endblock %}
 
 {% block style %}
 <style>
@@ -25,7 +25,8 @@
     .event-details {
         margin-bottom: 20px;
     }
-    .event-details input {
+    .event-details input,
+    .event-details select {
         width: 100%;
         padding: 10px;
         margin-bottom: 10px;
@@ -56,42 +57,27 @@
 {% block content %}
 <body>
 <div class="container">
-    <div class="club-id">Club ID: <span id="clubId">Loading...</span></div>
+    <div class="club-id">Club ID: {{ club_id }}</div>
     <div class="event-heading">Create Event</div>
     <div class="event-details">
-        <input type="text" placeholder="Title">
-        <input type="text" placeholder="Description">
-        <input type="date" placeholder="Date">
-        <input type="time" placeholder="Time">
+        <form action="/coordinator_create_event" method="POST">
+            <input type="hidden" name="club_id" value="{{ club_id }}">
+            <input type="hidden" name="user_id" value="{{ user_id }}">
+
+            <input type="text" name="title" placeholder="Title">
+            <input type="text" name="description" placeholder="Description">
+            <input type="date" name="date" placeholder="Date">
+            <input type="time" name="time" placeholder="Time">
+            <select name="venue_id" id="venueSelect" placeholder="Venue">
+                {% for venue in venues %}
+                    <option value="{{ venue }}">{{ venue }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Submit button to create the event -->
+            <button type="submit" class="create-event-btn">Create Event</button>
+        </form>
     </div>
-    <button class="create-event-btn">Create Event</button>
 </div>
-
-<script>
-    // JavaScript to fetch and display the Club ID
-    fetchClubId();
-
-    function fetchClubId() {
-        // You can use fetch or any other method to fetch the Club ID from your SQL database
-        // For demonstration purposes, I'm using a mock function that returns a promise
-        // Replace this with your actual logic to fetch the Club ID
-        mockFetchClubId().then(clubId => {
-            document.getElementById('clubId').innerText = clubId;
-        }).catch(error => {
-            console.error('Error fetching Club ID:', error);
-        });
-    }
-
-    function mockFetchClubId() {
-        // Mock function to simulate fetching Club ID from SQL database
-        return new Promise((resolve, reject) => {
-            // Simulating a delay to mimic network request
-            setTimeout(() => {
-                // Resolve with a mock Club ID (example)
-                resolve('12345');
-            }, 1000); // Adjust the delay as needed
-        });
-    }
-</script>
 </body>
 {% endblock %}
