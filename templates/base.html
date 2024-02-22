@@ -247,10 +247,10 @@
             <a href="clubs">Clubs</a>
             <a href="events">Events</a>
             <a href="your_club">Your Club</a>
-            <a href="memberships">Memberships</a>
         {% elif roleCheck == 2 %}
             <a href="users">Users</a>
             <a href="coordinators">Coordinators</a>
+            <a href="admin_clubs">Pending Clubs</a>
         {% endif %}
         {% if 'username' in session %}
             <a href="profile">{{username}}</a>

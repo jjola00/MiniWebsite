@@ -27,19 +27,21 @@ def verify_clubs_coordinated(UserID):
     cursor.execute("SELECT COUNT(*) FROM Clubs WHERE CoordinatorID=?", (UserID,))
     row = cursor.fetchone()
     clubs_coordinated = row[0]
-    return (clubs_coordinated < 1)
+    return clubs_coordinated
     
 
 #Creating a new club
 def creating_club(Name, CoordinatorID, Description): 
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    if verify_role(CoordinatorID) and verify_clubs_coordinated(CoordinatorID): 
+    cursor.execute("SELECT * FROM Clubs Where Name=?", (Name,))
+    row = cursor.fetchone()
+    if row is None:
         cursor.execute("INSERT INTO Clubs (Name, CoordinatorID, Description) VALUES (?,?,?)", (Name, CoordinatorID, Description))
         conn.commit()
-        print("Club Created")
+        return "Club Created, awaiting approval!"
     else:
-        print("Club Creation Denied")
+        return "Club Creation Denied"
 
 def get_club_id(sport_name):
     try:
@@ -158,6 +160,14 @@ def coordinator_club_view(CoordinatorID):
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM CLUBS")
 
+def pending_clubs():
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM AdminClubsView WHERE ValidityStatus = 'pending'")
+    rows = cursor.fetchall()
+    result = [list(row) for row in rows]
+
+    return result
 
 def admin_view_clubs():
     conn = sqlite3.connect('MiniEpic.db')
@@ -218,24 +228,15 @@ def approve_club_membership(membershipID, CoordinatorID):
     else:
         print("Membership not found")
 
-def approve_club(UserID, ClubID):
+def approve_club(ClubID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT Role FROM Users WHERE UserID = ?", (UserID,))
-    row = cursor.fetchone()
-    role = row[0]
-    if 2 == 2:
-        cursor.execute("SELECT * FROM Clubs WHERE ClubID = ?", (ClubID,))
-        club_row = cursor.fetchone()
-        if club_row is not None:
-            cursor.execute("UPDATE Clubs SET ValidityStatus = 'approved' WHERE ClubID = ?", (ClubID,))
-            conn.commit()
-            print("Club approved")
-
-        else:
-            print("Club not found")
-    else:
-        print("Access Denied")
+    cursor.execute("SELECT * FROM Clubs WHERE ClubID = ?", (ClubID,))
+    club_row = cursor.fetchone()
+    if club_row is not None:
+        cursor.execute("UPDATE Clubs SET ValidityStatus = 'approved' WHERE ClubID = ?", (ClubID,))
+        conn.commit()
+        print("Club approved")
 
 def reject_club(UserID, ClubID):
     conn = sqlite3.connect('MiniEpic.db')

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Coordinators{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            background-color: rgb(180, 180, 180);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: calc(50% - 120px);
+            margin: 35px; 
+            padding: 20px;
+            background-color: rgb(0, 0, 0);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block; 
+            vertical-align: top;
+        }
+
+        @media screen and (min-height: 1000px) {
+        body {
+            background-position-y: 100%;
+        }
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+{% for index, coord in coord_list|enumerate %}
+    <div class="container">
+        <form method="POST" action="/delete_account/{{ coord[0] }}">
+            <div class="button-container">
+                <button type="submit" class="button">Delete Coordinator</button>
+            </div>
+        </form>
+        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">ID: {{ coord[0] }}</h2>
+        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Full Name: {{ coord[1] }}</h2>
+        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Club: {{ coord[2] }}</h2>
+        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Club ID: {{ coord[3] }}</h2>
+        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Account Created: {{ coord[6] }}</h2>
+        </form>
+    </div>
+{% endfor %}
+{% endblock %}

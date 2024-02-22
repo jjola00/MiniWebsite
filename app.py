@@ -124,6 +124,9 @@ def register_event():
 def your_club():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
+    user_ID = Login.get_user_id(username)
+    if Clubs.verify_clubs_coordinated(user_ID) == 0:
+        return redirect(url_for("coordinator_noclub"))
     return render_template('coordinator_page.html', roleCheck=roleCheck, username=username)
 
 @app.route('/coordinator_view_club_memberships')
@@ -338,6 +341,23 @@ def coordinators():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
     return render_template("coordinators.html",coord_list=coord_list, roleCheck=roleCheck, username=username)
+
+@app.route("/admin_clubs")
+def admin_clubs():
+    club_list = []
+    for item in Clubs.pending_clubs():
+        club_list.append(item)
+    roleCheck = session.get("roleCheck", 0)
+    username = session.get("username", "base")
+    return render_template("admin_clubs.html",club_list=club_list, roleCheck=roleCheck, username=username)
+
+@app.route("/approve_club/<int:ClubID>", methods=["POST"])
+def approve_club(ClubID):
+    if request.method == "POST":
+        Clubs.approve_club(ClubID)
+        return redirect(url_for("admin_clubs"))
+    else:
+        return redirect(url_for("admin_clubs"))
     
 
 @app.route('/view_event_registrations', methods=['GET'])
@@ -364,6 +384,19 @@ def approve_registration(registration_id):
     else:
         flash("Invalid", "error")
         return redirect(url_for("adminevent"))
+    
+@app.route("/coordinator_noclub", methods=["POST", "GET"])
+def coordinator_noclub():
+    message = None
+    roleCheck = session.get("roleCheck", 0)
+    username = session.get("username", "base")
+    if request.method == "POST":
+        session.permanent = True
+        name = request.form["name"]
+        description = request.form["description"]
+        user_ID = Login.get_user_id(username)
+        message = Clubs.creating_club(name,user_ID,description)
+    return render_template("coordinator_noclub.html",roleCheck=roleCheck,message=message,username=username)
 
 #allows me to go through clubList
 @app.template_filter('enumerate')
