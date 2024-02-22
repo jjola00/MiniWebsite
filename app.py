@@ -332,6 +332,14 @@ def admin_clubs():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
     return render_template("admin_clubs.html",club_list=club_list, roleCheck=roleCheck, username=username)
+
+@app.route("/approve_club/<int:ClubID>", methods=["POST"])
+def approve_club(ClubID):
+    if request.method == "POST":
+        Clubs.approve_club(ClubID)
+        return redirect(url_for("admin_clubs"))
+    else:
+        return redirect(url_for("admin_clubs"))
     
 
 @app.route('/view_event_registrations', methods=['GET'])
