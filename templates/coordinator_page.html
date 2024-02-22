@@ -6,7 +6,7 @@
     <style>
         /* Add your CSS styles here */
         body {
-            background-color: #000000;
+            background-image: url("static/coordinator_background.png");
             margin: 0;
             padding: 0;
             color: #ffffff;
@@ -102,7 +102,7 @@
     </div>
     <div class="coordinator-card">
         <h3>Create Event</h3>
-        <button class="join-button" onclick="redirectToMembershipDetails('Running')">Create Now</button>
+        <button class="join-button" onclick="redirectToCreateEvent('/coordinator_create_event')">Create Now</button>
     </div>
     <!-- Add more sport cards as needed -->
 </div>
@@ -131,6 +131,11 @@
     </script>
     <script>
         function redirectToEvents(url) {
+            window.location.href = url;
+        }
+    </script>
+    <script>
+        function redirectToCreateEvent(url) {
             window.location.href = url;
         }
     </script>

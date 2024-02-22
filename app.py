@@ -108,8 +108,8 @@ def user_views_event_registrations():
     registered_events = Events.fetch_user_event_registrations(userID)
     return render_template('view_event_registrations.html', event_registrations=registered_events, userID=userID, roleCheck=roleCheck, username=username)
 
-@app.route('/register_event', methods=['POST'])
-def register_event():
+@app.route('/register_for_event', methods=['POST'])
+def register_for_event():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
     if request.method == 'POST':
@@ -126,8 +126,9 @@ def your_club():
     username = session.get("username", "base")
     user_ID = Login.get_user_id(username)
     if Clubs.verify_clubs_coordinated(user_ID) == 0:
-        return redirect(url_for("coordinator_noclub"))
-    return render_template('coordinator_page.html', roleCheck=roleCheck, username=username)
+        return redirect(url_for('coordinator_noclub'))
+    else:
+        return render_template('coordinator_page.html', roleCheck=roleCheck, username=username)
 
 @app.route('/coordinator_view_club_memberships')
 def coordinator_view_club_memberships():
@@ -181,7 +182,7 @@ def add_membership():
 
         if username:
             UserID = Login.get_user_id(username)
-            ClubID = Clubs.get_club_id(sport_name)
+            ClubID = Clubs.get_club_id_using_sport_name(sport_name)
 
             if ClubID is not None:  # Check if ClubID is valid
                 try:
@@ -215,7 +216,7 @@ def coordinator_view_event_registrations():
     return render_template('coordinator_view_event_registrations.html', event_registrations=event_registrations, UserID=UserID, roleCheck=roleCheck, username=username)
 
 @app.route("/coordinator_view_pending_event_registrations")
-def coordinator_view_pending_event_regsitrations():
+def coordinator_view_pending_event_registrations():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
     UserID = Login.get_user_id(username)
@@ -228,7 +229,7 @@ def coordinator_accept_event_registration():
         user_id = request.form['userID']
         event_id = request.form['eventID']
 
-        if Events.verify_event_registration(user_id, event_id):
+        if Events.accept_event_registration(user_id, event_id):
             flash("Event registration approved successfully!", "success")
         else:
             flash("Event registration not found or already approved.", "error")
@@ -237,11 +238,43 @@ def coordinator_accept_event_registration():
     flash("Invalid request method", "error")
     return redirect(url_for('coordinator_view_event_registrations'))
 
-@app.route("/memberships")
-def memberships():
-    roleCheck = session.get("roleCheck", 0)
-    username = session.get("username", "base")
-    return render_template("memberships.html",  roleCheck=roleCheck, username=username)
+@app.route("/coordinator_reject_event_registration", methods=['POST'])
+def coordinator_reject_event_registration():
+  if request.method == 'POST':
+        user_id = request.form.get('userID')
+        event_id = request.form.get('eventID')
+
+        if user_id and event_id:
+            rejected = Events.reject_event_registration(user_id, event_id)
+            if rejected:
+                return redirect(url_for('coordinator_view_pending_event_registrations'))  # Correct endpoint name
+        return redirect(url_for('coordinator_view_pending_event_registrations'))  
+
+@app.route("/coordinator_create_event", methods=["GET", "POST"])
+def coordinator_create_event():
+    if request.method == "POST":
+        username = session.get("username", "base")
+        user_id = Login.get_user_id(username)
+        club_id = Clubs.get_club_id_for_user(user_id)
+        title = request.form.get("title")
+        description = request.form.get("description")
+        date_ = request.form.get("date")
+        time_ = request.form.get("time")
+        venue_id = request.form.get("venue_id")
+
+        # Call the create_event function
+        Events.create_event(club_id, title, description, date_, time_, venue_id, user_id)
+
+        flash("Event Created Successfully!")
+        return redirect(url_for('coordinator_view_club_events'))  # Redirect to some view function after creating the event
+
+    else:
+        # Rendering form
+        username = session.get("username", "base")
+        user_id = Login.get_user_id(username)
+        club_id = Clubs.get_club_id_for_user(user_id)
+        venues = Events.get_all_venues()
+        return render_template("create_event.html", club_id=club_id, user_id=user_id, venues=venues)
 
 
 @app.route("/profile", methods=["POST", "GET"])
@@ -340,7 +373,14 @@ def approve_club(ClubID):
         return redirect(url_for("admin_clubs"))
     else:
         return redirect(url_for("admin_clubs"))
-    
+
+@app.route("/reject_club/<int:ClubID>", methods=["POST"])
+def reject_club(ClubID):
+    if request.method == "POST":
+        Clubs.reject_club(ClubID)
+        return redirect(url_for("admin_clubs"))
+    else:
+        return redirect(url_for("admin_clubs"))
 
 @app.route('/view_event_registrations', methods=['GET'])
 def view_event_registrations():

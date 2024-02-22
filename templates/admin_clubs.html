@@ -45,6 +45,7 @@
         <form method="POST" action="/approve_club/{{ club[0] }}">
             <div class="button-container">
                 <button type="submit" class="button">Approve Club</button>
+                <button type="submit" formaction="/reject_club/{{ club[0] }}" class="button">Reject Club</button>
             </div>
         </form>
         <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Club ID: {{ club[0] }}</h2>
