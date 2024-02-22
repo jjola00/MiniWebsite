@@ -212,7 +212,7 @@ def coordinator_view_event_registrations():
     return render_template('coordinator_view_event_registrations.html', event_registrations=event_registrations, UserID=UserID, roleCheck=roleCheck, username=username)
 
 @app.route("/coordinator_view_pending_event_registrations")
-def coordinator_view_pending_event_regsitrations():
+def coordinator_view_pending_event_registrations():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
     UserID = Login.get_user_id(username)
@@ -233,6 +233,24 @@ def coordinator_accept_event_registration():
 
     flash("Invalid request method", "error")
     return redirect(url_for('coordinator_view_event_registrations'))
+
+@app.route("/coordinator_reject_event_registration", methods=['POST'])
+def coordinator_reject_event_registration():
+  if request.method == 'POST':
+        user_id = request.form.get('userID')
+        event_id = request.form.get('eventID')
+
+        if user_id and event_id:
+            rejected = Events.reject_event_registration(user_id, event_id)
+            if rejected:
+                return redirect(url_for('coordinator_view_pending_event_registrations'))  # Correct endpoint name
+        return redirect(url_for('coordinator_view_pending_event_registrations'))  
+
+@app.route("/coordinator_create_event")
+def coordinator_create_event():
+    roleCheck = session.get("roleCheck", 0)
+    username = session.get("username", "base")
+    return render_template("create_event.html", roleCheck=roleCheck, username=username)
 
 @app.route("/memberships")
 def memberships():

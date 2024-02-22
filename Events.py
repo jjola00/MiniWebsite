@@ -53,7 +53,7 @@ def register_for_event(event_id, user_id):
     
     cursor.execute("SELECT ClubID FROM Events WHERE EventID=?", (event_id,))
     club = cursor.fetchone()
-    cursor.execute("SELECT ApprovalStatus FROM ClubMemberships WHERE ClubID = ? AND UserID = ?", (club, user_id))
+    cursor.execute("SELECT ApprovalStatus FROM ClubMemberships WHERE ClubID = ? AND UserID = ?", (str(club), str(user_id)))
     approval = cursor.fetchone()
     if approval is not None:
         cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE EventID = ? AND UserID = ?", (event_id, user_id))
@@ -147,7 +147,7 @@ def admin_view_events_pending():
     return result
 
 # Function to verify if a user is registered for a specific event
-def verify_event_registration(user_id, event_id): 
+def accept_event_registration(user_id, event_id): 
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
@@ -155,6 +155,21 @@ def verify_event_registration(user_id, event_id):
 
     if row:
         cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE UserID = ? AND EventID = ?", (user_id, event_id))
+        conn.commit()
+        conn.close()
+        return True
+    else:
+        conn.close()
+        return False
+    
+def reject_event_registration(user_id, event_id):
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
+    row = cursor.fetchone()
+
+    if row:
+        cursor.execute("DELETE FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
         conn.commit()
         conn.close()
         return True
