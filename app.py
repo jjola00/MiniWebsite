@@ -126,8 +126,9 @@ def your_club():
     username = session.get("username", "base")
     user_ID = Login.get_user_id(username)
     if Clubs.verify_clubs_coordinated(user_ID) == 0:
-        return redirect(url_for("coordinator_noclub"))
-    return render_template('coordinator_page.html', roleCheck=roleCheck, username=username)
+        return redirect(url_for('coordinator_noclub'))
+    else:
+        return render_template('coordinator_page.html', roleCheck=roleCheck, username=username)
 
 @app.route('/coordinator_view_club_memberships')
 def coordinator_view_club_memberships():
@@ -340,7 +341,14 @@ def approve_club(ClubID):
         return redirect(url_for("admin_clubs"))
     else:
         return redirect(url_for("admin_clubs"))
-    
+
+@app.route("/reject_club/<int:ClubID>", methods=["POST"])
+def reject_club(ClubID):
+    if request.method == "POST":
+        Clubs.reject_club(ClubID)
+        return redirect(url_for("admin_clubs"))
+    else:
+        return redirect(url_for("admin_clubs"))
 
 @app.route('/view_event_registrations', methods=['GET'])
 def view_event_registrations():
