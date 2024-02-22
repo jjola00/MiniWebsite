@@ -138,7 +138,7 @@ def update_membership_status(MembershipID, ClubID):
     cursor = conn.cursor()
 
     # Execute an SQL query to update the approval status
-    update_query = f"UPDATE ClubMemberships SET ApprovalStatus='approved' WHERE MembershipID=? AND MembershipID=?;"
+    update_query = "UPDATE ClubMemberships SET ApprovalStatus='approved' WHERE MembershipID=? AND ClubID=?;"
     cursor.execute(update_query, (MembershipID, ClubID))
 
     # Commit the changes and close the connection
