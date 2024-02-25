@@ -97,12 +97,6 @@ def display_events_page():
     username = session.get("username", "base")
     return render_template("events.html", roleCheck=roleCheck, username=username)
 
-@app.route("/memberships")
-def memberships():
-    roleCheck = session.get("roleCheck", 0)
-    username = session.get("username", "base")
-    return render_template("memberships.html",  roleCheck=roleCheck, username=username)
-
 @app.route('/view_events')
 def view_events_route():
     roleCheck = session.get("roleCheck", 0)

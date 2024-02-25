@@ -67,19 +67,21 @@
     <table class="event-table">
         <thead>
             <tr>
-                <th>Club ID</th>
                 <th>Event ID</th>
                 <th>Title</th>
                 <th>Description</th>
+                <th>Date</th>
+                <th>Time</th>
             </tr>
         </thead>
         <tbody>
             {% for index, event in club_events|enumerate %}
             <tr>
-                <td>{{ event[0] }}</td> <!-- Club ID -->
-                <td>{{ event[1] }}</td> <!-- Event ID -->
+                <td>{{ event[0] }}</td> <!-- Event ID -->
                 <td>{{ event[2] }}</td> <!-- Title ID -->
                 <td>{{ event[3] }}</td> <!-- Description -->
+                <td>{{ event[5] }}</td> <!-- Description -->
+                <td>{{ event[6] }}</td> <!-- Description -->
             </tr>
             {% endfor %}
         </tbody>
