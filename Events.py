@@ -35,13 +35,31 @@ def verify_role(UserID):
 
 # Function to create a new event in the database
 def create_event(club_id, title, description, date_, time_, venue_id, user_id):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO Events (ClubID, Title, Description, Date_, Time_, VenueID) VALUES (?, ?, ?, ?, ?, ?)",
-                   (club_id, title, description, date_, time_, venue_id))
-    conn.commit()
-    print("Event Created")
-    conn.close()
+    # Validate title and description
+    if not title.isalpha() or not description.isalpha():
+        return "Title and description should contain only alphabetic characters."
+
+    try:
+        conn = sqlite3.connect('MiniEpic.db')
+        cursor = conn.cursor()
+
+        cursor.execute("INSERT INTO Events (Club_id, Title, Description, Date_, Time_, Venue_id) VALUES (?, ?, ?, ?, ?, ?)",
+                       (club_id, title, description, date_, time_, venue_id))
+        conn.commit()
+
+        print("Event Created")
+        return "Event Created Successfully!"
+    except sqlite3.IntegrityError as e:
+        error_message = str(e)
+        if "UNIQUE constraint failed: Events.Title" in error_message:
+            return "Title already exists. Please choose a different title."
+        elif "UNIQUE constraint failed: Events.Description" in error_message:
+            return "Description already exists. Please choose a different description."
+        else:
+            return "An error occurred while creating the event."
+
+    finally:
+        conn.close()
 
 # Function to register a user for a specific event
 def register_for_event(event_id, user_id):
