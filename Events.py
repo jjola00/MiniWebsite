@@ -147,14 +147,17 @@ def coordinator_view_event_registrations(UserID):
     conn.close()
     return result
 
+
 def coordinator_view_pending_event_registrations(UserID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT EventRegistration.* FROM ViewClubCoordinators JOIN Events ON ViewClubCoordinators.ClubID = Events.ClubID JOIN EventRegistration ON Events.EventID = EventRegistration.EventID WHERE ViewClubCoordinators.UserID = ? AND EventRegistration.ApprovalStatus = ?", (UserID, "pending"))
+    # Use a tuple for parameter substitution
+    cursor.execute("SELECT EventRegistration.*, Users.Name, Users.Surname FROM ViewClubCoordinators JOIN Events ON ViewClubCoordinators.ClubID = Events.ClubID JOIN EventRegistration ON Events.EventID = EventRegistration.EventID JOIN Users ON EventRegistration.UserID = Users.UserID WHERE ViewClubCoordinators.UserID = ? AND EventRegistration.ApprovalStatus = ?;")
     registrations = cursor.fetchall()
     result = [list(row) for row in registrations]
     conn.close()
     return result
+
 
 # Function to retrieve all events for admin view
 def admin_view_events(): 
