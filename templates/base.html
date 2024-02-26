@@ -234,6 +234,7 @@
         }
     </style>
     {% block style %}{% endblock %}
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
 </head>
 <body>
     <nav>
@@ -244,7 +245,6 @@
             <a href="events">Events</a>
             <a href="memberships">Memberships</a>
         {% elif roleCheck == 1 %}
-            <a href="clubs">Clubs</a>
             <a href="events">Events</a>
             <a href="your_club">Your Club</a>
         {% elif roleCheck == 2 %}

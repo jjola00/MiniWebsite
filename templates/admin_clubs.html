@@ -9,7 +9,8 @@
             margin: 0;
             padding: 0;
         }
-        .container {
+        .container,
+        .container2 {
             width: calc(50% - 120px);
             margin: 35px; 
             padding: 20px;
@@ -19,6 +20,15 @@
             display: inline-block; 
             vertical-align: top;
         }
+
+        .container2 {
+            position: absolute;
+            top: 47%;
+            left: 47%;
+            width: 130px;
+            transform: translate(-50%, -50%);
+        }
+
         footer {
             position: fixed;
             right: 0;
@@ -40,20 +50,26 @@
 {% endblock %}
 
 {% block content %}
-{% for index, club in club_list|enumerate %}
-    <div class="container">
-        <form method="POST" action="/approve_club/{{ club[0] }}">
-            <div class="button-container">
-                <button type="submit" class="button">Approve Club</button>
-                <button type="submit" formaction="/reject_club/{{ club[0] }}" class="button">Reject Club</button>
-            </div>
-        </form>
-        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Club ID: {{ club[0] }}</h2>
-        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Name: {{ club[1] }}</h2>
-        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Description: {{ club[2] }}</h2>
-        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Status: {{ club[3] }}</h2>
-        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Club Created: {{ club[4] }}</h2>
-        </form>
+{% if club_list %}
+    {% for index, club in club_list|enumerate %}
+        <div class="container">
+            <form method="POST" action="/approve_club/{{ club[0] }}">
+                <div class="button-container">
+                    <button type="submit" class="button">Approve Club</button>
+                    <button type="submit" formaction="/reject_club/{{ club[0] }}" class="button">Reject Club</button>
+                </div>
+            </form>
+            <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Club ID: {{ club[0] }}</h2>
+            <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Name: {{ club[1] }}</h2>
+            <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Description: {{ club[2] }}</h2>
+            <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Status: {{ club[3] }}</h2>
+            <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Club Created: {{ club[4] }}</h2>
+            </form>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="container2">
+        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">No Clubs Pending</h2>
     </div>
-{% endfor %}
+{% endif %}
 {% endblock %}

@@ -62,12 +62,11 @@
                 <tr>
                     <th>Registration ID</th>
                     <th>Event ID</th>
-                    <th>User ID</th>
+                    <th>Username</th>
                     <th>Approval Status</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Loop through event registrations data and populate the table -->
                 {% for registration in event_registrations %}
                 <tr>
                     <td>{{ registration[0] }}</td> <!-- Registration ID -->
