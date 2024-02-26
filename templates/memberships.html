@@ -33,8 +33,13 @@
         .club-card p {
             margin-bottom: 20px;
         }
-        .join-button {
-            background-color: #4CAF50;
+        p {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 16px;
+        }
+        .leave-button {
+            background-color: #ea0101;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -42,13 +47,8 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-        .join-button:hover {
-            background-color: #45a049;
-        }
-        p {
-            text-align: center;
-            margin-top: 50px;
-            font-size: 16px;
+        .leave-button:hover {
+            background-color: #990000;
         }
         
     </style>
@@ -56,11 +56,15 @@
 
 {% block content %}
 <div class="sport-container">
-    {% for club in clubs %}
+    {% for index, club in joinedList|enumerate %}
     <div class="club-card">
-        <h3>{{ club.name }}</h3>
-        <p>{{ club.description }}</p>
-        <button class="join-button" onclick="addMembership('{{ club.name }}')">Join Now</button>
+        <h3>{{ club[0] }}</h3>
+        <p>{{ club[1] }}</p>
+        <form method="POST" action="/delete_membership/{{ membership_id }}/{{ club[2] }}">
+            <div class="button-container">
+                <button type="submit" class="leave-button">Leave Club</button>
+            </div>
+        </form>
     </div>
     {% endfor %}
 </div>

@@ -103,14 +103,11 @@ def clubs_joined(UserID):
     rows = cursor.fetchall()
     for record in rows:
         club_id = record[0]
-        cursor.execute("SELECT Name, Description FROM Clubs WHERE ClubID=?", (club_id,))
+        cursor.execute("SELECT Name, Description,ClubID, FROM Clubs WHERE ClubID=?", (club_id,))
         club_info = cursor.fetchone()
         clubList.append(club_info)
     return clubList
     
-
-for record in clubs_joined(30):
-    print(record)
 
 def club_registration(UserID, ClubID):
     conn = sqlite3.connect('MiniEpic.db')
