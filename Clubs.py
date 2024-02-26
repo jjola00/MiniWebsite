@@ -95,6 +95,20 @@ def verify_clubs_joined(UserID):
     clubs_joined = row[0]
     return clubs_joined
 
+def clubs_joined(UserID):
+    clubList = []
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT ClubID FROM ClubMemberships WHERE ApprovalStatus = 'approved' AND UserID=?", (UserID,))
+    rows = cursor.fetchall()
+    for record in rows:
+        club_id = record[0]
+        cursor.execute("SELECT Name, Description,ClubID, FROM Clubs WHERE ClubID=?", (club_id,))
+        club_info = cursor.fetchone()
+        clubList.append(club_info)
+    return clubList
+    
+
 def club_registration(UserID, ClubID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()

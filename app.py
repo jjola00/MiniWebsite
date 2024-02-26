@@ -136,15 +136,11 @@ def your_club():
 def memberships():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    
-    cursor.execute('SELECT name, description FROM Clubs')
-    clubs = [{'name': row[0], 'description': row[1]} for row in cursor.fetchall()]
-    
-    conn.close()
-    
-    return render_template('memberships.html', clubs=clubs, roleCheck=roleCheck, username=username)
+    userID = Login.get_user_id(username)
+    joinedList = []
+    for item in Clubs.clubs_joined(userID):
+        joinedList.append(item)
+    return render_template('memberships.html', joinedList=joinedList, roleCheck=roleCheck, username=username)
 
 @app.route('/coordinator_view_club_memberships')
 def coordinator_view_club_memberships():
@@ -369,7 +365,7 @@ def approve_user(user_id):
 def delete_account(user_id):
     if request.method == "POST":
         Login.delete_account(user_id)
-        flash("User approved", "success")
+        flash("User deleted", "success")
         return redirect(url_for("users"))
     else:
         flash("Invalid", "error")
