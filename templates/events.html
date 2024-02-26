@@ -5,40 +5,35 @@
 {% block style %}
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-image: url('static/arena.png'); 
-            background-size: cover;
-            background-position: center;
-            margin: 0; 
-            padding: 0;
-            color: #fff;
-            display: flex;
-            min-height: 100vh;
-            flex-direction: column;
-        }
-        .container {
-            max-width: 800px;
-            width: 100%;
-            margin: auto;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.8); 
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-            flex-grow: 1; /* Allow container to grow and fill remaining space */
-            padding-left: 20px; /* Add padding to the left */
-        }
+        background-image: url(static/dark_background.png);
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+    }
+
+    .container {
+        width: 700px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.8); 
+        margin-top: 150px;
+    }
         h1 {
-            text-align: center;
             margin-bottom: 20px;
-            font-size: 28px;
+            margin-left: 250px;
+            font-size: 60px;
             color: #fff; 
         }
-        .button {
-            display: block;
-            width: calc(100% - 40px); /* Adjust button width */
-            padding: 15px; /* Reduce padding to make buttons smaller */
-            margin-bottom: 15px; /* Increase margin to add more spacing between buttons */
-            font-size: 16px; /* Reduce font size to make buttons smaller */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .button-container .button {
+            width: 250px; /* Increase button width */
+            padding: 20px; /* Increase button padding */
+            margin: 0 10px;
+            font-size: 20px; /* Increase font size */
             text-align: center;
             background-color: rgba(255, 255, 255, 0.8); 
             border: none;
@@ -47,15 +42,19 @@
             color: #000;
             text-decoration: none;
         }
-        .button:hover {
+        .button-container .button:hover {
             background-color: rgba(255, 255, 255, 0.9);
         }
         footer {
-            background-color: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
+            position: fixed;
+            right: 0;
+            bottom: 0;
             width: 100%;
+            background-color: black;
+            text-align: center;
+            font-family: 'Arial', Helvetica, 'sans-serif';
+            color: rgb(66, 66, 66);
+            padding: 10px;
         }
     </style>
 {% endblock %}
@@ -64,18 +63,9 @@
     <div class="container">
         <h1>Events</h1>
         
-        <a href="/view_events" class="button">View All Events</a>
-        <a href="/user_views_event_registrations" class="button">View Event Registrations</a>
-
-        <div style="text-align: center; margin-top: 85px;"> <!-- Center the content and add some space -->
-            <h2 style="margin-bottom: 20px;">Register for an Event</h2> <!-- Make it slightly lower -->
-            <form action="/register_for_event" method="POST">
-                <label for="event_id">Event ID:</label>
-                <input type="text" id="event_id" name="event_id" required><br><br>
-                <label for="user_id">User ID:</label>
-                <input type="text" id="user_id" name="user_id" required><br><br>
-                <button type="submit" class="button">Register</button>
-            </form>
+        <div class="button-container">
+            <a href="/view_events" class="button">View All Events</a>
+            <a href="/user_views_event_registrations" class="button">View Event Registrations</a>
         </div>
     </div>
 {% endblock %}
