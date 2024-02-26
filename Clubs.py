@@ -280,13 +280,18 @@ def delete_club(ClubID):
     conn.commit()
     print("Club Deleted")
 
-def delete_membership(membershipID):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM ClubMemberships WHERE MembershipID =?", (membershipID,))
-    conn.commit()
-    print("Membership Deleted")
-
+def delete_membership_from_database(membershipID, clubID):
+    try:
+        conn = sqlite3.connect('MiniEpic.db')
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM ClubMemberships WHERE MembershipID = ? AND ClubID = ?", (membershipID, clubID))
+        conn.commit()
+    except sqlite3.Error as e:
+        print("An error occurred:", e)
+    finally:
+        if conn:
+            cursor.close()
+            conn.close()
 ################################################################################################################################
     
 #INSERTS

@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Successful Registration</title>
+{% extends "base.html" %}
+
+{% block title %}Unsuccessful Registration{% endblock %}
+
+{% block style %}
 <style>
     body {
         background-color: black;
@@ -12,13 +11,14 @@
         align-items: center;
         height: 100vh;
         margin: 0;
+        padding: 0;
     }
     .container {
         text-align: center;
         color: white;
     }
     .return-button {
-        background-color: green;
+        background-color: crimson;
         color: white;
         padding: 10px 20px;
         border: none;
@@ -36,14 +36,14 @@
         text-align: center;
         font-family: Arial, Helvetica, sans-serif;
         color: rgb(66, 66, 66);
-        padding: 10px; /* Adjust padding as needed */
+        padding: 10px;
     }
 </style>
 </head>
 <body>
     <div class="container">
-        <h2>You have successfully registered for this event!</h2>
+        <h2>ERROR: You have already registered for this event!</h2>
         <button class="return-button" onclick="window.location.href = 'view_events';">Return</button>
     </div>
 </body>
-</html>
+{% endblock %}
