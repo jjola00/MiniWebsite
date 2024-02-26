@@ -67,6 +67,8 @@ def register_for_event(event_id, user_id):
     cursor = conn.cursor()
     cursor.execute("INSERT INTO EventRegistration (EventID, UserID) VALUES (?, ?)", (event_id, user_id))
     conn.commit()
+    conn.close()
+    
     
     cursor.execute("SELECT ClubID FROM Events WHERE EventID=?", (event_id,))
     club = cursor.fetchone()

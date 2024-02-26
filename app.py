@@ -119,7 +119,7 @@ def register_for_event():
     username = session.get("username", "base")
     if request.method == 'POST':
         event_id = request.form['event_id']
-        user_id = request.form['user_id']
+        user_id = Login.get_user_id(username)
         
         Events.register_for_event(event_id, user_id)
     
@@ -201,6 +201,16 @@ def add_membership():
             flash("Username not found in session.", "error")
 
         return redirect('/memberships')
+    
+@app.route('/delete_membership', methods=['POST'])
+def delete_membership():
+    
+    membershipID = request.form.get('membershipID')
+    clubID = request.form.get('clubID')
+    memberships = []
+    for item in Clubs.delete_membership_from_database(clubID, membershipID):
+        memberships.append(item)
+    return render_template('coordinator_view_club_memberships')
 
 @app.route('/coordinator_view_club_events')
 def coordinator_view_club_events():
