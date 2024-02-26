@@ -215,13 +215,11 @@ def add_membership():
     
 @app.route('/delete_membership', methods=['POST'])
 def delete_membership():
-    
-    membershipID = request.form.get('membershipID')
-    clubID = request.form.get('clubID')
-    memberships = []
-    for item in Clubs.delete_membership_from_database(clubID, membershipID):
-        memberships.append(item)
-    return render_template('coordinator_view_club_memberships')
+    UserID = request.form['user_id']
+    MembershipID = request.form['membership_id']
+    Clubs.delete_club_membership(UserID, MembershipID)
+    return redirect(url_for('coordinator_view_club_memberships', UserID=UserID, MembershipID=MembershipID))
+
 
 @app.route('/coordinator_view_club_events')
 def coordinator_view_club_events():
