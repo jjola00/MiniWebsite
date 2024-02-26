@@ -2,6 +2,7 @@ CREATE VIEW IF NOT EXISTS AdminAccountView AS
 SELECT U.UserID, U.Name || ' ' || U.Surname AS 'Name', L.Username, U.Email, P.PhoneNumber, U.Role, U.ApprovalStatus, U.CreatedTimestamp, U.UpdatedTimestamp 
 FROM Users U, Login L, PhoneNumber P
 WHERE U.UserID = L.UserID AND U.UserID = P.UserID
+ORDER BY U.ApprovalStatus DESC, U.Name, U.Surname
 
 CREATE VIEW IF NOT EXISTS AdminAccountViewPending AS
 SELECT U.UserID, U.Name || ' ' || U.Surname AS 'Name', L.Username, U.Email, P.PhoneNumber, U.Role, U.ApprovalStatus, U.CreatedTimestamp, U.UpdatedTimestamp 
