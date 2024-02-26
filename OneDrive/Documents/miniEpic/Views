@@ -30,7 +30,7 @@ WHERE M.UserID = U.UserID AND M.ClubID = C.ClubID
 ORDER BY M.CreatedTimestamp DESC;
 
 CREATE VIEW IF NOT EXISTS ViewClubMemberships AS
-SELECT M.MembershipID, C.CoordinatorID, U.UserID, U.Name || ' ' || U.Surname AS 'User Name', M.ApprovalStatus, M.CreatedTimestamp, M.UpdatedTimestamp 
+SELECT M.MembershipID, C.Name, U.UserID, U.Name || ' ' || U.Surname AS 'User Name', M.ApprovalStatus, M.CreatedTimestamp, M.UpdatedTimestamp 
 FROM Clubs C, Users U, ClubMemberships M 
 WHERE M.UserID = U.UserID AND M.ClubID = C.ClubID  
 ORDER BY M.CreatedTimestamp DESC
