@@ -63,20 +63,31 @@ def create_event(club_id, title, description, date_, time_, venue_id, user_id):
 
 # Function to register a user for a specific event
 def register_for_event(event_id, user_id):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO EventRegistration (EventID, UserID) VALUES (?, ?)", (event_id, user_id))
-    conn.commit()
-    conn.close()
+    error_message = None  # Initialize error message variable
     
-    
-    cursor.execute("SELECT ClubID FROM Events WHERE EventID=?", (event_id,))
-    club = cursor.fetchone()
-    cursor.execute("SELECT ApprovalStatus FROM ClubMemberships WHERE ClubID = ? AND UserID = ?", (str(club), str(user_id)))
-    approval = cursor.fetchone()
-    if approval is not None:
-        cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE EventID = ? AND UserID = ?", (event_id, user_id))
+    try:
+        conn = sqlite3.connect('MiniEpic.db')
+        cursor = conn.cursor()
+        
+        cursor.execute("INSERT INTO EventRegistration (EventID, UserID) VALUES (?, ?)", (event_id, user_id))
         conn.commit()
+        
+        cursor.execute("SELECT ClubID FROM Events WHERE EventID=?", (event_id,))
+        club = cursor.fetchone()
+        
+        cursor.execute("SELECT ApprovalStatus FROM ClubMemberships WHERE ClubID = ? AND UserID = ?", (str(club[0]), str(user_id)))
+        approval = cursor.fetchone()
+        
+        if approval is not None:
+            cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE EventID = ? AND UserID = ?", (event_id, user_id))
+            conn.commit()
+        
+    except sqlite3.IntegrityError:
+        error_message = "Error: This user is already registered for this event."
+    finally:
+        conn.close()
+    
+    return error_message
 
 
 

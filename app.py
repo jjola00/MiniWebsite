@@ -85,12 +85,6 @@ def clubs():
     username = session.get("username", "base")
     return render_template("clubs.html", clubList=clubList, roleCheck=roleCheck, username=username)
 
-@app.route("/memberships")
-def memberships():
-    roleCheck = session.get("roleCheck", 0)
-    username = session.get("username", "base")
-    return render_template("memberships.html", roleCheck=roleCheck, username=username)
-
 @app.route("/events")
 def display_events_page():
     roleCheck = session.get("roleCheck", 0)
@@ -121,9 +115,12 @@ def register_for_event():
         event_id = request.form['event_id']
         user_id = Login.get_user_id(username)
         
-        Events.register_for_event(event_id, user_id)
+        error_message = Events.register_for_event(event_id, user_id)
     
-        return render_template('successful_registration.html', roleCheck=roleCheck, username=username)
+    if error_message:
+        return render_template('event_registration_error.html', error_message=error_message)
+    else:
+        return render_template('successful_registration.html')
     
 @app.route('/your_club')
 def your_club():
@@ -134,6 +131,20 @@ def your_club():
         return redirect(url_for('coordinator_noclub'))
     else:
         return render_template('coordinator_page.html', roleCheck=roleCheck, username=username)
+    
+@app.route('/memberships')
+def memberships():
+    roleCheck = session.get("roleCheck", 0)
+    username = session.get("username", "base")
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('SELECT name, description FROM Clubs')
+    clubs = [{'name': row[0], 'description': row[1]} for row in cursor.fetchall()]
+    
+    conn.close()
+    
+    return render_template('memberships.html', clubs=clubs, roleCheck=roleCheck, username=username)
 
 @app.route('/coordinator_view_club_memberships')
 def coordinator_view_club_memberships():

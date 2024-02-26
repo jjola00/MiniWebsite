@@ -56,42 +56,13 @@
 
 {% block content %}
 <div class="sport-container">
+    {% for club in clubs %}
     <div class="club-card">
-        <h3>Archery</h3>
-        <p>Experience precision and focus in archery. Join now to hone your skills and meet fellow enthusiasts.</p>
-        <button class="join-button" onclick="addMembership('Archery')">Join Now</button>
+        <h3>{{ club.name }}</h3>
+        <p>{{ club.description }}</p>
+        <button class="join-button" onclick="addMembership('{{ club.name }}')">Join Now</button>
     </div>
-    <div class="club-card">
-        <h3>Swimming</h3>
-        <p>Dive into the water and stay fit with swimming. Join now for a refreshing and rewarding experience.</p>
-        <button class="join-button" onclick="addMembership('Swimming')">Join Now</button>
-    </div>
-    <div class="club-card">
-        <h3>Volleyball</h3>
-        <p>Enjoy a fast-paced game of volleyball. Join now to spike, block, and dig your way to victory.</p>
-        <button class="join-button" onclick="addMembership('Volleyball')">Join Now</button>
-    </div>
-    <div class="club-card">
-        <h3>Tennis</h3>
-        <p>Hit the court and play tennis. Join now to improve your serve, volley, and backhand skills.</p>
-        <button class="join-button" onclick="addMembership('Tennis')">Join Now</button>
-    </div>
-    <div class="club-card">
-        <h3>Hockey</h3>
-        <p>Skate, pass, and score in hockey. Join now to experience the excitement of this fast-paced sport.</p>
-        <button class="join-button" onclick="addMembership('Hockey')">Join Now</button>
-    </div>
-    <div class="club-card">
-        <h3>Running</h3>
-        <p>Challenge yourself and conquer distances with running. Join now to improve endurance and achieve goals.</p>
-        <button class="join-button" onclick="addMembership('Running')">Join Now</button>
-    </div>
-    <div class="club-card">
-        <h3>Basketball</h3>
-        <p>Shoot hoops and elevate your game in basketball. Join now to dribble, dunk, and dominate the court.</p>
-        <button class="join-button" onclick="addMembership('Basketball')">Join Now</button>
-    </div>
-    <!-- Add more sport cards as needed -->
+    {% endfor %}
 </div>
 
 <p>Joining our sports clubs offers fitness, teamwork, competition, and a vibrant community. Don't miss out – join today!</p>
