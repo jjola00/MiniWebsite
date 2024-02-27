@@ -281,8 +281,7 @@ def coordinator_reject_event_registration():
 def coordinator_create_event():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
-    user_id = Login.get_user_id(username)
-    club_id = Clubs.get_club_id_for_user(user_id)
+    club_id = Clubs.get_club_id_for_user(Login.get_user_id(username))
     if request.method == "POST":
         username = session.get("username", "base")
         title = request.form.get("title")
