@@ -100,7 +100,7 @@ def club_registration(UserID, ClubID):
     cursor = conn.cursor()
     if verify_clubs_joined(UserID) < 3:
         cursor.execute("SELECT * FROM Clubs WHERE ClubID=?", (ClubID,))
-        row = cursor.fetchone()
+        row = cursor.fetchone()   
 
         if row is None:
             raise ValueError("Club does not exist")
@@ -138,11 +138,12 @@ def user_views_memberships(userID):
 def coordinator_view_club_memberships(UserID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM ViewClubMemberships WHERE ApprovalStatus = 'approved' AND UserID = ?", (UserID,))
+    cursor.execute("SELECT * FROM ViewClubMemberships WHERE ApprovalStatus = 'approved' AND CoordinatorID = ?", (UserID,))
     rows = cursor.fetchall()
     club_members = [list(row) for row in rows]
     conn.close()
     return club_members
+
 
 def coordinator_view_club_pending_memberships(UserID):
     conn = sqlite3.connect('MiniEpic.db')
@@ -156,13 +157,10 @@ def coordinator_view_club_pending_memberships(UserID):
 def update_membership_status(MembershipID, ClubID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-
-    # Execute an SQL query to update the approval status
     update_query = "UPDATE ClubMemberships SET ApprovalStatus='approved' WHERE MembershipID=? AND ClubID=?;"
     cursor.execute(update_query, (MembershipID, ClubID))
-
-    # Commit the changes and close the connection
     conn.commit()
+    
     conn.close()
 
 def reject_club_membership(MembershipID, ClubID):
@@ -172,6 +170,7 @@ def reject_club_membership(MembershipID, ClubID):
     cursor.execute(reject_query, (MembershipID, ClubID))
     conn.commit()
     conn.close()
+    print("sdfd")
 
 def delete_club_membership(MembershipID):
     conn = sqlite3.connect('MiniEpic.db')
@@ -318,9 +317,15 @@ def delete_club(ClubID):
 #    print(record)
 
 #Display all pending memberships of a specific club
+<<<<<<< HEAD
+##CoordinatorID = 2
+##for record in coordinator_view_club_pending_memberships(CoordinatorID):
+   ## print(record)
+=======
 #CoordinatorID = 2
 #for record in coordinator_view_club_pending_memberships(CoordinatorID):
 #    print(record)
+>>>>>>> a07056eb5b7d6fbf690921cd5a7854f022bc0d58
 
 #Displays all clubs including not approved
 #for record in admin_view_clubs():
