@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Unsuccessful Event Registration{% endblock %}
+{% block title %}Event Successfully Created{% endblock %}
 
 {% block style %}
 <style>
@@ -21,7 +21,7 @@
     }
 
     .return-button {
-        background-color: #FF0000;
+        background-color: #4CAF50; /* Green color */
         color: #fff;
         padding: 10px 20px;
         border: none;
@@ -35,7 +35,7 @@
         width: 100%;
         background-color: black;
         text-align: center;
-        font-family: 'Arial';
+        font-family: 'Arial', Helvetica, 'sans-serif';
         color: rgb(66, 66, 66);
         padding: 10px;
     }
@@ -44,7 +44,7 @@
 
 {% block content %}
 <div class="container">
-    <h2>ERROR: Event registration failed!</h2>
-    <a href="view_events" class="return-button">Return</a>
+    <h2>You have successfully created an event!!</h2>
+    <a href="create_event" class="return-button">Return</a>
 </div>
 {% endblock %}
