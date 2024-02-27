@@ -152,7 +152,7 @@ def coordinator_view_pending_event_registrations(UserID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
     # Use a tuple for parameter substitution
-    cursor.execute("SELECT EventRegistration.*, Users.Name, Users.Surname FROM ViewClubCoordinators JOIN Events ON ViewClubCoordinators.ClubID = Events.ClubID JOIN EventRegistration ON Events.EventID = EventRegistration.EventID JOIN Users ON EventRegistration.UserID = Users.UserID WHERE ViewClubCoordinators.UserID = ? AND EventRegistration.ApprovalStatus = ?;")
+    cursor.execute("SELECT EventRegistration.*, Users.Name, Users.Surname FROM ViewClubCoordinators JOIN Events ON ViewClubCoordinators.ClubID = Events.ClubID JOIN EventRegistration ON Events.EventID = EventRegistration.EventID JOIN Users ON EventRegistration.UserID = Users.UserID WHERE ViewClubCoordinators.UserID = ? AND EventRegistration.ApprovalStatus = 'pending'", (UserID,))
     registrations = cursor.fetchall()
     result = [list(row) for row in registrations]
     conn.close()
