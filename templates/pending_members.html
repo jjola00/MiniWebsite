@@ -104,11 +104,11 @@
                 <td>{{ membership[3] }}</td> <!-- Approval Status-->
                 <td class="action-buttons">
                     <form action="/coordinator_accept_club_membership" method="post" style="display: inline;">
-                        <input type="hidden" name="MembershipID" value="{{ membership[0] }}">
+                        <input type="hidden" name="membership_id" value="{{ membership[0] }}">
                         <button type="submit" class="accept-button">Accept</button>
                     </form>
                     <form action="/coordinator_reject_club_membership" method="post" style="display: inline;">
-                        <input type="hidden" name="MembershipID" value="{{ membership[0] }}">
+                        <input type="hidden" name="membership_id" value="{{ membership[0] }}">
                         <button type="submit" class="reject-button">Reject</button>
                     </form>
                 </td>

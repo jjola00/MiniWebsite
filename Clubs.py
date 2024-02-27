@@ -223,12 +223,12 @@ def coordinator_view_club_pending_memberships(UserID):
     conn.close()
     return club_members
 
-def update_membership_status(MembershipID, ClubID):
+def update_membership_status(MembershipID):
     try: 
         with sqlite3.connect('MiniEpic.db') as conn: 
             #connection to database
             cursor = conn.cursor()
-            cursor.execute("UPDATE ClubMemberships SET ApprovalStatus='approved' WHERE MembershipID=? AND ClubID=?;", (MembershipID, ClubID))
+            cursor.execute("UPDATE ClubMemberships SET ApprovalStatus='approved' WHERE MembershipID=?", (MembershipID,))
             conn.commit()
     
     except sqlite3.Error as e:

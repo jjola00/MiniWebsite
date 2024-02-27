@@ -105,10 +105,6 @@ def user_views_event_registrations():
     registered_events = Events.fetch_user_event_registrations(userID)
     return render_template('view_event_registrations.html', event_registrations=registered_events, userID=userID, roleCheck=roleCheck, username=username)
 
-
-
-
-
 @app.route('/register_for_event', methods=['POST'])
 def register_for_event():
     roleCheck = session.get("roleCheck", 0)
@@ -167,20 +163,16 @@ def coordinator_view_club_pending_memberships():
 @app.route('/coordinator_accept_club_membership', methods=['POST'])
 def coordinator_accept_club_membership():
     if request.method == 'POST':
-        membership_id = request.form.get('MembershipID')
-        club_id = request.form.get('ClubID')
-        Clubs.update_membership_status(membership_id, club_id)
+        membership_id = request.form.get('membership_id')
+        Clubs.update_membership_status(membership_id)
         return redirect(request.referrer or '/')
     
 @app.route('/coordinator_reject_club_membership', methods=['POST'])
 def coordinator_reject_club_membership():
     if request.method == 'POST':
-        membership_id = request.form.get('MembershipID')
-        club_id = request.form.get('ClubID')
-        
+        membership_id = request.form.get('membership_id')
         # Call the function to reject the club membership
-        Clubs.reject_club_membership(membership_id, club_id)
-
+        Clubs.reject_club_membership(membership_id)
         # Redirect back to the same page (refresh)
         return redirect(request.referrer or '/')
     
@@ -208,14 +200,11 @@ def add_membership():
         return redirect('/memberships')
 
 @app.route("/delete_club_membership", methods=["POST"])
-def delete_club_membership(membership_id):
+def delete_club_membership():
     if request.method == "POST":
+        membership_id = request.form['membership_id']
         Clubs.delete_club_membership(membership_id)
-        flash("Membership deleted", "success")
-        return redirect(url_for("memberships"))
-    else:
-        flash("Invalid request method", "error")
-        return redirect(url_for("memberships"))
+        return redirect('/coordinator_view_club_memberships')
     
 @app.route('/club_successfully_joined')
 def club_successfully_joined():
@@ -259,7 +248,7 @@ def coordinator_accept_event_registration():
             flash("Event registration not found or already approved.", "error")
         return redirect(url_for('coordinator_view_event_registrations'))
 
-    flash("Invalid request method", "error")
+    
     return redirect(url_for('coordinator_view_event_registrations'))
 
 @app.route("/coordinator_reject_event_registration", methods=['POST'])
