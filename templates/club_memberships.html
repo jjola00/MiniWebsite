@@ -18,7 +18,7 @@
     }
 
     .event-heading {
-        font-family: 'Bebas Neue Pro Bold Italic', sans-serif;
+        font-family: Arial;
     }
 
     .event-table {
@@ -37,8 +37,14 @@
     }
 
     .event-table th {
-        background-color: #333;
         color: #fff;
+        background-color: rgba(0, 0, 0, 0.8);
+        box-shadow: 0 0 10px 5px #121212, 0 0 20px 10px #141414;
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+    .event-table:hover {
+        box-shadow: 0 0 20px 15px #161617, 0 0 40px 20px #1c1c1c;
     }
 
     .event-table tbody tr:nth-child(even) {
