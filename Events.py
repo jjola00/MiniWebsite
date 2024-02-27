@@ -30,19 +30,13 @@ def verify_role(UserID):
     else:
         print("Role Denied")
         return False
-    
 
-
-# Function to create a new event in the database
-def create_event(club_id, title, description, date_, time_, venue_id, user_id):
-import sqlite3
-
-def create_event(ClubID, Title, Description, Date_, Time_, VenueID):
+#def create_event(ClubID, Title, Description, Date_, Time_, VenueID):
     # Validate title and description
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO Events (ClubID, Title, Description, Date_, Time_, VenueID) VALUES (?, ?, ?, ?, ?, ?)",
+    cursor.execute("INSERT INTO Events (ClubID, Title, Description, Date_, Time_, VenueID) VALUES (?, ?, ?, ?, ?, ?)",
                             (club_id, title, description, date_, time_, venue_id))
     try:
         cursor.execute("INSERT INTO Events (ClubID, Title, Description, Date_, Time_, VenueID) VALUES (?, ?, ?, ?, ?, ?)",
@@ -341,4 +335,4 @@ def get_all_venues():
 
 
 
-create_event('1', "2", "abc", '2024-11-14', '13:00', '8');
+#create_event('1', "2", "abc", '2024-11-14', '13:00', '8');
