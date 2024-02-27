@@ -14,31 +14,41 @@ cursor = conn.cursor()
 
 #function to verify user credentials
 def validate_user(username, password):
-    #connection to database
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    #checks if record with username and password exists in database
-    cursor.execute("SELECT * FROM Login WHERE username=? AND password=?", (username, password)) #checks login table for provided username and password
-    row = cursor.fetchone() #returns first row of database
-    #if exists returns true
-    if row is not None:
-        return True
-    else:
-        #if not returns false
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            #checks if record with username and password exists in database
+            cursor.execute("SELECT * FROM Login WHERE username=? AND password=?", (username, password)) #checks login table for provided username and password
+            row = cursor.fetchone() #returns first row of database
+            #if exists returns true
+            if row is not None:
+                return True
+            else:
+                #if not returns false
+                return False
+    except sqlite3.Error as e:
+        print("Error:", e)
         return False
     
 def validate_reg(email):
-     #connection to database
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    #checks if record with email exists in database
-    cursor.execute("SELECT Email FROM Users WHERE Email=?", (email,)) #checks User table for email
-    row = cursor.fetchone() #returns first row of database
+    try:
+        with sqlite3.connect('MiniEpic.db') as conn:
+         
+            #connection to database
+            cursor = conn.cursor()
+            #checks if record with email exists in database
+            cursor.execute("SELECT Email FROM Users WHERE Email=?", (email,)) #checks User table for email
+            row = cursor.fetchone() #returns first row of database
 
-    if row is None:
-        return True
-    else:
+            if row is None:
+                return True
+            else:
+                return False
+    except sqlite3.Error as e:
+        print("Error:", e)
         return False
+    
     
 def login(username, password):
     roleCheck = 0
