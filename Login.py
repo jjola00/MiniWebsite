@@ -327,9 +327,7 @@ def delete_account(UserID):
     
     conn.commit()
     print("Account deleted")
-
-delete_account(7)
-
+    
 def view_passwords(Username):
         conn = sqlite3.connect('MiniEpic.db')
         cursor = conn.cursor()
