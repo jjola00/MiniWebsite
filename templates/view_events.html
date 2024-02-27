@@ -5,9 +5,10 @@
 {% block style %}
     <style>
         body {
-            background-image: url('static/events.png'); 
+            background-color: #000;
             background-size: cover;
             background-position: center;
+            font-family: Arial;
             color: #fff;
         }
 
@@ -18,7 +19,7 @@
         }
 
         .event-heading {
-            font-family: 'Bebas Neue Pro Bold Italic', sans-serif; /* Change the font family here */
+            font-family: Arial;
         }
 
         .event-table {
@@ -63,7 +64,7 @@
             width: 100%;
             background-color: black;
             text-align: center;
-            font-family: 'Arial', Helvetica, 'sans-serif';
+            font-family: Arial;
             color: rgb(66, 66, 66);
             padding: 10px;
         }
@@ -72,7 +73,7 @@
 
 {% block content %}
     <div class="container">
-        <h1 class="event-heading">All Events</h1> <!-- Apply the class to change the font -->
+        <h1 class="event-heading">All Events</h1> 
         <table class="event-table">
             <thead>
                 <tr>

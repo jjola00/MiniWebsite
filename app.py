@@ -167,11 +167,7 @@ def coordinator_accept_club_membership():
     if request.method == 'POST':
         membership_id = request.form.get('MembershipID')
         club_id = request.form.get('ClubID')
-
-        # Call the function to update the membership status
         Clubs.update_membership_status(membership_id, club_id)
-
-        # Redirect back to the same page (refresh)
         return redirect(request.referrer or '/')
     
 @app.route('/coordinator_reject_club_membership', methods=['POST'])
