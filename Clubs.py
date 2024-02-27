@@ -324,9 +324,9 @@ def delete_club(ClubID):
 #    print(record)
 
 #Display all pending memberships of a specific club
-CoordinatorID = 2
-for record in coordinator_view_club_pending_memberships(CoordinatorID):
-    print(record)
+#CoordinatorID = 2
+#for record in coordinator_view_club_pending_memberships(CoordinatorID):
+#    print(record)
 
 #Displays all clubs including not approved
 #for record in admin_view_clubs():
