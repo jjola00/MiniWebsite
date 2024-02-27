@@ -85,7 +85,6 @@ def get_club_id_for_user(UserID):
     else:
         return None
     
-
  
 
 def verify_clubs_joined(UserID):
