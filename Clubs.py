@@ -22,43 +22,70 @@ def verify_role(UserID):
     except sqlite3.Error as e:
         print("SQLite error:", e)
         return False
+    finally:
+        if conn:
+            conn.close()
     
 
 def verify_clubs_coordinated(UserID):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT COUNT(*) FROM Clubs WHERE CoordinatorID=?", (UserID,))
-    row = cursor.fetchone()
-    clubs_coordinated = row[0]
-    print(clubs_coordinated)
-    return clubs_coordinated
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            cursor.execute("SELECT COUNT(*) FROM Clubs WHERE CoordinatorID=?", (UserID,))
+            row = cursor.fetchone()
+            clubs_coordinated = row[0]
+            return clubs_coordinated
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+        return False
+    finally:
+        if conn:
+            conn.close()
         
 def get_ClubID(CoordinatorID):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT ClubID FROM Clubs WHERE CoordinatorID=?",(CoordinatorID,))
-    row = cursor.fetchone ()
-    club_id = row[0]
-    return club_id   
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            cursor.execute("SELECT ClubID FROM Clubs WHERE CoordinatorID=?",(CoordinatorID,))
+            row = cursor.fetchone ()
+            club_id = row[0]
+            return club_id   
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+        return False
+    finally:
+        if conn:
+            conn.close()
 
 
 #Creating a new club
 def creating_club(Name, CoordinatorID, Description): 
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM Clubs Where Name=?", (Name,))
-    row = cursor.fetchone()
-    if row is None:
-        cursor.execute("INSERT INTO Clubs (Name, CoordinatorID, Description) VALUES (?,?,?)", (Name, CoordinatorID, Description))
-        conn.commit()
-        return "Club Created, awaiting approval!"
-    else:
-        return "Club Creation Denied"
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM Clubs Where Name=?", (Name,))
+            row = cursor.fetchone()
+            if row is None:
+                cursor.execute("INSERT INTO Clubs (Name, CoordinatorID, Description) VALUES (?,?,?)", (Name, CoordinatorID, Description))
+                conn.commit()
+                return "Club Created, awaiting approval!"
+            else:
+                return "Club Creation Denied"
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+        return False
+    finally:
+        if conn:
+            conn.close()
 
 def get_club_id_using_sport_name(sport_name):
-    try:
-        conn = sqlite3.connect('MiniEpic.db') 
-        cursor = conn.cursor()
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
 
         cursor.execute("SELECT ClubID FROM Clubs WHERE Name = ?", (sport_name,))
         club_id = cursor.fetchone()
@@ -78,107 +105,191 @@ def get_club_id_using_sport_name(sport_name):
             conn.close()
     
 def get_club_id_for_user(UserID):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT ClubID FROM Clubs WHERE CoordinatorID = ?", (UserID,))
-    club_id = cursor.fetchone()
-    conn.close()
-    if club_id is not None:
-        return club_id[0]
-    else:
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+
+            cursor.execute("SELECT ClubID FROM Clubs WHERE CoordinatorID = ?", (UserID,))
+            club_id = cursor.fetchone()
+            conn.close()
+            if club_id is not None:
+                return club_id[0]
+            else:
+                return None
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
         return None
+<<<<<<< HEAD
+=======
+    finally:
+        if conn:
+            conn.close()
+    
+ 
+>>>>>>> 5623de8fa06797ec570fddeb6ee627a79c03db9b
 
     
 def verify_clubs_joined(UserID):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT COUNT(*) FROM ClubMemberships WHERE UserID=?", (UserID,))
-    row = cursor.fetchone()
-    clubs_joined = row[0]
-    return clubs_joined
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            cursor.execute("SELECT COUNT(*) FROM ClubMemberships WHERE UserID=?", (UserID,))
+            row = cursor.fetchone()
+            clubs_joined = row[0]
+            return clubs_joined
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+        return False
+    finally:
+        if conn:
+            conn.close()
     
 def club_registration(UserID, ClubID):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    if verify_clubs_joined(UserID) < 3:
-        cursor.execute("SELECT * FROM Clubs WHERE ClubID=?", (ClubID,))
-        row = cursor.fetchone()   
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            if verify_clubs_joined(UserID) < 3:
+                cursor.execute("SELECT * FROM Clubs WHERE ClubID=?", (ClubID,))
+                row = cursor.fetchone()   
 
-        if row is None:
-            raise ValueError("Club does not exist")
-        else:
-            clubID = row[0]
-            cursor.execute("INSERT INTO ClubMemberships (UserID, ClubID) VALUES (?,?)", (UserID, clubID))
-            conn.commit()
-            print("Club Registration Successful")
-    else:
-        raise ValueError("Too many clubs joined")
-    conn.close()
+                if row is None:
+                    raise ValueError("Club does not exist")
+                else:
+                    clubID = row[0]
+                    cursor.execute("INSERT INTO ClubMemberships (UserID, ClubID) VALUES (?,?)", (UserID, clubID))
+                    conn.commit()
+                    print("Club Registration Successful")
+            else:
+                raise ValueError("Too many clubs joined")
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+        return False
+    finally:
+        if conn:
+            conn.close()
 
 
 ################################################################################################################################################################################################################
 #Views
 def user_view_clubs():
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM ClubsView")     
-    rows = cursor.fetchall()
-    result = [list(row) for row in rows]
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM ClubsView")     
+            rows = cursor.fetchall()
+            result = [list(row) for row in rows]
     
-    return result
+            return result
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+        return False
+    finally:
+        if conn:
+            conn.close()
 
 
 def user_views_memberships(userID):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM ViewClubMemberships WHERE ApprovalStatus = 'approved' AND UserID =?", (userID,))
-    rows = cursor.fetchall()
-    result = [list(row) for row in rows]
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM ViewClubMemberships WHERE ApprovalStatus = 'approved' AND UserID =?", (userID,))
+            rows = cursor.fetchall()
+            result = [list(row) for row in rows]
     
-    return result
+            return result
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+        return False
+    finally:
+        if conn:
+            conn.close()
 
 def coordinator_view_club_memberships(UserID):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM ViewClubMemberships WHERE ApprovalStatus = 'approved' AND CoordinatorID = ?", (UserID,))
-    rows = cursor.fetchall()
-    club_members = [list(row) for row in rows]
-    conn.close()
-    return club_members
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM ViewClubMemberships WHERE ApprovalStatus = 'approved' AND CoordinatorID = ?", (UserID,))
+            rows = cursor.fetchall()
+            club_members = [list(row) for row in rows]
+            conn.close()
+            return club_members
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+        return False
+    finally:
+        if conn:
+            conn.close()
 
 
 def coordinator_view_club_pending_memberships(UserID):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT M.MembershipID, C.ClubID, U.Name || ' ' || U.Surname, M.ApprovalStatus FROM ClubMemberships M, Clubs C, Users U WHERE U.UserID = M.UserID AND C.ClubID = M.ClubID AND M.ApprovalStatus = 'pending' AND C.CoordinatorID = ?", (UserID,))
-    rows = cursor.fetchall()
-    club_members = [list(row) for row in rows]
-    conn.close()
-    return club_members
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            cursor.execute("SELECT M.MembershipID, C.ClubID, U.Name || ' ' || U.Surname, M.ApprovalStatus FROM ClubMemberships M, Clubs C, Users U WHERE U.UserID = M.UserID AND C.ClubID = M.ClubID AND M.ApprovalStatus = 'pending' AND C.CoordinatorID = ?", (UserID,))
+            rows = cursor.fetchall()
+            club_members = [list(row) for row in rows]
+            conn.close()
+            return club_members
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+        return False
+    finally:
+        if conn:
+            conn.close()
 
 def update_membership_status(MembershipID, ClubID):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    update_query = "UPDATE ClubMemberships SET ApprovalStatus='approved' WHERE MembershipID=? AND ClubID=?;"
-    cursor.execute(update_query, (MembershipID, ClubID))
-    conn.commit()
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            cursor.execute("UPDATE ClubMemberships SET ApprovalStatus='approved' WHERE MembershipID=? AND ClubID=?;", (MembershipID, ClubID))
+            conn.commit()
     
-    conn.close()
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+        return False
+    finally:
+        if conn:
+            conn.close()
 
 def reject_club_membership(MembershipID):
+<<<<<<< HEAD
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
     cursor.execute("DELETE FROM ClubMemberships WHERE MembershipID=?", (MembershipID,))
     conn.commit()
     conn.close()
+=======
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            reject_query = "DELETE FROM ClubMemberships WHERE MembershipID=?;"
+            cursor.execute(reject_query, (MembershipID))
+            conn.commit()
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+        return False
+    finally:
+        if conn:
+            conn.close()
+>>>>>>> 5623de8fa06797ec570fddeb6ee627a79c03db9b
 
 
 def delete_club_membership(membership_id):
-    try:
-        conn = sqlite3.connect('MiniEpic.db')
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM ClubMemberships WHERE MembershipID = ?", (membership_id,))
-        conn.commit()
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM ClubMemberships WHERE MembershipID = ?", (membership_id,))
+            conn.commit()
     except sqlite3.Error as e:
         print("SQLite error:", e)
     finally:
@@ -186,18 +297,34 @@ def delete_club_membership(membership_id):
             conn.close()
     
 def coordinator_club_view(CoordinatorID):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM CLUBS")
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM CLUBS")
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+    finally:
+        if conn:
+            conn.close()
 
 def pending_clubs():
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM AdminClubsView WHERE ValidityStatus = 'pending'")
-    rows = cursor.fetchall()
-    result = [list(row) for row in rows]
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM AdminClubsView WHERE ValidityStatus = 'pending'")
+            rows = cursor.fetchall()
+            result = [list(row) for row in rows]
+            return result
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+        return False
+    finally:
+        if conn:
+            conn.close()
 
-    return result
+    
 
 def admin_view_clubs():
     conn = sqlite3.connect('MiniEpic.db')
