@@ -160,6 +160,7 @@ def update_membership_status(MembershipID, ClubID):
     update_query = "UPDATE ClubMemberships SET ApprovalStatus='approved' WHERE MembershipID=? AND ClubID=?;"
     cursor.execute(update_query, (MembershipID, ClubID))
     conn.commit()
+    
     conn.close()
 
 def reject_club_membership(MembershipID, ClubID):

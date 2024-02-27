@@ -205,7 +205,7 @@ def add_membership():
 
         return redirect('/memberships')
 
-@app.route("/delete_club_membership/<int:membership_id>", methods=["POST"])
+@app.route("/delete_club_membership", methods=["POST"])
 def delete_club_membership(membership_id):
     if request.method == "POST":
         Clubs.delete_club_membership(membership_id)
@@ -214,6 +214,10 @@ def delete_club_membership(membership_id):
     else:
         flash("Invalid request method", "error")
         return redirect(url_for("memberships"))
+    
+@app.route('/club_successfully_joined')
+def club_successfully_joined():
+    return render_template('club_successfully_joined.html')
 
 @app.route('/coordinator_view_club_events')
 def coordinator_view_club_events():
