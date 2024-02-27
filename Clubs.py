@@ -144,7 +144,6 @@ def coordinator_view_club_memberships(UserID):
     conn.close()
     return club_members
 
-
 def coordinator_view_club_pending_memberships(UserID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
