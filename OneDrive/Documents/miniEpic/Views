@@ -2,6 +2,7 @@ CREATE VIEW IF NOT EXISTS AdminAccountView AS
 SELECT U.UserID, U.Name || ' ' || U.Surname AS 'Name', L.Username, U.Email, P.PhoneNumber, U.Role, U.ApprovalStatus, U.CreatedTimestamp, U.UpdatedTimestamp 
 FROM Users U, Login L, PhoneNumber P
 WHERE U.UserID = L.UserID AND U.UserID = P.UserID
+ORDER BY U.ApprovalStatus DESC, U.Name, U.Surname
 
 CREATE VIEW IF NOT EXISTS AdminAccountViewPending AS
 SELECT U.UserID, U.Name || ' ' || U.Surname AS 'Name', L.Username, U.Email, P.PhoneNumber, U.Role, U.ApprovalStatus, U.CreatedTimestamp, U.UpdatedTimestamp 
@@ -30,7 +31,7 @@ WHERE M.UserID = U.UserID AND M.ClubID = C.ClubID
 ORDER BY M.CreatedTimestamp DESC;
 
 CREATE VIEW IF NOT EXISTS ViewClubMemberships AS
-SELECT M.MembershipID, C.CoordinatorID, U.UserID, U.Name || ' ' || U.Surname AS 'User Name', M.ApprovalStatus, M.CreatedTimestamp, M.UpdatedTimestamp 
+SELECT M.MembershipID, C.Name, C.Description, U.UserID, U.Name || ' ' || U.Surname AS 'User Name', M.ApprovalStatus, M.CreatedTimestamp, M.UpdatedTimestamp 
 FROM Clubs C, Users U, ClubMemberships M 
 WHERE M.UserID = U.UserID AND M.ClubID = C.ClubID  
 ORDER BY M.CreatedTimestamp DESC
