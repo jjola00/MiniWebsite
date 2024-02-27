@@ -138,7 +138,7 @@ def memberships():
     username = session.get("username", "base")
     userID = Login.get_user_id(username)
     joinedList = []
-    for item in Clubs.clubs_joined(userID):
+    for item in Clubs.user_views_memberships(userID):
         joinedList.append(item)
     return render_template('memberships.html', joinedList=joinedList, roleCheck=roleCheck, username=username)
 
@@ -209,7 +209,7 @@ def add_membership():
 
         return redirect('/memberships')
     
-@app.route('/delete_membership', methods=['POST'])
+@app.route("/delete_membership<int:user_id/<int:membership_id>", methods=['POST'])
 def delete_membership():
     UserID = request.form['user_id']
     MembershipID = request.form['membership_id']

@@ -58,9 +58,9 @@
 <div class="sport-container">
     {% for index, club in joinedList|enumerate %}
     <div class="club-card">
-        <h3>{{ club[0] }}</h3>
-        <p>{{ club[1] }}</p>
-        <form method="POST" action="/delete_membership/{{ membership_id }}/{{ club[2] }}">
+        <h3>{{ club[1] }}</h3>
+        <p>{{ club[2] }}</p>
+        <form method="POST" action="/delete_club_membership/{{ club[3] }}/{{ club[0] }}">
             <div class="button-container">
                 <button type="submit" class="leave-button">Leave Club</button>
             </div>
