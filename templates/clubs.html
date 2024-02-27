@@ -4,7 +4,6 @@
 
 {% block style %}
     <style>
-        /* Add your CSS styles here */
         body {
             background-color: #000000;
             margin: 0;
@@ -41,7 +40,6 @@
     {% endfor %}
 <script>
     function addMembership(sportName) {
-        // Send a POST request to the server to add membership
         fetch('/add_membership', {
             method: 'POST',
             body: new URLSearchParams({

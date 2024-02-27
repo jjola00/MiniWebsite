@@ -20,7 +20,6 @@
             padding: 14px 30px;
             display: flex;
             align-items: center;
-            /* Align items vertically */
             justify-content: center;
             z-index: 1000;
 
@@ -49,7 +48,6 @@
         .hero-section p {
             font-size: 18px;
             margin-bottom: 30px;
-            /* Adjusted margin-bottom to move the paragraph closer to the top */
             text-shadow: 0 0 60px black;
 
         }
@@ -59,11 +57,8 @@
             color: white;
             font-size: 107px;
             line-height: 0.9;
-            /* Adjust line height as needed */
             text-shadow: none;
-            /* Initial text shadow */
             transition: font-size 0.3s ease, text-shadow 0.3s ease;
-            /* Transition effect for text shadow */
         }
 
         .features-section h2:hover {
@@ -71,7 +66,6 @@
             transition: font-size 0.3s ease;
             font-size: 109px;
             text-shadow: 0 0 10px rgb(108, 108, 108);
-            /* Text shadow for glowing effect on hover */
         }
 
 
@@ -105,8 +99,6 @@
         }
 
         .feature img {
-           /* width: 1177px;
-            height: 499px; */
             width: 100%;
             height: auto;            
             
@@ -122,7 +114,7 @@
 
         .custom-left {
         left: 0;
-        right: unset; /* Resetting any previous right value */
+        right: unset;
 }
 
         .text-content h3 {
@@ -245,7 +237,6 @@
             <a href="events">Events</a>
             <a href="memberships">Memberships</a>
         {% elif roleCheck == 1 %}
-            <a href="events">Events</a>
             <a href="your_club">Your Club</a>
         {% elif roleCheck == 2 %}
             <a href="users">Users</a>
