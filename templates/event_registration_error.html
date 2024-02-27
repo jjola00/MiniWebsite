@@ -31,7 +31,7 @@
     }
 
     .return-button:hover {
-        background-color: #710c0c; /* Darker green color on hover */
+        background-color: #710c0c;
     }
 
     footer {
@@ -40,7 +40,7 @@
         width: 100%;
         background-color: black;
         text-align: center;
-        font-family: 'Arial', Helvetica, 'sans-serif';
+        font-family: 'Arial';
         color: rgb(66, 66, 66);
         padding: 10px;
     }
@@ -50,12 +50,12 @@
 {% block content %}
 <style>
     .container {
-        font-family: Arial, sans-serif;
+        font-family: Arial;
     }
 </style>
 
 <div class="container">
-    <h2>You have already joined this club!</h2>
-    <a href="clubs" class="return-button">Return</a>
+    <h2>You have already registered for this event!</h2>
+    <a href="view_events" class="return-button">Return</a>
 </div>
 {% endblock %}

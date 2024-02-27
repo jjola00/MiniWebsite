@@ -97,9 +97,6 @@ def view_events_route():
     events = Events.view_events()
     return render_template('view_events.html', events=events, roleCheck=roleCheck, username=username)
 
-
-#abcd
-#this one 1
 @app.route('/user_views_event_registrations')
 def user_views_event_registrations():
     roleCheck = session.get("roleCheck", 0)
@@ -274,7 +271,7 @@ def coordinator_reject_event_registration():
         if user_id and event_id:
             rejected = Events.reject_event_registration(user_id, event_id)
             if rejected:
-                return redirect(url_for('coordinator_view_pending_event_registrations'))  # Correct endpoint name
+                return redirect(url_for('coordinator_view_pending_event_registrations'))
         return redirect(url_for('coordinator_view_pending_event_registrations'))  
 
 @app.route("/coordinator_create_event", methods=["GET", "POST"])
