@@ -91,8 +91,8 @@
             <thead>
                 <tr>
                     <th>Registration ID</th>
-                    <th>Event ID</th>
-                    <th>User ID</th>
+                    <th>Event Title</th>
+                    <th>Name</th>
                     <th>Approval Status</th>
                     <th>Action</th> <!-- New column for action buttons -->
                 </tr>
@@ -107,7 +107,7 @@
                     <td class="action-buttons">
                         <form action="/coordinator_accept_event_registration" method="post" style="display: inline;">
                             <input type="hidden" name="eventID" value="{{ registration[1] }}">
-                            <input type="hidden" name="userID" value="{{ registration[2] }}">
+                            <input type="hidden" name="Name" value="{{ registration[2] }}">
                             <button type="submit" class="accept-button">Accept</button>
                         </form>
                         <form action="/coordinator_reject_event_registration" method="post" style="display: inline;">

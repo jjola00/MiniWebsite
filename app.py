@@ -208,14 +208,16 @@ def add_membership():
             flash("Username not found in session.", "error")
 
         return redirect('/memberships')
-    
-@app.route("/delete_membership", methods=['POST'])
-def delete_membership():
-    UserID = request.form['user_id']
-    MembershipID = request.form['membership_id']
-    Clubs.delete_club_membership(UserID, MembershipID)
-    return redirect(url_for('coordinator_view_club_memberships', UserID=UserID, MembershipID=MembershipID))
 
+@app.route("/delete_club_membership/<int:membership_id>", methods=["POST"])
+def delete_club_membership(membership_id):
+    if request.method == "POST":
+        Clubs.delete_club_membership(membership_id)
+        flash("Membership deleted", "success")
+        return redirect(url_for("memberships"))
+    else:
+        flash("Invalid request method", "error")
+        return redirect(url_for("memberships"))
 
 @app.route('/coordinator_view_club_events')
 def coordinator_view_club_events():

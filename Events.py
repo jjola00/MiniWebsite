@@ -96,7 +96,7 @@ def register_for_event(event_id, user_id):
     
 def view_events(): 
     conn, cursor = connect_to_database()
-    cursor.execute("SELECT * FROM Events")
+    cursor.execute("SELECT E.EventID, C.Name, E.Title, E.Description, E.ApprovalStatus, E.Date_, E.Time_, E.VenueID, E.created_timestamp, E.updated_timestamp FROM Events E INNER JOIN Clubs C ON E.ClubID = C.ClubID")
     events = cursor.fetchall()
     result = [list(row) for row in events]
     
@@ -104,12 +104,12 @@ def view_events():
     return result
 #changed above
 
-
-# Function to retrieve details of events user is registered for
+#abcde
+# Function to retrieve details of events user is registered for  THIS ONE HERE RIGHT HERE
 def fetch_user_event_registrations(userID): 
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ?", (userID,))
+    cursor.execute("SELECT ER.RegistrationID, ER.ApprovalStatus, E.Title, U.Name || ' ' || U.Surname FROM EventRegistration ER INNER JOIN Events E ON ER.EventID = E.EventID INNER JOIN Users U ON ER.UserID = U.UserID WHERE ER.UserID = ?", (userID,))
     rows = cursor.fetchall()
     registered_events = [list(row) for row in rows]
     conn.close()
@@ -138,21 +138,31 @@ def coordinator_view_events_pending(UserID):
     conn.close()
     return result
 
+############done correct ###########################
+
 def coordinator_view_event_registrations(UserID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT EventRegistration.* FROM ViewClubCoordinators JOIN Events ON ViewClubCoordinators.ClubID = Events.ClubID JOIN EventRegistration ON Events.EventID = EventRegistration.EventID WHERE ViewClubCoordinators.UserID = ? AND EventRegistration.ApprovalStatus = ?", (UserID, "approved"))
+    cursor.execute("SELECT ClubID FROM Clubs WHERE CoordinatorID = ?", (UserID,))
+    coordinatorClub = cursor.fetchone()
+
+    cursor.execute("SELECT ER.RegistrationID, E.Title, U.Name || ' ' || U.Surname, ER.ApprovalStatus FROM EventRegistration ER, Events E, Users U WHERE ER.EVentID = E.EVentID AND ER.ApprovalStatus = 'approved' AND ER.UserID = U.UserID AND E.ClubID = ?", (coordinatorClub[0],))
     registrations = cursor.fetchall()
     result = [list(row) for row in registrations]
     conn.close()
     return result
 
 
+#THIS WAS ALREADY DONE CORRECT #######################################################
+
+
 def coordinator_view_pending_event_registrations(UserID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    # Use a tuple for parameter substitution
-    cursor.execute("SELECT EventRegistration.*, Users.Name, Users.Surname FROM ViewClubCoordinators JOIN Events ON ViewClubCoordinators.ClubID = Events.ClubID JOIN EventRegistration ON Events.EventID = EventRegistration.EventID JOIN Users ON EventRegistration.UserID = Users.UserID WHERE ViewClubCoordinators.UserID = ? AND EventRegistration.ApprovalStatus = 'pending'", (UserID,))
+    cursor.execute("SELECT ClubID FROM Clubs WHERE CoordinatorID = ?", (UserID,))
+    coordinatorClub = cursor.fetchone()
+
+    cursor.execute("SELECT ER.RegistrationID, E.Title, U.Name || ' ' || U.Surname, ER.ApprovalStatus FROM EventRegistration ER, Events E, Users U WHERE ER.EVentID = E.EVentID AND ER.ApprovalStatus = 'pending' AND ER.UserID = U.UserID AND E.ClubID = ?", (coordinatorClub[0],))
     registrations = cursor.fetchall()
     result = [list(row) for row in registrations]
     conn.close()
@@ -327,3 +337,7 @@ def get_all_venues():
     all_venues = [venue[0] for venue in cursor.fetchall()]
     conn.close()
     return all_venues
+
+
+for row in coordinator_view_pending_event_registrations(2):
+    print(row)
