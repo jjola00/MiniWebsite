@@ -339,5 +339,3 @@ def get_all_venues():
     return all_venues
 
 
-for row in coordinator_view_pending_event_registrations(2):
-    print(row)
