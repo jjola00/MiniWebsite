@@ -141,17 +141,22 @@ def coordinator_view_events_pending(UserID):
 def coordinator_view_event_registrations(UserID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT EventRegistration.* FROM ViewClubCoordinators JOIN Events ON ViewClubCoordinators.ClubID = Events.ClubID JOIN EventRegistration ON Events.EventID = EventRegistration.EventID WHERE ViewClubCoordinators.UserID = ? AND EventRegistration.ApprovalStatus = ?", (UserID, "approved"))
+    cursor.execute("SELECT ClubID FROM Clubs WHERE CoordinatorID = ?", (UserID,))
+    coordinatorClub = cursor.fetchone()
+
+    cursor.execute("SELECT ER.RegistrationID, E.Title, U.Name || ' ' || U.Surname, ER.ApprovalStatus FROM EventRegistration ER, Events E, Users U WHERE ER.EVentID = E.EVentID AND ER.ApprovalStatus = 'approved' AND ER.UserID = U.UserID AND E.ClubID = ?", (coordinatorClub[0],))
     registrations = cursor.fetchall()
     result = [list(row) for row in registrations]
     conn.close()
     return result
 
 
+#THIS WAS ALREADY DONE CORRECT #######################################################
+
+
 def coordinator_view_pending_event_registrations(UserID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    # Use a tuple for parameter substitution
     cursor.execute("SELECT ClubID FROM Clubs WHERE CoordinatorID = ?", (UserID,))
     coordinatorClub = cursor.fetchone()
 
