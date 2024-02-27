@@ -171,17 +171,12 @@ def reject_club_membership(MembershipID, ClubID):
     conn.close()
     print("sdfd")
 
-def delete_club_membership(UserID, MembershipID):
-    try:
-        conn = sqlite3.connect('MiniEpic.db')
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM ClubMemberships WHERE UserID = ? AND MembershipID = ?", (UserID, MembershipID))
-        conn.commit()
-    except sqlite3.Error as e:
-        print("SQLite error:", e)
-    finally:
-        if conn:
-            conn.close()
+def delete_club_membership(MembershipID):
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM ClubMemberships WHERE MembershipID = ?", (MembershipID,))
+    conn.commit()
+    conn.close()
     
 def coordinator_club_view(CoordinatorID):
     conn = sqlite3.connect('MiniEpic.db')
@@ -321,9 +316,9 @@ def delete_club(ClubID):
 #    print(record)
 
 #Display all pending memberships of a specific club
-CoordinatorID = 2
-for record in coordinator_view_club_pending_memberships(CoordinatorID):
-    print(record)
+##CoordinatorID = 2
+##for record in coordinator_view_club_pending_memberships(CoordinatorID):
+   ## print(record)
 
 #Displays all clubs including not approved
 #for record in admin_view_clubs():
