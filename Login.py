@@ -53,31 +53,27 @@ def validate_reg(email):
     
     
 def login(username, password):
-    try: 
-        with sqlite3.connect('MiniEpic.db') as conn: 
-            roleCheck = 0
-            #connection to database
-            cursor = conn.cursor()
+    roleCheck = 0
+    #connection to database
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
 
-            #gets user ID from database
-            cursor.execute("SELECT UserID FROM Login WHERE Username=? AND Password=?", (username, password)) #checks login table for provided username and password
-            row = cursor.fetchone() #returns first row of database
-            user_id = row[0] #gets user ID from database
-            cursor.execute("SELECT Role FROM Users WHERE UserID=?", (user_id,)) #checks Users table for UserID
-            row = cursor.fetchone() #returns first row of database
-            role = row[0] #assigns role from database to name variable
-            if role == "COORDINATOR":
-                roleCheck = 1
-            if role == "ADMIN":
-                roleCheck = 2
-            if role == "STUDENT":
-                roleCheck = 3
+    #gets user ID from database
+    cursor.execute("SELECT UserID FROM Login WHERE Username=? AND Password=?", (username, password)) #checks login table for provided username and password
+    row = cursor.fetchone() #returns first row of database
+    user_id = row[0] #gets user ID from database
+    cursor.execute("SELECT Role FROM Users WHERE UserID=?", (user_id,)) #checks Users table for UserID
+    row = cursor.fetchone() #returns first row of database
+    role = row[0] #assigns role from database to name variable
+    print("Role:", role)
+    if role == "COORDINATOR":
+        roleCheck = 1
+    if role == "ADMIN":
+        roleCheck = 2
+    if role == "STUDENT":
+        roleCheck = 3
 
-            conn.close()
-            return roleCheck
-    except sqlite3.Error as e:
-        print("Error:", e)
-        return False
+    return roleCheck
 
 def create_account(username, password, name, surname, email, phone):
     try: 
@@ -216,19 +212,13 @@ def get_username_from_user_id(user_id):
 ######################################################################################################################################################################
 #Views
 def admin_view_accounts():
-    try: 
-        with sqlite3.connect('MiniEpic.db') as conn: 
-            #connection to database
-            cursor = conn.cursor()
-            #gets all records from AdminAccountView
-            cursor.execute("SELECT * FROM AdminAccountView")
-            rows = cursor.fetchall()
-            result = [list(row) for row in rows]
-            conn.close()
-            return result
-    except sqlite3.Error as e:
-        print("Error:", e)
-        return False
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM AdminAccountView")
+    rows = cursor.fetchall()
+    result = [list(row) for row in rows]
+    conn.close()
+    return result
 
 def admin_view_accounts_pending():
     try: 
@@ -274,20 +264,13 @@ def admin_view_user(UserID):
         conn.close()
         
 def view_coordinators():
-    try: 
-        with sqlite3.connect('MiniEpic.db') as conn: 
-            #connection to database
-            cursor = conn.cursor()
-            #gets all records from Users table with role of coordinator
-            cursor.execute("SELECT * FROM ViewClubCoordinators")
-            rows = cursor.fetchall()
-            result = [list(row) for row in rows]
-            conn.close()
-            return result
-    except sqlite3.Error as e:
-        print("Error:", e)
-        return False
-
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM ViewClubCoordinators")
+    rows = cursor.fetchall()
+    result = [list(row) for row in rows]
+    conn.close()
+    return result
 
 ######################################################################################################################################################################
 #Updates
