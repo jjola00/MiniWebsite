@@ -246,18 +246,12 @@ def admin_view_accounts_pending():
         return False
 
 def get_user_id(Username):
-    try: 
-        with sqlite3.connect('MiniEpic.db') as conn: 
-            #connection to database
-            cursor = conn.cursor()
-            cursor.execute("SELECT UserID FROM Login WHERE Username=?",(Username,))
-            row = cursor.fetchone ()
-            user_id = row[0]
-            conn.close()
-            return user_id
-    except sqlite3.Error as e:
-        print("Error:", e)
-        return False
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT UserID FROM Login WHERE Username=?",(Username,))
+    row = cursor.fetchone ()
+    user_id = row[0]
+    return user_id
     
 
 def admin_view_user(UserID):
@@ -268,7 +262,6 @@ def admin_view_user(UserID):
             #gets records of specific user
             cursor.execute("SELECT U.UserID, U.Name || ' ' || U.Surname AS 'Name', L.Username, U.Email, P.PhoneNumber, U.Role, U.ApprovalStatus, U.CreatedTimestamp FROM Users U, Login L, PhoneNumber P WHERE U.UserID = L.UserID AND U.UserID = P.UserID AND U.UserID = ?", (UserID,))
             row = cursor.fetchone()
-            conn.close()
             if row:
                 result = list(row)
                 return result
@@ -277,7 +270,9 @@ def admin_view_user(UserID):
     except sqlite3.Error as e:
         print("Error:", e)
         return False
-
+    finally:
+        conn.close()
+        
 def view_coordinators():
     try: 
         with sqlite3.connect('MiniEpic.db') as conn: 
