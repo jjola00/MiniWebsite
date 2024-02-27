@@ -33,22 +33,16 @@ def validate_user(username, password):
         return False
     
 def validate_reg(email):
-    try:
-        with sqlite3.connect('MiniEpic.db') as conn:
-         
-            #connection to database
-            cursor = conn.cursor()
-            #checks if record with email exists in database
-            cursor.execute("SELECT Email FROM Users WHERE Email=?", (email,)) #checks User table for email
-            row = cursor.fetchone() #returns first row of database
-            conn.close()
+     #connection to database
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    #checks if record with email exists in database
+    cursor.execute("SELECT Email FROM Users WHERE Email=?", (email,)) #checks User table for email
+    row = cursor.fetchone() #returns first row of database
 
-            if row is None:
-                return True
-            else:
-                return False
-    except sqlite3.Error as e:
-        print("Error:", e)
+    if row is None:
+        return True
+    else:
         return False
     
     
