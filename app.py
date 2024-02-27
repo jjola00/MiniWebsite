@@ -180,10 +180,9 @@ def coordinator_accept_club_membership():
 def coordinator_reject_club_membership():
     if request.method == 'POST':
         membership_id = request.form.get('MembershipID')
-        club_id = request.form.get('ClubID')
         
-        # Call the function to reject the club membership
-        Clubs.reject_club_membership(membership_id, club_id)
+       # Call the function to reject the club membership
+        Clubs.reject_club_membership(membership_id)
 
         # Redirect back to the same page (refresh)
         return redirect(request.referrer or '/')
@@ -282,9 +281,10 @@ def coordinator_reject_event_registration():
 def coordinator_create_event():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
+    user_id = Login.get_user_id(username)
+    club_id = Clubs.get_club_id_for_user(user_id)
     if request.method == "POST":
         username = session.get("username", "base")
-        club_id = Clubs.get_club_id_for_user(Login.get_user_id(username))
         title = request.form.get("title")
         description = request.form.get("description")
         date_ = request.form.get("date")
@@ -299,7 +299,7 @@ def coordinator_create_event():
             return redirect(url_for('coordinator_create_event'))  # Redirect back to the create event page
 
         flash("Event Created Successfully!", "success")
-        return redirect(url_for('some_view_function'), roleCheck=roleCheck, username=username)  # Redirect to some view function after creating the event
+        return redirect(url_for('coordinator_create_event'), roleCheck=roleCheck, username=username)  # Redirect to some view function after creating the event
 
     else:
         # Render the create event form with club ID and user ID
