@@ -34,7 +34,7 @@ def verify_role(UserID):
 
 
 # Function to create a new event in the database
-def create_event(club_id, title, description, date_, time_, venue_id, user_id):
+def create_event(club_id, title, description, date_, time_, venue_id):
     # Validate title and description
     if not title.isalpha() or not description.isalpha():
         return "Title and description should contain only alphabetic characters."

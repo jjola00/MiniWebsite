@@ -223,7 +223,9 @@ def delete_club_membership(membership_id):
     
 @app.route('/club_successfully_joined')
 def club_successfully_joined():
-    return render_template('club_successfully_joined.html')
+    roleCheck = session.get("roleCheck", 0)
+    username = session.get("username", "base")
+    return render_template('club_successfully_joined.html', username=username, roleCheck=roleCheck)
 
 @app.route('/coordinator_view_club_events')
 def coordinator_view_club_events():
