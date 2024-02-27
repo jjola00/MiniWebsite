@@ -16,6 +16,7 @@
             flex-wrap: wrap;
             justify-content: center;
             padding: 20px;
+            text-align: center;
         }
         .club-card {
             width: 300px;
@@ -38,6 +39,12 @@
             margin-top: 50px;
             font-size: 16px;
         }
+
+        .button-container {
+        display: flex;
+        justify-content: center;
+        }   
+
         .leave-button {
             background-color: #ea0101;
             color: white;
@@ -45,6 +52,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            
             transition: background-color 0.3s ease;
         }
         .leave-button:hover {
@@ -82,8 +90,6 @@
     </div>
     {% endfor %}
 </div>
-
-<p>Joining our sports clubs offers fitness, teamwork, competition, and a vibrant community. Don't miss out – join today!</p>
 
 <script>
     function addMembership(sportName) {
