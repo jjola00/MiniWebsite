@@ -43,7 +43,7 @@ def create_event(club_id, title, description, date_, time_, venue_id):
         conn = sqlite3.connect('MiniEpic.db')
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO Events (Club_id, Title, Description, Date_, Time_, Venue_id) VALUES (?, ?, ?, ?, ?, ?)",
+        cursor.execute("INSERT INTO Events (ClubID, Title, Description, Date_, Time_, VenueID) VALUES (?, ?, ?, ?, ?, ?)",
                        (club_id, title, description, date_, time_, venue_id))
         conn.commit()
 
@@ -338,3 +338,4 @@ def get_all_venues():
     return all_venues
 
 
+create_event(1, 's', 's', '2024-11-11', '12:00', '1');
