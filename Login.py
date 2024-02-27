@@ -208,7 +208,7 @@ def get_username_from_user_id(user_id):
 def admin_view_accounts():
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM AdminAccountView")
+    cursor.execute("SELECT * FROM AdminAccountView ORDER BY ApprovalStatus DESC, Name")
     rows = cursor.fetchall()
     result = [list(row) for row in rows]
     conn.close()
@@ -220,7 +220,7 @@ def admin_view_accounts_pending():
             #connection to database
             cursor = conn.cursor()
             #gets all records from AdminAccountView with pending approval status
-            cursor.execute("SELECT * FROM AdminAccountView WHERE ApprovalStatus = 'pending'")
+            cursor.execute("SELECT * FROM AdminAccountView WHERE ApprovalStatus = 'pending' ORDER BY ApprovalStatus DESC, Name")
             rows = cursor.fetchall()
             result = [list(row) for row in rows]
             conn.close()
@@ -260,7 +260,7 @@ def admin_view_user(UserID):
 def view_coordinators():
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM ViewClubCoordinators")
+    cursor.execute("SELECT * FROM ViewClubCoordinators ORDER BY CreatedTimestamp DESC")
     rows = cursor.fetchall()
     result = [list(row) for row in rows]
     conn.close()
