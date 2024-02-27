@@ -89,7 +89,7 @@
         <thead>
             <tr>
                 <th>Membership ID</th>
-                <th>Club ID</th>
+
                 <th>User ID</th>
                 <th>Approval Status</th>
                 <th>Action</th> 
@@ -100,7 +100,6 @@
             <tr>
                 <td>{{ membership[0] }}</td> <!-- Membership ID -->
                 <td>{{ membership[1] }}</td> <!-- User ID -->
-                <td>{{ membership[2] }}</td> <!-- Club ID -->
                 <td>{{ membership[3] }}</td> <!-- Approval Status-->
                 <td class="action-buttons">
                     <form action="/coordinator_accept_club_membership" method="post" style="display: inline;">

@@ -77,10 +77,8 @@
         <thead>
             <tr>
                 <th>Membership ID</th>
-                <th>Coordinator ID</th>
                 <th>Name</th>
                 <th>User Name</th>
-                <th>Approval Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -88,10 +86,8 @@
             {% for index, membership in memberships|enumerate %}
             <tr>
                 <td>{{ membership[0] }}</td>
-                <td>{{ membership[1] }}</td>
                 <td>{{ membership[2] }}</td>
                 <td>{{ membership[3] }}</td>
-                <td>{{ membership[4] }}</td>
                 <td>
                     <form action="/delete_membership" method="post">
                         <input type="hidden" name="user_id" value="{{ membership[2] }}">
