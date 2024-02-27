@@ -16,6 +16,7 @@
             flex-wrap: wrap;
             justify-content: center;
             padding: 20px;
+            text-align: center;
         }
         .club-card {
             width: 300px;
@@ -38,6 +39,12 @@
             margin-top: 50px;
             font-size: 16px;
         }
+
+        .button-container {
+        display: flex;
+        justify-content: center;
+        }   
+
         .leave-button {
             background-color: #ea0101;
             color: white;
@@ -45,10 +52,15 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            
             transition: background-color 0.3s ease;
         }
         .leave-button:hover {
             background-color: #990000;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
         }
         footer {
             position: fixed;
@@ -69,11 +81,10 @@
 <div class="sport-container">
     {% for index, club in joinedList|enumerate %}  
     <div class="club-card">
-        <h3>{{ club[1] }}</h3>
-        <p>{{ club[2] }}</p>
-        <p>{{ club[0] }}</p>
-        <p>{{ club[3] }}</p>
-        <p>{{ club[4] }}</p>
+        <h3>{{club[1]}}</h3>
+        <p>Membership ID: {{club[0]}}</p>
+        <p>Status: {{club[5]}}</p>
+        <p>Joined: {{club[7]}}</p>
         <form method="POST" action="/delete_club_membership/{{ club[0] }}">
             <div class="button-container">
                 <button type="submit" class="leave-button">Leave Club</button>
@@ -82,9 +93,6 @@
     </div>
     {% endfor %}
 </div>
-
-<p>Joining our sports clubs offers fitness, teamwork, competition, and a vibrant community. Don't miss out – join today!</p>
-
 <script>
     function addMembership(sportName) {
         // Send a POST request to the server to add membership
