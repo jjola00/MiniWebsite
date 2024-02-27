@@ -195,7 +195,6 @@ def accept_event_registration(user_id, event_id):
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
     row = cursor.fetchone()
-
     if row:
         cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE UserID = ? AND EventID = ?", (user_id, event_id))
         conn.commit()
