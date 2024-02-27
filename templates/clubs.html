@@ -8,9 +8,11 @@
             background-color: #000000;
             margin: 0;
             padding: 0;
+            
         }
+        
         .join-button {
-            background-color: #4CAF50;
+            background-color: #43189f;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -19,7 +21,7 @@
             transition: background-color 0.3s ease;
         }
         .join-button:hover {
-            background-color: #45a049;
+            background-color: #1d135a;
         }
     </style>
 {% endblock %}          
@@ -30,9 +32,10 @@
         <div class="feature-content">
             <img src="static/{{club[1]}}.png" alt="Feature 1 Image" onerror="this.src='{% if index % 2 == 0 %} /static/default2.png {% else %} /static/default.png {% endif %}'">
             <div class="text-content {% if index % 2 == 0 %} custom-left {% else %} custom-right {% endif %}">
-                <h2 style="font-family: 'Arial'"></h2style>{{club[1]}}</h2>
-                <p>{{club[3]}}</p>
-                <h2 style="font-family: 'Sequel Sans Medium Head', Rockwell;"></h2style>Coordinator: {{club[2]}}</h2>
+                <h2 style="font-family: 'Arial'; font-size: 30px;">{{ club[1] }}</h2>
+                <p>{{ club[3] }}</p>
+                <h2 style="font-family: Arial; font-size: 15px;">Coordinator: {{ club[2] }}</h2>
+
                 <button class="join-button" onclick="addMembership('{{ club[1] }}')">Join Now</button>
             </div>
         </div>

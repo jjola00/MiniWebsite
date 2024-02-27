@@ -7,17 +7,20 @@ import sqlite3
 #Inserts
 #Verifying if club creator is a coordinator
 def verify_role(UserID):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT Role, ApprovalStatus FROM Users WHERE UserID=?", (UserID,)) #checks role of user from Users table
-    row = cursor.fetchone() #returns first row of database
-    role = row[0]
-    approval_status = row[1]
-    if (role == "COORDINATOR" or role == "ADMIN") and approval_status == "approved":
-        print("Role Approved")
-        return True
-    else:
-        print("Role Denied")
+    try: 
+        with sqlite3.connect('MiniEpic.db') as conn: 
+            #connection to database
+            cursor = conn.cursor()
+            cursor.execute("SELECT Role, ApprovalStatus FROM Users WHERE UserID=?", (UserID,)) #checks role of user from Users table
+            row = cursor.fetchone() #returns first row of database
+            role = row[0]
+            approval_status = row[1]
+            if (role == "COORDINATOR" or role == "ADMIN") and approval_status == "approved":
+                return True
+            else:
+                return False
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
         return False
     
 
