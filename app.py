@@ -124,7 +124,7 @@ def register_for_event():
         error_message = Events.register_for_event(event_id, user_id)
     
     if error_message:
-        return render_template('event_registration_error.html', error_message=error_message)
+        return render_template('event_registration_error.html', error_message=error_message, roleCheck=roleCheck)
     else:
         return render_template('successful_registration.html')
     
@@ -211,15 +211,13 @@ def add_membership():
 
         return redirect('/memberships')
 
-@app.route("/delete_club_membership", methods=["POST"])
-def delete_club_membership(membership_id):
-    if request.method == "POST":
+@app.route("/delete_membership", methods=["POST"])
+def delete_club_membership():
+        membership_id = request.form['membership_id']
         Clubs.delete_club_membership(membership_id)
         flash("Membership deleted", "success")
-        return redirect(url_for("memberships"))
-    else:
-        flash("Invalid request method", "error")
-        return redirect(url_for("memberships"))
+        return redirect(url_for("coordinator_view_club_memberships", membership_id=membership_id))
+      
     
 @app.route('/club_successfully_joined')
 def club_successfully_joined():

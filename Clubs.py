@@ -163,21 +163,26 @@ def update_membership_status(MembershipID, ClubID):
     
     conn.close()
 
-def reject_club_membership(MembershipID, ClubID):
+def reject_club_membership(MembershipID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    reject_query = "DELETE FROM ClubMemberships WHERE MembershipID=? AND ClubID=?;"
-    cursor.execute(reject_query, (MembershipID, ClubID))
+    reject_query = "DELETE FROM ClubMemberships WHERE MembershipID=?;"
+    cursor.execute(reject_query, (MembershipID))
     conn.commit()
     conn.close()
-    print("sdfd")
 
-def delete_club_membership(MembershipID):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM ClubMemberships WHERE MembershipID = ?", (MembershipID,))
-    conn.commit()
-    conn.close()
+
+def delete_club_membership(membership_id):
+    try:
+        conn = sqlite3.connect('MiniEpic.db')
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM ClubMemberships WHERE MembershipID = ?", (membership_id,))
+        conn.commit()
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+    finally:
+        if conn:
+            conn.close()
     
 def coordinator_club_view(CoordinatorID):
     conn = sqlite3.connect('MiniEpic.db')
@@ -317,15 +322,9 @@ def delete_club(ClubID):
 #    print(record)
 
 #Display all pending memberships of a specific club
-<<<<<<< HEAD
 ##CoordinatorID = 2
 ##for record in coordinator_view_club_pending_memberships(CoordinatorID):
    ## print(record)
-=======
-#CoordinatorID = 2
-#for record in coordinator_view_club_pending_memberships(CoordinatorID):
-#    print(record)
->>>>>>> ce07684bccbc07a370bbb7152218b94e34a578b9
 
 #Displays all clubs including not approved
 #for record in admin_view_clubs():
