@@ -99,6 +99,8 @@ def view_events_route():
     return render_template('view_events.html', events=events, roleCheck=roleCheck, username=username)
 
 
+#abcd
+#this one 1
 @app.route('/user_views_event_registrations')
 def user_views_event_registrations():
     roleCheck = session.get("roleCheck", 0)
@@ -106,6 +108,10 @@ def user_views_event_registrations():
     userID = Login.get_user_id(username)
     registered_events = Events.fetch_user_event_registrations(userID)
     return render_template('view_event_registrations.html', event_registrations=registered_events, userID=userID, roleCheck=roleCheck, username=username)
+
+
+
+
 
 @app.route('/register_for_event', methods=['POST'])
 def register_for_event():
