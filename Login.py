@@ -319,6 +319,7 @@ def delete_account(UserID):
         cursor.execute("DELETE FROM Login WHERE UserID = ?", (UserID,)) #deletes user from Login table
         cursor.execute("DELETE FROM PhoneNumber WHERE UserID =?", (UserID,)) #deletes user from PhoneNumber table
         cursor.execute("DELETE FROM ClubMemberships WHERE UserID =?", (UserID,)) #deletes user from ClubMemberships table
+        cursor.execute("DELETE FROM EventRegistration WHERE UserID =?", (UserID,)) #deletes user from EventRegistration table
         cursor.execute("SELECT ClubID FROM Clubs WHERE CoordinatorID = ?", (UserID,)) #checks if user is coordinator of any clubs
         row = cursor.fetchone()
     if row is not None:
@@ -326,6 +327,8 @@ def delete_account(UserID):
     
     conn.commit()
     print("Account deleted")
+
+delete_account(7)
 
 def view_passwords(Username):
         conn = sqlite3.connect('MiniEpic.db')
