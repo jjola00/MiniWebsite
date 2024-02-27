@@ -30,42 +30,18 @@ def verify_role(UserID):
     else:
         print("Role Denied")
         return False
-    
-
-
-# Function to create a new event in the database
-
 
 def create_event(ClubID, Title, Description, Date_, Time_, VenueID):
-    # Validate title and description
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-        # Check if an event with the same date, time, and venue already exists
-        cursor.execute("SELECT * FROM Events WHERE Date_ = ? AND Time_ = ? AND VenueID = ?", (date_, time_, venue_id))
-        existing_event = cursor.fetchone()
-
-        if existing_event:
-            return "An event with the same date, time, and venue already exists."
-        else:
-            cursor.execute("INSERT INTO Events (ClubID, Title, Description, Date_, Time_, VenueID) VALUES (?, ?, ?, ?, ?, ?)",
-                            (club_id, title, description, date_, time_, venue_id))
-            conn.commit()
-            print("Event Created")
-            return "Event Created Successfully!"
-=======
-        cursor.execute("INSERT INTO Events (ClubID, Title, Description, Date_, Time_, VenueID) VALUES (?, ?, ?, ?, ?, ?)",
-                            (club_id, title, description, date_, time_, venue_id))
->>>>>>> a135695534baa9be0cdec6a5c72a5bf14e3986ea
     try:
         cursor.execute("INSERT INTO Events (ClubID, Title, Description, Date_, Time_, VenueID) VALUES (?, ?, ?, ?, ?, ?)",
                        (ClubID, Title, Description, Date_, Time_, VenueID))
         conn.commit()
->>>>>>> bb180dc5ca4d2726a4b7edecd512be36b10f0d8a
 
+        print("Event Created")
+        return "Event Created Successfully!"
     except sqlite3.IntegrityError as e:
         error_message = str(e)
         if "UNIQUE constraint failed: Events.Title" in error_message:
@@ -353,7 +329,6 @@ def get_all_venues():
     all_venues = [venue[0] for venue in cursor.fetchall()]
     conn.close()
     return all_venues
-
 
 
 create_event('1', "2", "abc", '2024-11-14', '13:00', '8');

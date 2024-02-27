@@ -1,0 +1,122 @@
+SELECT * FROM Login WHERE username=? AND password=?
+
+SELECT Email FROM Users WHERE Email=?
+
+SELECT UserID FROM Login WHERE Username=? AND Password=?
+
+SELECT Role FROM Users WHERE UserID=?
+
+INSERT INTO Users (Name, Surname, Email) VALUES (?,?,?)
+
+SELECT UserID FROM Users WHERE Name=? AND Surname=? AND Email=?
+
+INSERT INTO Login (UserID, username, password) VALUES (?,?,?)
+
+INSERT INTO PhoneNumber (UserID, PhoneNumber) VALUES (?,?)
+
+SELECT Role, ApprovalStatus FROM Users WHERE UserID=?
+
+SELECT * FROM Login WHERE Username=?
+
+SELECT * FROM Users WHERE UserID=? AND WHERE ApprovalStatus='approved'
+
+SELECT username FROM AdminAccountView WHERE UserID = ?
+
+SELECT * FROM AdminAccountView
+
+SELECT * FROM AdminAccountView WHERE ApprovalStatus = 'pending'
+
+SELECT UserID FROM Login WHERE Username=?
+
+SELECT U.UserID, U.Name || ' ' || U.Surname AS 'Name', L.Username, U.Email, P.PhoneNumber, U.Role, U.ApprovalStatus, U.CreatedTimestamp FROM Users U, Login L, PhoneNumber P WHERE U.UserID = L.UserID AND U.UserID = P.UserID AND U.UserID = ?
+
+SELECT * FROM ViewClubCoordinators
+
+UPDATE Users SET ApprovalStatus = 'approved' WHERE UserID =?
+
+UPDATE Users SET ApprovalStatus = 'rejected' WHERE UserID =?
+
+UPDATE Users SET Role = 'COORDINATOR' WHERE UserID =?
+
+UPDATE PhoneNumber SET PhoneNumber = ? WHERE UserID =?
+
+SELECT * FROM Login WHERE UserID = ? AND Password = ?
+
+UPDATE Login SET Password = ? WHERE UserID =?
+
+DELETE FROM Users WHERE UserID =?
+DELETE FROM Login WHERE UserID = ?
+DELETE FROM PhoneNumber WHERE UserID =?
+DELETE FROM ClubMemberships WHERE UserID =?
+DELETE FROM EventRegistration WHERE UserID =?
+SELECT ClubID FROM Clubs WHERE CoordinatorID = ?
+
+Select Password FROM Login WHERE Username =?
+
+
+
+SELECT Role, ApprovalStatus FROM Users WHERE UserID=?
+
+SELECT COUNT(*) FROM Clubs WHERE CoordinatorID=?
+
+SELECT ClubID FROM Clubs WHERE CoordinatorID=?
+
+SELECT * FROM Clubs Where Name=?
+
+INSERT INTO Clubs (Name, CoordinatorID, Description) VALUES (?,?,?)
+
+SELECT ClubID FROM Clubs WHERE Name = ?
+
+SELECT ClubID FROM Clubs WHERE CoordinatorID = ?
+
+SELECT COUNT(*) FROM ClubMemberships WHERE UserID=?
+
+SELECT * FROM Clubs WHERE ClubID=?
+
+INSERT INTO ClubMemberships (UserID, ClubID) VALUES (?,?)
+
+SELECT * FROM ClubsView
+
+SELECT * FROM ViewClubMemberships WHERE ApprovalStatus = 'approved' AND UserID =?
+
+SELECT * FROM ViewClubMemberships WHERE ApprovalStatus = 'approved' AND CoordinatorID = ?
+
+SELECT M.MembershipID, C.ClubID, U.Name || ' ' || U.Surname, M.ApprovalStatus FROM ClubMemberships M, Clubs C, Users U WHERE U.UserID = M.UserID AND C.ClubID = M.ClubID AND M.ApprovalStatus = 'pending' AND C.CoordinatorID = ?
+
+UPDATE ClubMemberships SET ApprovalStatus='approved' WHERE MembershipID=? AND ClubID=?;
+
+DELETE FROM ClubMemberships WHERE MembershipID=?;
+
+DELETE FROM ClubMemberships WHERE MembershipID = ?
+
+SELECT * FROM CLUBS
+
+SELECT * FROM AdminClubsView WHERE ValidityStatus = 'pending'
+
+SELECT * FROM AdminClubsView
+
+SELECT * FROM AdminClubsView WHERE ValidityStatus = 'pending'
+
+SELECT * FROM AdminClubMembershipView
+
+SELECT * FROM ClubMemberships WHERE UserID =? AND ClubID =?
+
+SELECT * FROM ClubMemberships WHERE MembershipID = ?
+
+SELECT * FROM ClubMemberships M, Clubs C WHERE M.MembershipID = ? AND M.ApprovalStatus = 'pending' AND (C.ClubID = (SELECT ClubID FROM Clubs WHERE CoordinatorID = ?) OR ? = 1)
+
+UPDATE ClubMemberships SET ApprovalStatus = 'approved' WHERE MembershipID = ?
+
+SELECT * FROM Clubs WHERE ClubID = ?
+
+UPDATE Clubs SET ValidityStatus = 'approved' WHERE ClubID = ?
+
+SELECT * FROM Clubs WHERE ClubID = ?
+
+DELETE FROM Clubs WHERE ClubID =?
+
+DELETE FROM ClubMemberships WHERE ClubID =?
+DELETE FROM Events WHERE ClubID =?
+DELETE FROM EventRegistration WHERE EventID = (SELECT EventID FROM Events WHERE ClubID = ?)
+DELETE FROM Clubs WHERE ClubID =?
+
