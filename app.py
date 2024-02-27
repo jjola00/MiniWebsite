@@ -1,9 +1,11 @@
-import sqlite3,os,Login,Clubs,Events
+import sqlite3, os,Login,Clubs,Events,dbStartup
+
 
 from flask import Flask, redirect, url_for, render_template, request, session, flash
 # importing real time to create permanent session for perios of time
 from datetime import timedelta
 app = Flask(__name__)
+dbStartup.CreateDatabase()
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 miniwebsite_dir = os.path.join(current_dir, '..')
