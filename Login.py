@@ -33,22 +33,16 @@ def validate_user(username, password):
         return False
     
 def validate_reg(email):
-    try:
-        with sqlite3.connect('MiniEpic.db') as conn:
-         
-            #connection to database
-            cursor = conn.cursor()
-            #checks if record with email exists in database
-            cursor.execute("SELECT Email FROM Users WHERE Email=?", (email,)) #checks User table for email
-            row = cursor.fetchone() #returns first row of database
-            conn.close()
+     #connection to database
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    #checks if record with email exists in database
+    cursor.execute("SELECT Email FROM Users WHERE Email=?", (email,)) #checks User table for email
+    row = cursor.fetchone() #returns first row of database
 
-            if row is None:
-                return True
-            else:
-                return False
-    except sqlite3.Error as e:
-        print("Error:", e)
+    if row is None:
+        return True
+    else:
         return False
     
     
@@ -359,6 +353,18 @@ def update_password(UserID, oldPassword, newPassword):
         return False
 
 
+def verify_club_status(MembershipID):
+    status = 0
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT ApprovalStatus FROM ViewClubMemberships WHERE MembershipID =?", (MembershipID,))
+    row = cursor.fetchone()
+    result = str(row[0])
+    if result == "pending":
+        status = 1
+    if result == "approved":
+        status = 2
+    return status
 
 ######################################################################################################################################################################
 #Deletes

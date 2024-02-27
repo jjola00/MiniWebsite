@@ -1,4 +1,4 @@
-import sqlite3, os,Login,Clubs,Events
+import sqlite3,os,Login,Clubs,Events
 
 from flask import Flask, redirect, url_for, render_template, request, session, flash
 # importing real time to create permanent session for perios of time
@@ -124,7 +124,7 @@ def register_for_event():
         error_message = Events.register_for_event(event_id, user_id)
     
     if error_message:
-        return render_template('event_registration_error.html', error_message=error_message, roleCheck=roleCheck)
+        return render_template('event_registration_error.html', error_message=error_message)
     else:
         return render_template('successful_registration.html')
     
@@ -180,9 +180,10 @@ def coordinator_accept_club_membership():
 def coordinator_reject_club_membership():
     if request.method == 'POST':
         membership_id = request.form.get('MembershipID')
+        club_id = request.form.get('ClubID')
         
-       # Call the function to reject the club membership
-        Clubs.reject_club_membership(membership_id)
+        # Call the function to reject the club membership
+        Clubs.reject_club_membership(membership_id, club_id)
 
         # Redirect back to the same page (refresh)
         return redirect(request.referrer or '/')
@@ -210,19 +211,19 @@ def add_membership():
 
         return redirect('/memberships')
 
-@app.route("/delete_membership", methods=["POST"])
-def delete_club_membership():
-        membership_id = request.form['membership_id']
+@app.route("/delete_club_membership", methods=["POST"])
+def delete_club_membership(membership_id):
+    if request.method == "POST":
         Clubs.delete_club_membership(membership_id)
         flash("Membership deleted", "success")
-        return redirect(url_for("coordinator_view_club_memberships", membership_id=membership_id))
-      
+        return redirect(url_for("memberships"))
+    else:
+        flash("Invalid request method", "error")
+        return redirect(url_for("memberships"))
     
 @app.route('/club_successfully_joined')
 def club_successfully_joined():
-    roleCheck = session.get("roleCheck", 0)
-    username = session.get("username", "base")
-    return render_template('club_successfully_joined.html', username=username, roleCheck=roleCheck)
+    return render_template('club_successfully_joined.html')
 
 @app.route('/coordinator_view_club_events')
 def coordinator_view_club_events():
@@ -284,6 +285,8 @@ def coordinator_create_event():
     CoordinatorID = Login.get_user_id(username)
     club_id = Clubs.get_ClubID(CoordinatorID)  # Retrieve the club ID
     if request.method == "POST":
+        username = session.get("username", "base")
+        club_id = Clubs.get_club_id_for_user(Login.get_user_id(username))
         title = request.form.get("title")
         description = request.form.get("description")
         date_ = request.form.get("date")
@@ -294,6 +297,18 @@ def coordinator_create_event():
         # Call the create_event function
         Events.create_event(club_id, title, description, date_, time_, venue_id)
 
+        if error_message:
+            flash(error_message, "error")
+            return redirect(url_for('coordinator_create_event'))  # Redirect back to the create event page
+
+        flash("Event Created Successfully!", "success")
+        return redirect(url_for('some_view_function'), roleCheck=roleCheck, username=username)  # Redirect to some view function after creating the event
+
+    else:
+        # Render the create event form with club ID and user ID
+        user_id = request.args.get("user_id")
+        club_id = None  # Provide a default value for club_id
+        venues = Events.get_all_venues()
     # Render the create event form with club ID and user ID
     user_id = request.args.get("user_id")
     venues = Events.get_all_venues()

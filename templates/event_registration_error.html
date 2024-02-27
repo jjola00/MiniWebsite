@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
+<<<<<<< HEAD
 {% block title %}Unsuccessful Event Registration{% endblock %}
+=======
+{% block title %}Event Registration Error{% endblock %}
+>>>>>>> 48f280ec8b570212a354f50fb9efd54c031656d4
 
 {% block style %}
 <style>
@@ -29,13 +33,18 @@
         cursor: pointer;
         text-decoration: none;
     }
+
+    .return-button:hover {
+        background-color: #710c0c; /* Darker green color on hover */
+    }
+
     footer {
         position: fixed;
         bottom: 0;
         width: 100%;
         background-color: black;
         text-align: center;
-        font-family: 'Arial';
+        font-family: 'Arial', Helvetica, 'sans-serif';
         color: rgb(66, 66, 66);
         padding: 10px;
     }
@@ -43,8 +52,18 @@
 {% endblock %}
 
 {% block content %}
+<style>
+    .container {
+        font-family: Arial, sans-serif;
+    }
+</style>
+
 <div class="container">
-    <h2>ERROR: Event registration failed!</h2>
-    <a href="view_events" class="return-button">Return</a>
+    <h2>You have already joined this club!</h2>
+    <a href="clubs" class="return-button">Return</a>
 </div>
 {% endblock %}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 48f280ec8b570212a354f50fb9efd54c031656d4
