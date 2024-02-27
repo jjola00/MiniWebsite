@@ -209,7 +209,7 @@ def add_membership():
 
         return redirect('/memberships')
     
-@app.route("/delete_membership<int:user_id/<int:membership_id>", methods=['POST'])
+@app.route("/delete_membership", methods=['POST'])
 def delete_membership():
     UserID = request.form['user_id']
     MembershipID = request.form['membership_id']
@@ -272,6 +272,8 @@ def coordinator_reject_event_registration():
 
 @app.route("/coordinator_create_event", methods=["GET", "POST"])
 def coordinator_create_event():
+    roleCheck = session.get("roleCheck", 0)
+    username = session.get("username", "base")
     if request.method == "POST":
         username = session.get("username", "base")
         club_id = Clubs.get_club_id_for_user(Login.get_user_id(username))
@@ -289,7 +291,7 @@ def coordinator_create_event():
             return redirect(url_for('coordinator_create_event'))  # Redirect back to the create event page
 
         flash("Event Created Successfully!", "success")
-        return redirect(url_for('some_view_function'))  # Redirect to some view function after creating the event
+        return redirect(url_for('some_view_function'), roleCheck=roleCheck, username=username)  # Redirect to some view function after creating the event
 
     else:
         # Render the create event form with club ID and user ID
