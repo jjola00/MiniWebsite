@@ -174,10 +174,10 @@ def reject_club_membership(MembershipID, ClubID):
     conn.commit()
     conn.close()
 
-def delete_club_membership(UserID, MembershipID):
+def delete_club_membership(MembershipID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM ClubMemberships WHERE UserID = ? AND MembershipID = ?", (UserID, MembershipID))
+    cursor.execute("DELETE FROM ClubMemberships WHERE MembershipID = ?", (MembershipID,))
     conn.commit()
     conn.close()
     

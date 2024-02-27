@@ -50,17 +50,28 @@
         .leave-button:hover {
             background-color: #990000;
         }
+        footer {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: black;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            color: rgb(66, 66, 66);
+            padding: 10px; /* Adjust padding as needed */
+        }
         
     </style>
 {% endblock %}
 
 {% block content %}
 <div class="sport-container">
-    {% for index, club in joinedList|enumerate %}
+    {% for index, club in joinedList|enumerate %}  
     <div class="club-card">
         <h3>{{ club[1] }}</h3>
         <p>{{ club[2] }}</p>
-        <form method="POST" action="/delete_club_membership/{{ club[3] }}/{{ club[0] }}">
+        <form method="POST" action="/delete_club_membership/{{ club[0] }}">
             <div class="button-container">
                 <button type="submit" class="leave-button">Leave Club</button>
             </div>
