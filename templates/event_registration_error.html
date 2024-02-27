@@ -1,2 +1,53 @@
 {% extends "base.html" %}
 
+<<<<<<< HEAD
+=======
+{% block title %}Unsuccessful Event Registration{% endblock %}
+
+{% block style %}
+<style>
+    body {
+        background-color: #000;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        text-align: center;
+        max-width: 400px; /* Smaller max-width */
+        margin: 180px auto; /* Center the container horizontally and add spacing from the top */
+        padding: 80px; /* Smaller padding */
+        background-color: #222; /* Darker grey background color */
+        border-radius: 10px; /* Rounded corners */
+    }
+
+    .return-button {
+        background-color: #FF0000;
+        color: #FF0000;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: black;
+        text-align: center;
+        font-family: 'Arial';
+        color: rgb(66, 66, 66);
+        padding: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>ERROR: Event registration failed!</h2>
+    <a href="view_events" class="return-button">Return</a>
+</div>
+{% endblock %}
+>>>>>>> 80848c1eaf6e75efb0eb23fe55e15e1e7a2a3735
