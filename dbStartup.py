@@ -81,7 +81,7 @@ def CreateLoginTable():
         #connection to database
     
             cursor = conn.cursor()
-            cursor.execute('''CREATE TABLE Login(
+            cursor.execute('''CREATE TABLE IF NOT EXISTS Login(
             UserID INTEGER PRIMARY KEY,
             Username TEXT NOT NULL UNIQUE,
             Password TEXT NOT NULL,
@@ -114,7 +114,7 @@ def CreatePhoneNumbersTable():
         #connection to database
     
             cursor = conn.cursor() 
-            cursor.execute('''CREATE TABLE PhoneNumber (
+            cursor.execute('''CREATE TABLE IF NOT EXISTS PhoneNumber (
             UserID INTEGER PRIMARY KEY,
             PhoneNumber TEXT NOT NULL UNIQUE,
             CreatedTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -193,7 +193,7 @@ def CreateEventsTable():
         #connection to database
     
             cursor = conn.cursor()
-            cursor.execute('''CREATE TABLE Events (
+            cursor.execute('''CREATE TABLE IF NOT EXISTS Events (
             EventID INTEGER PRIMARY KEY AUTOINCREMENT,
             ClubID INTEGER,
             Title VARCHAR(20) NOT NULL,
