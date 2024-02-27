@@ -34,16 +34,13 @@ def verify_role(UserID):
 
 
 # Function to create a new event in the database
-def create_event(club_id, title, description, date_, time_, venue_id, user_id):
-import sqlite3
+
 
 def create_event(ClubID, Title, Description, Date_, Time_, VenueID):
     # Validate title and description
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO Events (ClubID, Title, Description, Date_, Time_, VenueID) VALUES (?, ?, ?, ?, ?, ?)",
-                            (club_id, title, description, date_, time_, venue_id))
     try:
         cursor.execute("INSERT INTO Events (ClubID, Title, Description, Date_, Time_, VenueID) VALUES (?, ?, ?, ?, ?, ?)",
                        (ClubID, Title, Description, Date_, Time_, VenueID))
