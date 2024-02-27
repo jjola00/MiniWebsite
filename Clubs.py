@@ -138,7 +138,7 @@ def user_views_memberships(userID):
 def coordinator_view_club_memberships(UserID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM ViewClubMemberships WHERE ApprovalStatus = 'approved' AND CoordinatorID = ?", (UserID,))
+    cursor.execute("SELECT * FROM ViewClubMemberships WHERE ApprovalStatus = 'approved' AND UserID = ?", (UserID,))
     rows = cursor.fetchall()
     club_members = [list(row) for row in rows]
     conn.close()
