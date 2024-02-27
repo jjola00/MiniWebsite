@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block style %}
+<style>
+    body {
+        background-color: #000;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        text-align: center;
+    }
+
+    .return-button {
+        background-color: #fff;
+        color: #000;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .return-button:hover {
+        background-color: #ccc;
+    }
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h2>You have successfully joined this club!</h2>
+    <a href="#" class="return-button">Return</a>
+</div>
+</body>
+{% endblock %}
