@@ -52,3 +52,71 @@ DELETE FROM EventRegistration WHERE UserID =?
 SELECT ClubID FROM Clubs WHERE CoordinatorID = ?
 
 Select Password FROM Login WHERE Username =?
+
+
+
+SELECT Role, ApprovalStatus FROM Users WHERE UserID=?
+
+SELECT COUNT(*) FROM Clubs WHERE CoordinatorID=?
+
+SELECT ClubID FROM Clubs WHERE CoordinatorID=?
+
+SELECT * FROM Clubs Where Name=?
+
+INSERT INTO Clubs (Name, CoordinatorID, Description) VALUES (?,?,?)
+
+SELECT ClubID FROM Clubs WHERE Name = ?
+
+SELECT ClubID FROM Clubs WHERE CoordinatorID = ?
+
+SELECT COUNT(*) FROM ClubMemberships WHERE UserID=?
+
+SELECT * FROM Clubs WHERE ClubID=?
+
+INSERT INTO ClubMemberships (UserID, ClubID) VALUES (?,?)
+
+SELECT * FROM ClubsView
+
+SELECT * FROM ViewClubMemberships WHERE ApprovalStatus = 'approved' AND UserID =?
+
+SELECT * FROM ViewClubMemberships WHERE ApprovalStatus = 'approved' AND CoordinatorID = ?
+
+SELECT M.MembershipID, C.ClubID, U.Name || ' ' || U.Surname, M.ApprovalStatus FROM ClubMemberships M, Clubs C, Users U WHERE U.UserID = M.UserID AND C.ClubID = M.ClubID AND M.ApprovalStatus = 'pending' AND C.CoordinatorID = ?
+
+UPDATE ClubMemberships SET ApprovalStatus='approved' WHERE MembershipID=? AND ClubID=?;
+
+DELETE FROM ClubMemberships WHERE MembershipID=?;
+
+DELETE FROM ClubMemberships WHERE MembershipID = ?
+
+SELECT * FROM CLUBS
+
+SELECT * FROM AdminClubsView WHERE ValidityStatus = 'pending'
+
+SELECT * FROM AdminClubsView
+
+SELECT * FROM AdminClubsView WHERE ValidityStatus = 'pending'
+
+SELECT * FROM AdminClubMembershipView
+
+SELECT * FROM ClubMemberships WHERE UserID =? AND ClubID =?
+
+SELECT * FROM ClubMemberships WHERE MembershipID = ?
+
+SELECT * FROM ClubMemberships M, Clubs C WHERE M.MembershipID = ? AND M.ApprovalStatus = 'pending' AND (C.ClubID = (SELECT ClubID FROM Clubs WHERE CoordinatorID = ?) OR ? = 1)
+
+UPDATE ClubMemberships SET ApprovalStatus = 'approved' WHERE MembershipID = ?
+
+SELECT * FROM Clubs WHERE ClubID = ?
+
+UPDATE Clubs SET ValidityStatus = 'approved' WHERE ClubID = ?
+
+SELECT * FROM Clubs WHERE ClubID = ?
+
+DELETE FROM Clubs WHERE ClubID =?
+
+DELETE FROM ClubMemberships WHERE ClubID =?
+DELETE FROM Events WHERE ClubID =?
+DELETE FROM EventRegistration WHERE EventID = (SELECT EventID FROM Events WHERE ClubID = ?)
+DELETE FROM Clubs WHERE ClubID =?
+
