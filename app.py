@@ -1,11 +1,9 @@
-import sqlite3, os,Login,Clubs,Events,dbStartup
-
+import sqlite3,os,Login,Clubs,Events
 
 from flask import Flask, redirect, url_for, render_template, request, session, flash
 # importing real time to create permanent session for perios of time
 from datetime import timedelta
 app = Flask(__name__)
-dbStartup.CreateDatabase()
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 miniwebsite_dir = os.path.join(current_dir, '..')
@@ -285,10 +283,9 @@ def coordinator_create_event():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
     CoordinatorID = Login.get_user_id(username)
-    club_id = Clubs.get_ClubID(CoordinatorID)  # Retrieve the club ID
+    club_id = Clubs.get_ClubID(CoordinatorID)
     if request.method == "POST":
         username = session.get("username", "base")
-        club_id = Clubs.get_club_id_for_user(Login.get_user_id(username))
         title = request.form.get("title")
         description = request.form.get("description")
         date_ = request.form.get("date")
@@ -298,19 +295,6 @@ def coordinator_create_event():
 
         # Call the create_event function
         Events.create_event(club_id, title, description, date_, time_, venue_id)
-
-        if error_message:
-            flash(error_message, "error")
-            return redirect(url_for('coordinator_create_event'))  # Redirect back to the create event page
-
-        flash("Event Created Successfully!", "success")
-        return redirect(url_for('some_view_function'), roleCheck=roleCheck, username=username)  # Redirect to some view function after creating the event
-
-    else:
-        # Render the create event form with club ID and user ID
-        user_id = request.args.get("user_id")
-        club_id = None  # Provide a default value for club_id
-        venues = Events.get_all_venues()
     # Render the create event form with club ID and user ID
     user_id = request.args.get("user_id")
     venues = Events.get_all_venues()
