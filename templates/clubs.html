@@ -4,7 +4,6 @@
 
 {% block style %}
     <style>
-        /* Add your CSS styles here */
         body {
             background-color: #000000;
             margin: 0;
@@ -39,6 +38,24 @@
         </div>
     </div>
     {% endfor %}
+<<<<<<< HEAD
+<script>
+    function addMembership(sportName) {
+        fetch('/add_membership', {
+            method: 'POST',
+            body: new URLSearchParams({
+                sportName: sportName
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            if (response.ok) {
+                // Membership added successfully
+                window.location.reload(); // Refresh the page
+            } else {
+                // Error occurred while adding membership
+=======
     <script>
         function addMembership(sportName) {
             // Send a POST request to the server to add membership
@@ -60,6 +77,7 @@
                 }
             }).catch(error => {
                 console.error('Error:', error);
+>>>>>>> c3b7dd6fcea46a597308681be7f1f05b42107b69
                 alert('Failed to add membership. Error occurred.');
             });
         }
