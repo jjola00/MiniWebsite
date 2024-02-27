@@ -209,7 +209,7 @@ def add_membership():
 
         return redirect('/memberships')
     
-@app.route("/delete_membership<int:user_id/<int:membership_id>", methods=['POST'])
+@app.route("/delete_membership", methods=['POST'])
 def delete_membership():
     UserID = request.form['user_id']
     MembershipID = request.form['membership_id']
