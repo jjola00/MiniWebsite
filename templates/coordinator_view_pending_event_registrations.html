@@ -94,7 +94,6 @@
                     <th>Registration ID</th>
                     <th>Event Title</th>
                     <th>Name</th>
-                    <th>Approval Status</th>
                     <th>Action</th> <!-- New column for action buttons -->
                 </tr>
             </thead>
@@ -104,7 +103,6 @@
                     <td>{{ registration[0] }}</td> <!-- Registration ID -->
                     <td>{{ registration[1] }}</td> <!-- Event ID -->
                     <td>{{ registration[2] }}</td> <!-- User ID -->
-                    <td>{{ registration[3] }}</td> <!-- Approval Status -->
                     <td class="action-buttons">
                         <form action="/coordinator_accept_event_registration" method="post" style="display: inline;">
                             <input type="hidden" name="eventID" value="{{ registration[1] }}">

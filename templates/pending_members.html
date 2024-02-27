@@ -19,11 +19,6 @@
 
     .event-heading {
         font-family: Arial;
-<<<<<<< HEAD
-        font-family: Arial; /* Change the font family here */
-=======
->>>>>>> c3b7dd6fcea46a597308681be7f1f05b42107b69
->>>>>>> 32c97f4b6e574529deeba86e696de03653765288
     }
 
     .event-table {
@@ -94,7 +89,7 @@
         <thead>
             <tr>
                 <th>Membership ID</th>
-                <th>Club ID</th>
+
                 <th>User ID</th>
                 <th>Approval Status</th>
                 <th>Action</th> 
@@ -105,7 +100,6 @@
             <tr>
                 <td>{{ membership[0] }}</td> <!-- Membership ID -->
                 <td>{{ membership[1] }}</td> <!-- User ID -->
-                <td>{{ membership[2] }}</td> <!-- Club ID -->
                 <td>{{ membership[3] }}</td> <!-- Approval Status-->
                 <td class="action-buttons">
                     <form action="/coordinator_accept_club_membership" method="post" style="display: inline;">
