@@ -120,3 +120,7 @@ DELETE FROM Events WHERE ClubID =?
 DELETE FROM EventRegistration WHERE EventID = (SELECT EventID FROM Events WHERE ClubID = ?)
 DELETE FROM Clubs WHERE ClubID =?
 
+
+
+
+
