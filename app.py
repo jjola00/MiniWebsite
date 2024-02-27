@@ -284,6 +284,8 @@ def coordinator_reject_event_registration():
 def coordinator_create_event():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
+    CoordinatorID = Login.get_user_id(username)
+    club_id = Clubs.get_ClubID(CoordinatorID)  # Retrieve the club ID
     if request.method == "POST":
         username = session.get("username", "base")
         club_id = Clubs.get_club_id_for_user(Login.get_user_id(username))
@@ -292,9 +294,10 @@ def coordinator_create_event():
         date_ = request.form.get("date")
         time_ = request.form.get("time")
         venue_id = request.form.get("venue_id")
+        user_id = request.form.get("user_id")
 
         # Call the create_event function
-        error_message = Events.create_event(club_id, title, description, date_, time_, venue_id, request.form.get("user_id"))
+        Events.create_event(club_id, title, description, date_, time_, venue_id)
 
         if error_message:
             flash(error_message, "error")
@@ -308,8 +311,12 @@ def coordinator_create_event():
         user_id = request.args.get("user_id")
         club_id = None  # Provide a default value for club_id
         venues = Events.get_all_venues()
+    # Render the create event form with club ID and user ID
+    user_id = request.args.get("user_id")
+    venues = Events.get_all_venues()
 
-        return render_template("create_event.html", club_id=club_id, user_id=user_id, venues=venues)
+    return render_template("create_event.html", club_id=club_id, user_id=user_id, venues=venues)
+
 
 
 @app.route("/profile", methods=["POST", "GET"])

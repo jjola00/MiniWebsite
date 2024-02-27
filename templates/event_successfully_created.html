@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 
-<<<<<<< HEAD
-{% block title %}Unsuccessful Event Registration{% endblock %}
-=======
-{% block title %}Event Registration Error{% endblock %}
->>>>>>> 48f280ec8b570212a354f50fb9efd54c031656d4
+{% block title %}Event Successfully Created{% endblock %}
 
 {% block style %}
 <style>
@@ -25,7 +21,7 @@
     }
 
     .return-button {
-        background-color: #FF0000;
+        background-color: #4CAF50; /* Green color */
         color: #fff;
         padding: 10px 20px;
         border: none;
@@ -33,11 +29,6 @@
         cursor: pointer;
         text-decoration: none;
     }
-
-    .return-button:hover {
-        background-color: #710c0c; /* Darker green color on hover */
-    }
-
     footer {
         position: fixed;
         bottom: 0;
@@ -52,18 +43,8 @@
 {% endblock %}
 
 {% block content %}
-<style>
-    .container {
-        font-family: Arial, sans-serif;
-    }
-</style>
-
 <div class="container">
-    <h2>You have already joined this club!</h2>
-    <a href="clubs" class="return-button">Return</a>
+    <h2>You have successfully created an event!!</h2>
+    <a href="create_event" class="return-button">Return</a>
 </div>
 {% endblock %}
-<<<<<<< HEAD
-=======
-
->>>>>>> 48f280ec8b570212a354f50fb9efd54c031656d4

@@ -35,16 +35,18 @@ def verify_role(UserID):
 
 # Function to create a new event in the database
 def create_event(club_id, title, description, date_, time_, venue_id, user_id):
-    # Validate title and description
-    if not title.isalpha() or not description.isalpha():
-        return "Title and description should contain only alphabetic characters."
+import sqlite3
 
-    try:
-        conn = sqlite3.connect('MiniEpic.db')
-        cursor = conn.cursor()
+def create_event(ClubID, Title, Description, Date_, Time_, VenueID):
+    # Validate title and description
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
 
         cursor.execute("INSERT INTO Events (ClubID, Title, Description, Date_, Time_, VenueID) VALUES (?, ?, ?, ?, ?, ?)",
                             (club_id, title, description, date_, time_, venue_id))
+    try:
+        cursor.execute("INSERT INTO Events (ClubID, Title, Description, Date_, Time_, VenueID) VALUES (?, ?, ?, ?, ?, ?)",
+                       (ClubID, Title, Description, Date_, Time_, VenueID))
         conn.commit()
 
         print("Event Created")
@@ -57,9 +59,9 @@ def create_event(club_id, title, description, date_, time_, venue_id, user_id):
             return "Description already exists. Please choose a different description."
         else:
             return "An error occurred while creating the event."
-
     finally:
         conn.close()
+
 
 # Function to register a user for a specific event
 def register_for_event(event_id, user_id):
@@ -337,3 +339,6 @@ def get_all_venues():
     conn.close()
     return all_venues
 
+
+
+create_event('1', "2", "abc", '2024-11-14', '13:00', '8');
