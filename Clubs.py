@@ -77,15 +77,15 @@ def get_club_id_using_sport_name(sport_name):
 def get_club_id_for_user(UserID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT ClubID FROM ViewClubCoordinators WHERE UserID = ?", (UserID,))
+    cursor.execute("SELECT ClubID FROM Clubs WHERE CoordinatorID = ?", (UserID,))
     club_id = cursor.fetchone()
     conn.close()
-    if club_id:
+    if club_id is not None:
         return club_id[0]
     else:
         return None
-
     
+ 
 
 def verify_clubs_joined(UserID):
     conn = sqlite3.connect('MiniEpic.db')
@@ -317,9 +317,15 @@ def delete_club(ClubID):
 #    print(record)
 
 #Display all pending memberships of a specific club
+<<<<<<< HEAD
 ##CoordinatorID = 2
 ##for record in coordinator_view_club_pending_memberships(CoordinatorID):
    ## print(record)
+=======
+#CoordinatorID = 2
+#for record in coordinator_view_club_pending_memberships(CoordinatorID):
+#    print(record)
+>>>>>>> ce07684bccbc07a370bbb7152218b94e34a578b9
 
 #Displays all clubs including not approved
 #for record in admin_view_clubs():

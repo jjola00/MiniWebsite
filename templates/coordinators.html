@@ -5,7 +5,7 @@
 {% block style %}
     <style>
         body {
-            background-color: rgb(180, 180, 180);
+            background-color: rgb(37, 36, 36);
             margin: 0;
             padding: 0;
         }
@@ -19,6 +19,14 @@
             display: inline-block; 
             vertical-align: top;
         }
+
+        h2 {
+            font-family: Arial;
+            font-size: medium;
+            color: white;
+            font-weight: normal;
+        }
+
         .button {
             background-color: #ffffff;
             color: rgb(0, 0, 0);
@@ -50,11 +58,11 @@
                 <button type="submit" class="button">Delete Coordinator</button>
             </div>
         </form>
-        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">ID: {{ coord[0] }}</h2>
-        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Full Name: {{ coord[1] }}</h2>
-        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Club: {{ coord[2] }}</h2>
-        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Club ID: {{ coord[3] }}</h2>
-        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Account Created: {{ coord[6] }}</h2>
+        <h2> <strong>ID:</strong> {{ coord[0] }}</h2>
+        <h2> <strong>Full Name:</strong> {{ coord[1] }}</h2>
+        <h2> <strong>Club:</strong> {{ coord[2] }}</h2>
+        <h2> <strong>Club ID:</strong> {{ coord[3] }}</h2>
+        <h2><strong>Account Created:</strong> {{ coord[6] }}</h2>
         </form>
     </div>
 {% endfor %}

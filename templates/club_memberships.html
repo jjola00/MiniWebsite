@@ -18,7 +18,7 @@
     }
 
     .event-heading {
-        font-family: 'Bebas Neue Pro Bold Italic', sans-serif; /* Change the font family here */
+        font-family: 'Bebas Neue Pro Bold Italic', sans-serif;
     }
 
     .event-table {
@@ -26,7 +26,7 @@
         width: 100%;
         border-collapse: collapse;
         margin-top: 20px;
-        background-color: rgba(0, 0, 0, 0.8); /* Solid black background with some transparency */
+        background-color: rgba(0, 0, 0, 0.8);
     }
 
     .event-table th,
@@ -60,8 +60,8 @@
         padding: 10px;
     }
     .delete-button {
-    background-color: #ff0000; /* Red background color */
-    color: #fff; /* White text color */
+    background-color: #ff0000;
+    color: #fff; 
     border: none;
     padding: 8px 12px;
     cursor: pointer;
@@ -77,10 +77,8 @@
         <thead>
             <tr>
                 <th>Membership ID</th>
-                <th>Coordinator ID</th>
                 <th>Name</th>
                 <th>User Name</th>
-                <th>Approval Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -88,10 +86,8 @@
             {% for index, membership in memberships|enumerate %}
             <tr>
                 <td>{{ membership[0] }}</td>
-                <td>{{ membership[1] }}</td>
                 <td>{{ membership[2] }}</td>
                 <td>{{ membership[3] }}</td>
-                <td>{{ membership[4] }}</td>
                 <td>
                     <form action="/delete_membership" method="post">
                         <input type="hidden" name="user_id" value="{{ membership[2] }}">

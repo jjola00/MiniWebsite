@@ -4,9 +4,7 @@
 
 {% block style %}
     <style>
-        /* Add your CSS styles here */
         body {
-           /* background-image: url("static/coordinator_background.png"); */
             background-color: black; 
             margin: 0;
             padding: 0;
@@ -18,36 +16,27 @@
             
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-evenly; /* Change justify-content to space-evenly */
+            justify-content: space-evenly;
         }
         .coordinator-card {
-            flex: 1 0 300px; /* Set flex-grow to 1 to allow flex items to grow, and fix flex-basis to 300px */
-            
+            flex: 1 0 300px;
             padding: 20px;
-            /* background-color: #333333; */
-
-
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0.5, 0.5);
             text-align: center;
         }
-
-
-        /* For odd-indexed cards (1st, 3rd, 5th, etc.) */
     .coordinator-card:nth-child(odd) {
         margin-left: 50px;
                 margin-right: 50px;
                 margin-top: 20px;
-        margin-right: 50px; /* Pushes odd cards to the left */
+        margin-right: 50px;
         background-image: linear-gradient(to right, #0e0e0e, #242323);
     }
-
-    /* For even-indexed cards (2nd, 4th, 6th, etc.) */
     .coordinator-card:nth-child(even) {
         margin-left: 50px;
                 margin-right: 50px;
                 margin-top: 20px;
-        margin-left: 50px; /* Pushes even cards to the right */
+        margin-left: 50px;
         background-image: linear-gradient(to left, #0e0e0e, #242323);
     }
 
@@ -62,19 +51,19 @@
             margin-bottom: 20px;
         }
         button {
-    background-color: #dfe3e8; /* Blue color */
+    background-color: #dfe3e8;
     font-weight: 555;
     color: rgb(1, 0, 0);
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
-    background-color: #434445; /* Darker shade of blue */
-    box-shadow: 0 0 10px 5px #434445; /* Glow effect */
+    background-color: #434445;
+    box-shadow: 0 0 10px 5px #434445; 
 }
 
         p {
@@ -83,13 +72,13 @@ button:hover {
             font-size: 16px;
         }
         footer {
-    position: static; /* Change position to static */
+    position: static; 
     width: 100%;
     background-color: black;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     color: rgb(66, 66, 66);
-    padding: 5px; /* Adjust padding as needed */
+    padding: 5px;
 }
 
     </style>
@@ -156,14 +145,6 @@ button:hover {
         function redirectToCreateEvent(url) {
             window.location.href = url;
         }
-    </script>
-    <script>
-        // JavaScript to track mouse movement and update circle position
-        window.addEventListener('mousemove', function (e) {
-            var circle = document.getElementById('circle');
-            circle.style.top = e.clientY - (circle.offsetHeight / 2) + 'px';
-            circle.style.left = e.clientX - (circle.offsetWidth / 2) + 'px';
-        });
     </script>
 
 {% endblock %}
