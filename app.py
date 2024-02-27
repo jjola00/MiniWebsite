@@ -208,16 +208,6 @@ def add_membership():
             flash("Username not found in session.", "error")
 
         return redirect('/memberships')
-<<<<<<< HEAD
-=======
-    
-@app.route("/delete_membership", methods=['POST'])
-def delete_membership():
-    UserID = request.form['user_id']
-    MembershipID = request.form['membership_id']
-    Clubs.delete_club_membership(UserID, MembershipID)
-    return redirect(url_for('coordinator_view_club_memberships', UserID=UserID, MembershipID=MembershipID))
->>>>>>> 3bd71479fe9ab74a4a7c3bc67d29ed52a8a254c1
 
 @app.route("/delete_club_membership/<int:membership_id>", methods=["POST"])
 def delete_club_membership(membership_id):
