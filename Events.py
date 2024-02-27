@@ -96,7 +96,7 @@ def register_for_event(event_id, user_id):
     
 def view_events(): 
     conn, cursor = connect_to_database()
-    cursor.execute("SELECT * FROM Events")
+    cursor.execute("SELECT E.EventID, C.Name, E.Title, E.Description, E.ApprovalStatus, E.Date_, E.Time_, E.VenueID, E.created_timestamp, E.updated_timestamp FROM Events E INNER JOIN Clubs C ON E.ClubID = C.ClubID")
     events = cursor.fetchall()
     result = [list(row) for row in events]
     
@@ -104,12 +104,12 @@ def view_events():
     return result
 #changed above
 
-
-# Function to retrieve details of events user is registered for
+#abcde
+# Function to retrieve details of events user is registered for  THIS ONE HERE RIGHT HERE
 def fetch_user_event_registrations(userID): 
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ?", (userID,))
+    cursor.execute("SELECT ER.RegistrationID, ER.ApprovalStatus, E.Title, U.Name || ' ' || U.Surname FROM EventRegistration ER INNER JOIN Events E ON ER.EventID = E.EventID INNER JOIN Users U ON ER.UserID = U.UserID WHERE ER.UserID = ?", (userID,))
     rows = cursor.fetchall()
     registered_events = [list(row) for row in rows]
     conn.close()
@@ -137,6 +137,8 @@ def coordinator_view_events_pending(UserID):
     result = [list(row) for row in events]
     conn.close()
     return result
+
+############done correct ###########################
 
 def coordinator_view_event_registrations(UserID):
     conn = sqlite3.connect('MiniEpic.db')
