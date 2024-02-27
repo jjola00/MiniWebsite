@@ -34,7 +34,7 @@ def verify_role(UserID):
 
 
 # Function to create a new event in the database
-def create_event(club_id, title, description, date_, time_, venue_id):
+def create_event(club_id, title, description, date_, time_, venue_id, user_id):
     # Validate title and description
     if not title.isalpha() or not description.isalpha():
         return "Title and description should contain only alphabetic characters."
@@ -44,7 +44,7 @@ def create_event(club_id, title, description, date_, time_, venue_id):
         cursor = conn.cursor()
 
         cursor.execute("INSERT INTO Events (ClubID, Title, Description, Date_, Time_, VenueID) VALUES (?, ?, ?, ?, ?, ?)",
-                       (club_id, title, description, date_, time_, venue_id))
+                            (club_id, title, description, date_, time_, venue_id))
         conn.commit()
 
         print("Event Created")
@@ -337,5 +337,3 @@ def get_all_venues():
     conn.close()
     return all_venues
 
-
-create_event(1, 's', 's', '2024-11-11', '12:00', '1');
