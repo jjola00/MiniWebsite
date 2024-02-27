@@ -25,14 +25,6 @@ def verify_role(UserID):
     finally:
         if conn:
             conn.close()
-    
-def get_membershipid(Username, Clubname):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT MembershipID FROM AdminClubMembershipView WHERE User Name=? AND Club Name=?" ,(Username,Clubname))
-    row = cursor.fetchone ()
-    membership_id = row[0]
-    return membership_id
 
 def verify_clubs_coordinated(UserID):
     try: 

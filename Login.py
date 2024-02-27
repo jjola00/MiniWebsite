@@ -352,20 +352,6 @@ def update_password(UserID, oldPassword, newPassword):
         print("Error:", e)
         return False
 
-
-def verify_club_status(MembershipID):
-    status = 0
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT ApprovalStatus FROM ViewClubMemberships WHERE MembershipID =?", (MembershipID,))
-    row = cursor.fetchone()
-    result = str(row[0])
-    if result == "pending":
-        status = 1
-    if result == "approved":
-        status = 2
-    return status
-
 ######################################################################################################################################################################
 #Deletes
     

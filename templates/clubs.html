@@ -35,8 +35,13 @@
                 <h2 style="font-family: 'Arial'; font-size: 30px;">{{ club[1] }}</h2>
                 <p>{{ club[3] }}</p>
                 <h2 style="font-family: Arial; font-size: 15px;">Coordinator: {{ club[2] }}</h2>
-
-                <button class="join-button" onclick="addMembership('{{ club[1] }}')">Join Now</button>
+                {% if status == 1%}
+                    <button class="join-button">Pending</button>
+                {% elif status == 2%}
+                    <button class="join-button">Joined</button>
+                {% else %}
+                    <button class="join-button" onclick="addMembership('{{ club[1] }}')">Join Now</button>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -44,11 +49,8 @@
     <script>
         function addMembership(sportName) {
             // Send a POST request to the server to add membership
-            fetch('/add_membership', {
+            fetch('/add_membership?sportName=' + encodeURIComponent(sportName), { // Include sportName as a query parameter
                 method: 'POST',
-                body: new URLSearchParams({
-                    sportName: sportName
-                }),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -65,5 +67,7 @@
                 alert('Failed to add membership. Error occurred.');
             });
         }
+
+
     </script>
 {% endblock %}
