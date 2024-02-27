@@ -30,14 +30,8 @@ def verify_role(UserID):
     else:
         print("Role Denied")
         return False
-    
-
-
-# Function to create a new event in the database
-import sqlite3
 
 def create_event(ClubID, Title, Description, Date_, Time_, VenueID):
-    # Validate title and description
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
 

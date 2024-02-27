@@ -75,7 +75,6 @@ def logout():
         session.pop("roleCheck", None)
     return redirect(url_for("home"))
 
-
 @app.route("/clubs")
 def clubs():
     clubList = []

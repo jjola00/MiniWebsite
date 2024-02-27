@@ -25,14 +25,6 @@ def verify_role(UserID):
     finally:
         if conn:
             conn.close()
-    
-def get_membershipid(Username, Clubname):
-    conn = sqlite3.connect('MiniEpic.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT MembershipID FROM AdminClubMembershipView WHERE User Name=? AND Club Name=?" ,(Username,Clubname))
-    row = cursor.fetchone ()
-    membership_id = row[0]
-    return membership_id
 
 def verify_clubs_coordinated(UserID):
     try: 
@@ -214,39 +206,22 @@ def user_views_memberships(userID):
             conn.close()
 
 def coordinator_view_club_memberships(UserID):
-    try: 
-        with sqlite3.connect('MiniEpic.db') as conn: 
-            #connection to database
-            cursor = conn.cursor()
-            cursor.execute("SELECT * FROM ViewClubMemberships WHERE ApprovalStatus = 'approved' AND CoordinatorID = ?", (UserID,))
-            rows = cursor.fetchall()
-            club_members = [list(row) for row in rows]
-            conn.close()
-            return club_members
-    except sqlite3.Error as e:
-        print("SQLite error:", e)
-        return False
-    finally:
-        if conn:
-            conn.close()
-
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM ViewClubMemberships WHERE ApprovalStatus = 'approved' AND CoordinatorID = ?", (UserID,))
+    rows = cursor.fetchall()
+    club_members = [list(row) for row in rows]
+    conn.close()
+    return club_members
 
 def coordinator_view_club_pending_memberships(UserID):
-    try: 
-        with sqlite3.connect('MiniEpic.db') as conn: 
-            #connection to database
-            cursor = conn.cursor()
-            cursor.execute("SELECT M.MembershipID, C.ClubID, U.Name || ' ' || U.Surname, M.ApprovalStatus FROM ClubMemberships M, Clubs C, Users U WHERE U.UserID = M.UserID AND C.ClubID = M.ClubID AND M.ApprovalStatus = 'pending' AND C.CoordinatorID = ?", (UserID,))
-            rows = cursor.fetchall()
-            club_members = [list(row) for row in rows]
-            conn.close()
-            return club_members
-    except sqlite3.Error as e:
-        print("SQLite error:", e)
-        return False
-    finally:
-        if conn:
-            conn.close()
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT M.MembershipID, C.ClubID, U.Name || ' ' || U.Surname, M.ApprovalStatus FROM ClubMemberships M, Clubs C, Users U WHERE U.UserID = M.UserID AND C.ClubID = M.ClubID AND M.ApprovalStatus = 'pending' AND C.CoordinatorID = ?", (UserID,))
+    rows = cursor.fetchall()
+    club_members = [list(row) for row in rows]
+    conn.close()
+    return club_members
 
 def update_membership_status(MembershipID, ClubID):
     try: 

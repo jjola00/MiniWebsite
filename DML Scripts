@@ -1,0 +1,54 @@
+SELECT * FROM Login WHERE username=? AND password=?
+
+SELECT Email FROM Users WHERE Email=?
+
+SELECT UserID FROM Login WHERE Username=? AND Password=?
+
+SELECT Role FROM Users WHERE UserID=?
+
+INSERT INTO Users (Name, Surname, Email) VALUES (?,?,?)
+
+SELECT UserID FROM Users WHERE Name=? AND Surname=? AND Email=?
+
+INSERT INTO Login (UserID, username, password) VALUES (?,?,?)
+
+INSERT INTO PhoneNumber (UserID, PhoneNumber) VALUES (?,?)
+
+SELECT Role, ApprovalStatus FROM Users WHERE UserID=?
+
+SELECT * FROM Login WHERE Username=?
+
+SELECT * FROM Users WHERE UserID=? AND WHERE ApprovalStatus='approved'
+
+SELECT username FROM AdminAccountView WHERE UserID = ?
+
+SELECT * FROM AdminAccountView
+
+SELECT * FROM AdminAccountView WHERE ApprovalStatus = 'pending'
+
+SELECT UserID FROM Login WHERE Username=?
+
+SELECT U.UserID, U.Name || ' ' || U.Surname AS 'Name', L.Username, U.Email, P.PhoneNumber, U.Role, U.ApprovalStatus, U.CreatedTimestamp FROM Users U, Login L, PhoneNumber P WHERE U.UserID = L.UserID AND U.UserID = P.UserID AND U.UserID = ?
+
+SELECT * FROM ViewClubCoordinators
+
+UPDATE Users SET ApprovalStatus = 'approved' WHERE UserID =?
+
+UPDATE Users SET ApprovalStatus = 'rejected' WHERE UserID =?
+
+UPDATE Users SET Role = 'COORDINATOR' WHERE UserID =?
+
+UPDATE PhoneNumber SET PhoneNumber = ? WHERE UserID =?
+
+SELECT * FROM Login WHERE UserID = ? AND Password = ?
+
+UPDATE Login SET Password = ? WHERE UserID =?
+
+DELETE FROM Users WHERE UserID =?
+DELETE FROM Login WHERE UserID = ?
+DELETE FROM PhoneNumber WHERE UserID =?
+DELETE FROM ClubMemberships WHERE UserID =?
+DELETE FROM EventRegistration WHERE UserID =?
+SELECT ClubID FROM Clubs WHERE CoordinatorID = ?
+
+Select Password FROM Login WHERE Username =?
