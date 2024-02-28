@@ -200,12 +200,12 @@ def add_membership():
 
         return redirect('/memberships')
 
-@app.route("/delete_club_membership", methods=["POST"])
-def delete_club_membership():
+@app.route("/delete_club_membership/<int:membership_id>", methods=["POST"])
+def delete_club_membership(membership_id):
     if request.method == "POST":
         membership_id = request.form['membership_id']
         Clubs.delete_club_membership(membership_id)
-        return redirect('/coordinator_view_club_memberships')
+        return redirect(request.referrer or '/')
     
 
 

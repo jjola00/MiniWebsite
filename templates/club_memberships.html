@@ -94,7 +94,7 @@
                 <td>{{ membership[3] }}</td>
                 <td>{{ membership[4] }}</td>
                 <td>
-                    <form action="/delete_club_membership" method="post">
+                    <form action="/delete_club_membership/{{ membership[0]}}" method="post">
                         <input type="hidden" name="user_id" value="{{ membership[2] }}">
                         <input type="hidden" name="membership_id" value="{{ membership[0] }}">
                         <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this membership?')">Delete Membership</button>

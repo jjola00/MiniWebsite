@@ -87,6 +87,7 @@
         <p><strong>Joined:</strong> {{club[7]}}</p>
         <form method="POST" action="/delete_club_membership/{{ club[0] }}">
             <div class="button-container">
+                <input type="hidden" name="membership_id" value="{{ club[0] }}">
                 <button type="submit" class="leave-button">Leave Club</button>
             </div>
         </form>
