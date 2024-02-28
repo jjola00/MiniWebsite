@@ -292,7 +292,7 @@ def update_venue(venue_id, venue_name):
 def delete_event(eventID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM Events WHERE Event_id=?", (eventID,))
+    cursor.execute("DELETE FROM Events WHERE eventID=?", (eventID,))
     conn.commit()
     conn.close()
 

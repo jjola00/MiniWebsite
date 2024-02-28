@@ -275,10 +275,12 @@ def coordinator_create_event():
         date_ = request.form.get("date")
         time_ = request.form.get("time")
         venue_id = request.form.get("venue_id")
+
+        actual_venue_id = Events.get_VenueID_from_VenueName(venue_id)
         user_id = request.form.get("user_id")
 
         # Call the create_event function
-        Events.create_event(club_id, title, description, date_, time_, venue_id)
+        Events.create_event(club_id, title, description, date_, time_, actual_venue_id)
     # Render the create event form with club ID and user ID
     user_id = request.args.get("user_id")
     venues = Events.get_all_venues()
