@@ -54,6 +54,7 @@ def create_event(ClubID, Title, Description, Date_, Time_, VenueID):
         conn.close()
 
 
+
 # Function to register a user for a specific event
 def register_for_event(event_id, user_id):
     conn = sqlite3.connect('MiniEpic.db')
@@ -304,6 +305,22 @@ def get_event_details(event_id):
     conn.close()
     return event_details
 
+#afdklasjfasfsa
+def get_VenueID_from_VenueName(venue_name): 
+    conn, cursor = connect_to_database()
+    cursor.execute("SELECT VenueID FROM Venues WHERE VenueName=?", (venue_name,))
+    event_details = cursor.fetchone()
+    conn.close()
+    
+    # Check if a result was found
+    if event_details:
+        # Extract and return the integer value of VenueID
+        return int(event_details[0])
+    else:
+        # Return None if no result was found
+        return None
+
+
 # Function to retrieve all events a user is registered for
 def get_registered_events_for_user(user_id): 
     conn, cursor = connect_to_database()
@@ -328,5 +345,3 @@ def get_all_venues():
     conn.close()
     return all_venues
 
-#result = reject_event_registration('29', '7')
-#print(result)
