@@ -109,16 +109,18 @@ def user_views_event_registrations():
 def register_for_event():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
+    
     if request.method == 'POST':
         event_id = request.form['event_id']
         user_id = Login.get_user_id(username)
         
         error_message = Events.register_for_event(event_id, user_id)
-    
-    if error_message:
-        return render_template('event_registration_error.html', error_message=error_message)
-    else:
-        return render_template('successful_registration.html')
+        
+        if error_message:
+            return render_template('event_registration_error.html', error_message=error_message, roleCheck=roleCheck)
+        else:
+            return render_template('successful_registration.html')
+
     
 @app.route('/your_club')
 def your_club():

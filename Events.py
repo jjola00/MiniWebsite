@@ -56,6 +56,7 @@ def create_event(ClubID, Title, Description, Date_, Time_, VenueID):
 
 # Function to register a user for a specific event
 def register_for_event(event_id, user_id):
+    error_message = None  # Default value
     
     try:
         conn = sqlite3.connect('MiniEpic.db')
@@ -80,6 +81,7 @@ def register_for_event(event_id, user_id):
         conn.close()
     
     return error_message
+
 
 
 
