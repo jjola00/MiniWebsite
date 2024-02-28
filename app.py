@@ -157,10 +157,10 @@ def coordinator_view_club_pending_memberships():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
     UserID = Login.get_user_id(username)
-    pending_event_memberships = []
+    pending_memberships = []
     for item in Clubs.coordinator_view_club_pending_memberships(UserID):
-        pending_event_memberships.append(item)
-    return render_template('pending_members.html', pending_event_memberships=pending_event_memberships, roleCheck=roleCheck, username=username)
+        pending_memberships.append(item)
+    return render_template('pending_members.html', pending_memberships=pending_memberships, roleCheck=roleCheck, username=username)
 
 @app.route('/coordinator_accept_club_membership', methods=['POST'])
 def coordinator_accept_club_membership():
