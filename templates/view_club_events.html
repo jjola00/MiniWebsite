@@ -100,8 +100,8 @@
                 <td>{{ event[5] }}</td> <!-- Date -->
                 <td>{{ event[6] }}</td> <!-- Time -->
                 <td>
-                    <form action="/delete_club_membership" method="post">
-                        <input type="hidden" name="eventID" value="{{ event[2] }}">
+                    <form action="/delete_event" method="post">
+                        <input type="hidden" name="eventID" value="{{ event[0] }}">
                         <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this membership?')">Delete Event</button>
                     </form>
                 </td>
