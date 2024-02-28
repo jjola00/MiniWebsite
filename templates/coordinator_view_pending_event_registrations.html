@@ -96,9 +96,9 @@
             <tbody>
                 {% for registration in pending_event_registrations %}
                 <tr>
-                    <td>{{ registration[0] }}</td> <!-- Registration ID -->
-                    <td>{{ registration[1] }}</td> <!-- Event ID -->
-                    <td>{{ registration[2] }}</td> <!-- User ID -->
+                    <td>{{ registration[0] }}</td> <!-- tom just renamed these Membership ID -->
+                    <td>{{ registration[1] }}</td> <!-- Club ID -->
+                    <td>{{ registration[2] }}</td> <!-- Name -->
                     <td>{{ registration[3] }}</td> <!-- Approval Status -->
                     <td class="action-buttons">
                         <form action="/coordinator_accept_event_registration" method="post" style="display: inline;">
