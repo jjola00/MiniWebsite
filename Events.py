@@ -56,32 +56,30 @@ def create_event(ClubID, Title, Description, Date_, Time_, VenueID):
 
 # Function to register a user for a specific event
 def register_for_event(event_id, user_id):
-    error_message = None  # Default value
-    
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+
     try:
-        conn = sqlite3.connect('MiniEpic.db')
-        cursor = conn.cursor()
-        
         cursor.execute("INSERT INTO EventRegistration (EventID, UserID) VALUES (?, ?)", (event_id, user_id))
         conn.commit()
-        
+
         cursor.execute("SELECT ClubID FROM Events WHERE EventID=?", (event_id,))
         club = cursor.fetchone()
-        
-        cursor.execute("SELECT ApprovalStatus FROM ClubMemberships WHERE ClubID = ? AND UserID = ?", (str(club[0]), str(user_id)))
-        approval = cursor.fetchone()
-        
-        if approval is not None:
-            cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE EventID = ? AND UserID = ?", (event_id, user_id))
-            conn.commit()
-        
-    except sqlite3.IntegrityError:
-        error_message = "Error: This user is already registered for this event."
+
+        if club:
+            cursor.execute("SELECT ApprovalStatus FROM ClubMemberships WHERE ClubID = ? AND UserID = ?", (club[0], user_id))
+            approval = cursor.fetchone()
+
+            if approval:
+                cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE EventID = ? AND UserID = ?", (event_id, user_id))
+                conn.commit()
+    
+    except sqlite3.Error as e:
+        print("SQLite error:", e)
+
     finally:
         conn.close()
-    
-    return error_message
-
+   
 
 
 
@@ -184,25 +182,34 @@ def admin_view_events_pending():
     return result
 
 # Function to verify if a user is registered for a specific event
-def update_approval_status(registration_id):
+def accept_event_registration(user_id, event_id): 
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-
-    cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE RegistrationID = ?", (registration_id,))
-    conn.commit()
-
-    conn.close()
+    cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
+    row = cursor.fetchone()
+    if row:
+        cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE UserID = ? AND EventID = ?", (user_id, event_id))
+        conn.commit()
+        conn.close()
+        return True
+    else:
+        conn.close()
+        return False
     
-def reject_event_registration(registration_id):
+def reject_event_registration(user_id, event_id):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM EventRegistration WHERE RegistrationID = ?", (registration_id,))
+    cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
     row = cursor.fetchone()
 
     if row:
-        cursor.execute("DELETE FROM EventRegistration WHERE RegistrationID = ?", (registration_id,))
+        cursor.execute("DELETE FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
         conn.commit()
-    conn.close()
+        conn.close()
+        return True
+    else:
+        conn.close()
+        return False
 
 #updates     #######################################
     
@@ -282,11 +289,10 @@ def update_venue(venue_id, venue_name):
     conn.commit()
     conn.close()
 
-#deletes ##############################################
-# Function to delete an event from the database
-def delete_event(event_id):
-    conn, cursor = connect_to_database()
-    cursor.execute("DELETE FROM Events WHERE Event_id=?", (event_id,))
+def delete_event(eventID):
+    conn = sqlite3.connect('MiniEpic.db')
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM Events WHERE Event_id=?", (eventID,))
     conn.commit()
     conn.close()
 
@@ -322,5 +328,5 @@ def get_all_venues():
     conn.close()
     return all_venues
 
-
-create_event('1', "2", "abc", '2024-11-14', '13:00', '8');
+#result = reject_event_registration('29', '7')
+#print(result)

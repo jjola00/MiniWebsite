@@ -207,6 +207,17 @@ def delete_club_membership():
         Clubs.delete_club_membership(membership_id)
         return redirect('/coordinator_view_club_memberships')
     
+
+
+@app.route("/delete_event", methods=["POST"])
+def delete_event():
+    if request.method == "POST":
+        eventID = request.form['eventID']
+        Events.delete_event(eventID)
+        return redirect('/coordinator_view_club_events')
+
+
+    
 @app.route('/club_successfully_joined')
 def club_successfully_joined():
     return render_template('club_successfully_joined.html')
