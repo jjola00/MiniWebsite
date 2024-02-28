@@ -304,6 +304,14 @@ def get_event_details(event_id):
     conn.close()
     return event_details
 
+#afdklasjf
+def get_VenueID_from_VenueName(venue_name): 
+    conn, cursor = connect_to_database()
+    cursor.execute("SELECT VenueID FROM Venues WHERE VenueName=?", (venue_name,))
+    event_details = cursor.fetchone()
+    conn.close()
+    return event_details
+
 # Function to retrieve all events a user is registered for
 def get_registered_events_for_user(user_id): 
     conn, cursor = connect_to_database()
