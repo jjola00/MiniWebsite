@@ -155,10 +155,10 @@ def coordinator_view_club_pending_memberships():
     roleCheck = session.get("roleCheck", 0)
     username = session.get("username", "base")
     UserID = Login.get_user_id(username)
-    pending_memberships = []
+    pending_event_memberships = []
     for item in Clubs.coordinator_view_club_pending_memberships(UserID):
-        pending_memberships.append(item)
-    return render_template('pending_members.html', pending_memberships=pending_memberships, roleCheck=roleCheck, username=username)
+        pending_event_memberships.append(item)
+    return render_template('pending_members.html', pending_event_memberships=pending_event_memberships, roleCheck=roleCheck, username=username)
 
 @app.route('/coordinator_accept_club_membership', methods=['POST'])
 def coordinator_accept_club_membership():
@@ -171,7 +171,6 @@ def coordinator_accept_club_membership():
 def coordinator_reject_club_membership():
     if request.method == 'POST':
         membership_id = request.form.get('membership_id')
-        # Call the function to reject the club membership
         Clubs.reject_club_membership(membership_id)
         # Redirect back to the same page (refresh)
         return redirect(request.referrer or '/')
@@ -239,29 +238,16 @@ def coordinator_view_pending_event_registrations():
 @app.route('/coordinator_accept_event_registration', methods=['POST'])
 def coordinator_accept_event_registration():
     if request.method == 'POST':
-        user_id = request.form['userID']
-        event_id = request.form['eventID']
+        registrationID = request.form.get('registrationID')
+        Events.update_approval_status(registrationID)
+        return redirect(request.referrer or '/')
 
-        if Events.accept_event_registration(user_id, event_id):
-            flash("Event registration approved successfully!", "success")
-        else:
-            flash("Event registration not found or already approved.", "error")
-        return redirect(url_for('coordinator_view_event_registrations'))
-
-    
-    return redirect(url_for('coordinator_view_event_registrations'))
-
-@app.route("/coordinator_reject_event_registration", methods=['POST'])
+@app.route('/coordinator_reject_event_registration', methods=['POST'])
 def coordinator_reject_event_registration():
-  if request.method == 'POST':
-        user_id = request.form.get('userID')
-        event_id = request.form.get('eventID')
-
-        if user_id and event_id:
-            rejected = Events.reject_event_registration(user_id, event_id)
-            if rejected:
-                return redirect(url_for('coordinator_view_pending_event_registrations'))
-        return redirect(url_for('coordinator_view_pending_event_registrations'))  
+    if request.method == 'POST':
+        registrationID = request.form.get('registrationID')
+        Events.reject_event_registration(registrationID)
+        return redirect(request.referrer or '/')  
 
 @app.route("/coordinator_create_event", methods=["GET", "POST"])
 def coordinator_create_event():

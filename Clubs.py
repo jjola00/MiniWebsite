@@ -243,8 +243,7 @@ def reject_club_membership(MembershipID):
         with sqlite3.connect('MiniEpic.db') as conn: 
             #connection to database
             cursor = conn.cursor()
-            reject_query = "DELETE FROM ClubMemberships WHERE MembershipID=?;"
-            cursor.execute(reject_query, (MembershipID))
+            cursor.execute("DELETE FROM ClubMemberships WHERE MembershipID=?", (MembershipID,))
             conn.commit()
     except sqlite3.Error as e:
         print("SQLite error:", e)

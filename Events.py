@@ -56,7 +56,6 @@ def create_event(ClubID, Title, Description, Date_, Time_, VenueID):
 
 # Function to register a user for a specific event
 def register_for_event(event_id, user_id):
-    error_message = None  # Initialize error message variable
     
     try:
         conn = sqlite3.connect('MiniEpic.db')
@@ -183,34 +182,25 @@ def admin_view_events_pending():
     return result
 
 # Function to verify if a user is registered for a specific event
-def accept_event_registration(user_id, event_id): 
+def update_approval_status(registration_id):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
-    row = cursor.fetchone()
-    if row:
-        cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE UserID = ? AND EventID = ?", (user_id, event_id))
-        conn.commit()
-        conn.close()
-        return True
-    else:
-        conn.close()
-        return False
+
+    cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE RegistrationID = ?", (registration_id,))
+    conn.commit()
+
+    conn.close()
     
-def reject_event_registration(user_id, event_id):
+def reject_event_registration(registration_id):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
+    cursor.execute("SELECT * FROM EventRegistration WHERE RegistrationID = ?", (registration_id,))
     row = cursor.fetchone()
 
     if row:
-        cursor.execute("DELETE FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
+        cursor.execute("DELETE FROM EventRegistration WHERE RegistrationID = ?", (registration_id,))
         conn.commit()
-        conn.close()
-        return True
-    else:
-        conn.close()
-        return False
+    conn.close()
 
 #updates     #######################################
     
