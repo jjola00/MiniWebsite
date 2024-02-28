@@ -252,7 +252,7 @@ def coordinator_view_pending_event_registrations():
 def coordinator_accept_event_registration():
     if request.method == 'POST':
         registrationID = request.form.get('registrationID')
-        Events.update_approval_status(registrationID)
+        Events.accept_event_registration(registrationID)
         return redirect(request.referrer or '/')
 
 @app.route('/coordinator_reject_event_registration', methods=['POST'])

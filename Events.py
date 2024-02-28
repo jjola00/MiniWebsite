@@ -183,13 +183,13 @@ def admin_view_events_pending():
     return result
 
 # Function to verify if a user is registered for a specific event
-def accept_event_registration(user_id, event_id): 
+def accept_event_registration(registrationID): 
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
+    cursor.execute("SELECT * FROM EventRegistration WHERE RegistrationID = ?", (registrationID,))
     row = cursor.fetchone()
     if row:
-        cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE UserID = ? AND EventID = ?", (user_id, event_id))
+        cursor.execute("UPDATE EventRegistration SET ApprovalStatus = 'approved' WHERE RegistrationID = ?", (registrationID,))
         conn.commit()
         conn.close()
         return True
@@ -197,14 +197,14 @@ def accept_event_registration(user_id, event_id):
         conn.close()
         return False
     
-def reject_event_registration(user_id, event_id):
+def reject_event_registration(registrationID):
     conn = sqlite3.connect('MiniEpic.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
+    cursor.execute("SELECT * FROM EventRegistration WHERE RegistrationID = ?", (registrationID,))
     row = cursor.fetchone()
 
     if row:
-        cursor.execute("DELETE FROM EventRegistration WHERE UserID = ? AND EventID = ?", (user_id, event_id))
+        cursor.execute("DELETE FROM EventRegistration WHERE RegistrationID = ?", (registrationID,))
         conn.commit()
         conn.close()
         return True
@@ -312,12 +312,9 @@ def get_VenueID_from_VenueName(venue_name):
     event_details = cursor.fetchone()
     conn.close()
     
-    # Check if a result was found
     if event_details:
-        # Extract and return the integer value of VenueID
         return int(event_details[0])
     else:
-        # Return None if no result was found
         return None
 
 
