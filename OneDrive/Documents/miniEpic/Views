@@ -1,0 +1,52 @@
+CREATE VIEW IF NOT EXISTS AdminAccountView AS
+SELECT U.UserID, U.Name || ' ' || U.Surname AS 'Name', L.Username, U.Email, P.PhoneNumber, U.Role, U.ApprovalStatus, U.CreatedTimestamp, U.UpdatedTimestamp 
+FROM Users U, Login L, PhoneNumber P
+WHERE U.UserID = L.UserID AND U.UserID = P.UserID
+ORDER BY U.ApprovalStatus DESC, U.Name, U.Surname
+
+CREATE VIEW IF NOT EXISTS AdminAccountViewPending AS
+SELECT U.UserID, U.Name || ' ' || U.Surname AS 'Name', L.Username, U.Email, P.PhoneNumber, U.Role, U.ApprovalStatus, U.CreatedTimestamp, U.UpdatedTimestamp 
+FROM Users U, Login L, PhoneNumber P
+WHERE U.UserID = L.UserID AND U.UserID = P.UserID AND U.ApprovalStatus = 'pending'
+
+
+CREATE VIEW IF NOT EXISTS ClubsView AS
+SELECT C.ClubID, C.Name, U.Name || " " || U.Surname AS 'Coordinator Name', C.Description, C.CreatedTimestamp, C.UpdatedTimestamp
+FROM Clubs C, Users U
+WHERE C.ValidityStatus = 'approved' AND C.CoordinatorID = U.UserID;
+
+
+CREATE VIEW IF NOT EXISTS AdminClubsView AS
+SELECT C.ClubID, C.Name, U.Name || " " || U.Surname AS 'Coordinator Name', C.Description, C.ValidityStatus, C.CreatedTimestamp, C.UpdatedTimestamp
+FROM Clubs C, Users U
+WHERE C.CoordinatorID = U.UserID;
+
+
+
+
+CREATE VIEW IF NOT EXISTS AdminClubMembershipView AS
+SELECT M.MembershipID, U.Name || " " || U.Surname AS 'User Name', C.Name AS 'Club Name', M.ApprovalStatus, M.CreatedTimestamp, M.UpdatedTimestamp
+FROM Clubs C, Users U, ClubMemberships M
+WHERE M.UserID = U.UserID AND M.ClubID = C.ClubID
+ORDER BY M.CreatedTimestamp DESC;
+
+CREATE VIEW IF NOT EXISTS ViewClubMemberships AS
+SELECT M.MembershipID, C.Name, C.Description, U.UserID, U.Name || ' ' || U.Surname AS 'User Name', M.ApprovalStatus, M.CreatedTimestamp, M.UpdatedTimestamp 
+FROM Clubs C, Users U, ClubMemberships M 
+WHERE M.UserID = U.UserID AND M.ClubID = C.ClubID  
+ORDER BY M.CreatedTimestamp DESC
+
+CREATE VIEW IF NOT EXISTS ViewClubCoordinators AS
+SELECT U.UserID, U.Name || " " || U.Surname, C.Name, C.ClubID, (SELECT COUNT(*) FROM ClubMemberships M WHERE M.ClubID = C.ClubID AND M.ApprovalStatus = 'approved') AS 'Club members', C.ValidityStatus, C.CreatedTimestamp, C.UpdatedTimestamp
+FROM Users U, Clubs C
+WHERE U.UserID = C.CoordinatorID AND U.Role = 'COORDINATOR'
+ORDER BY C.CreatedTimestamp DESC
+
+
+CREATE VIEW View_Events AS
+SELECT EVENTS.Title, EVENTS.Description, EVENTS.Date_, EVENTS.Time_, EVENTS.created_timestamp, EVENTS.updated_timestamp, Venues.VenueName
+FROM Events
+INNER JOIN Venues ON Events.VenueID = Venues.VenueID
+
+
+

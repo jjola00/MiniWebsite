@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}{{username}}'s Profile{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            background-image: url('static/pbg.jpg');
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+    footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        input[type="submit"] {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            border: none;
+            cursor: pointer;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        
+        .container,
+        .container2,
+        .container3 {
+            position: absolute;
+            width: 300px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8); 
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            flex-grow: 1;
+        }
+
+        .container {
+            top: 370px;
+            right: calc(50% - 700px);
+        }
+
+        .container2 {
+            top: 100px;
+            right: calc(50% - 700px);
+        }
+        .container3 {
+            top: 120px;
+            left: calc(50% - 700px);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="container3">
+    <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;"></h2style>Personal Details</h2>
+    {% for index, user in user_details|enumerate %}
+        <p style="font-family: 'Sequel Sans Medium Head', Rockwell; color: white;">{{user}}</p>
+    {% endfor %}
+</div>
+
+<div class="top-right-button">
+    <a href="/logout" class="button">Logout</a>
+</div>
+    <div class="feature">
+        <div class="feature-content">
+            <div class="container">
+                <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Update Phone Number</h2>
+                <form id="phoneForm" action="/profile" method="POST">
+                    <input type="text" id="phone" name="phone" placeholder="Update Phone Number">
+                    <input type="submit" value="Confirm Changes">
+                    {% if update_message %}
+                        <p style="color: rgb(3, 164, 0);">{{ update_message }}</p>
+                    {% endif %}
+                </form>
+        </div>
+        <div class="container2">
+            <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Change Your Password</h2>
+            <form id="passwordForm" action="/profile" method="POST">
+                <input type="password" id="old_password" name="old_password" placeholder="Old Password">
+                <input type="password" id="new_password" name="new_password" placeholder="New Password">
+                <input type="submit" value="Confirm Changes">
+                {% if error_message %}
+                    <p style="color: red;">{{ error_message }}</p>
+                {% elif update_message2 %}
+                    <p style="color: rgb(0, 184, 68);">{{ update_message2 }}</p>
+                {% endif %}
+            </form>
+    </div>
+    </div>
+</div>
+{% endblock %}

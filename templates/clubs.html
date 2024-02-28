@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Clubs{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            background-color: #000000;
+            margin: 0;
+            padding: 0;
+        }
+        .join-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .join-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+{% endblock %}          
+
+{% block content %}
+    {% for index, club in clubList|enumerate %}
+    <div class="feature">
+        <div class="feature-content">
+            <img src="static/{{club[1]}}.png" alt="Feature 1 Image" onerror="this.src='{% if index % 2 == 0 %} /static/default2.png {% else %} /static/default.png {% endif %}'">
+            <div class="text-content {% if index % 2 == 0 %} custom-left {% else %} custom-right {% endif %}">
+                <h2 style="font-family: 'Arial'"></h2style>{{club[1]}}</h2>
+                <p>{{club[3]}}</p>
+                <h2 style="font-family: 'Sequel Sans Medium Head', Rockwell;"></h2style>Coordinator: {{club[2]}}</h2>
+                <button class="join-button" onclick="addMembership('{{ club[1] }}')">Join Now</button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <script>
+        function addMembership(sportName) {
+            // Send a POST request to the server to add membership
+            fetch('/add_membership', {
+                method: 'POST',
+                body: new URLSearchParams({
+                    sportName: sportName
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    // Membership added successfully
+                    window.location.href = 'club_successfully_joined'; // Redirect to success page
+                } else {
+                    // Error occurred while adding membership
+                    alert('Failed to add membership. Error occurred.');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('Failed to add membership. Error occurred.');
+            });
+        }
+    </script>
+{% endblock %}

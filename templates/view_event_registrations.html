@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}View Your Event Registrations{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .event-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 10px 5px #121212, 0 0 20px 10px #141414;
+            transition: box-shadow 0.3s ease-in-out;
+    }
+
+    .event-table:hover {
+        box-shadow: 0 0 20px 15px #161617, 0 0 40px 20px #1c1c1c;
+    }
+
+        .event-table th,
+        .event-table td {
+            border: 1px solid #fff;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .event-table th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .event-table tbody tr:nth-child(even) {
+            background-color: #222;
+        }
+
+        .event-table tbody tr:hover {
+            background-color: #444;
+        }
+        footer {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: black;
+            text-align: center;
+            font-family: Arial;
+            color: rgb(66, 66, 66);
+            padding: 10px; 
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Your Event Registrations</h1>
+        <table class="event-table">
+            <thead>
+                <tr>
+                    <th>Registration ID</th>
+                    <th>Approval Status</th>
+                    <th>Event Title</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for registration in event_registrations %}
+                <tr>
+                    <td>{{ registration[0] }}</td> <!-- Registration ID -->
+                    <td>{{ registration[1] }}</td> <!-- Event ID -->
+                    <td>{{ registration[2] }}</td> <!-- User ID -->
+                    <td>{{ registration[3] }}</td> <!-- Approval Status -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

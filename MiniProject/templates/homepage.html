@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Club Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS styles for the navbar, body, and other elements */
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #1b5e20, #388e3c);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100%;
+            position: relative;
+            padding-top: 80px;
+        }
+        nav {
+            background-color: #388e3c;
+            padding: 8px 20px;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            top: 0;
+            left: 0;
+        }
+        nav .logo {
+            padding-left: 20px;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+        nav ul li {
+            font-size: 20px;
+            margin-left: 10px;
+        }
+        nav ul li:last-child {
+            margin-right: 20px; 
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+        .login-register {
+            color: white;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .login-register a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+        .oval-button {
+            width: auto; 
+            height: 40px; 
+            background-color: #007bff;
+            border-radius: 20px;
+            font-size: 16px;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 15px; 
+        }
+        .main-text {
+            text-align: center;
+            font-size: 32px; 
+            margin-top: 30px; 
+            color: white; 
+        }
+        .bubble {
+            text-align: center;
+            font-size: 24px; 
+            margin-top: 20px;
+            color: white; 
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            float: left;
+            width: 40%;
+            margin-left: 30%;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin-top: 20px; 
+            color: white; 
+            font-size: 24px; 
+            font-family: 'Arial', sans-serif; 
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px; 
+        }
+        .small-button {
+            width: 150px; 
+            height: 40px; 
+            background-color: #007bff;
+            border-radius: 20px;
+            font-size: 16px;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 10px;
+        }
+        .empty-bubble {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 20px;
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            float: left;
+            width: 40%;
+            margin-left: 30%;
+        }
+        .bottom-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .bottom-button {
+            width: 150px;
+            height: 40px;
+            background-color: #007bff;
+            border-radius: 20px;
+            font-size: 16px;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="iseagle.jpg" alt="Logo" width="50px">
+        </div>
+        <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Clubs</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">Memberships</a></li>
+        </ul>
+        <div class="login-register">
+            <a href="/views/login" class="oval-button">Login/Register</a>
+        </div>
+    </nav>
+
+    <div class="main-text">
+        <h1>Welcome to the ISEagles!</h1>
+    </div>
+
+    <div class="bubble">
+        <p>Want to get involved? Click here to become an ISEagle today.</p>
+        <a href="/views/login" class="oval-button">Login/Register</a> <!-- Update the href attribute -->
+    </div>
+
+    <div class="empty-bubble"></div>
+    <div class="empty-bubble"></div>
+
+    <div class="bubble" style="margin-top: 30px;">
+        <div class="welcome-section">
+            <h2>Welcome to the ISEagles</h2>
+            <p>The ISEagles is a sports club that provides a welcoming environment for all individuals to engage in various sports activities. It's a great place to make new friends, learn new skills, and enjoy the spirit of sportsmanship. At ISEagles, there is no discrimination, and everyone is welcome to join us in pursuing their passion for sports.</p>
+        </div>
+    </div>
+
+    <div class="bubble" style="margin-top: 30px;">
+        <div class="bottom-section">
+            <a href="#" class="oval-button">View all Clubs</a>
+            <div style="margin-top: 10px;">
+                <a href="#" class="oval-button">View all Events</a>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 2000px; /* Adjust height based on content */"></div> 
+
+    <script>
+        document.querySelector('nav ul li:nth-child(1) a').addEventListener('click', function() {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>

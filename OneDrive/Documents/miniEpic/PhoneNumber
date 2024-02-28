@@ -1,0 +1,21 @@
+CREATE TABLE PhoneNumber (
+    UserID INTEGER PRIMARY KEY,
+    PhoneNumber TEXT NOT NULL UNIQUE,
+    CreatedTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UpdatedTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+CREATE TRIGGER IF NOT EXISTS phonenumber_insert_trigger
+AFTER INSERT ON PhoneNumber
+FOR EACH ROW
+BEGIN
+    UPDATE PhoneNumber SET CreatedTimestamp = NEW.CreatedTimestamp WHERE UserID = NEW.UserID;
+END;
+
+CREATE TRIGGER IF NOT EXISTS phonenumber_update_trigger
+AFTER UPDATE ON PhoneNumber
+FOR EACH ROW
+BEGIN
+    UPDATE PhoneNumber SET UpdatedTimestamp = CURRENT_TIMESTAMP WHERE UserID = NEW.UserID;
+END;

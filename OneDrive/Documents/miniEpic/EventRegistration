@@ -1,0 +1,27 @@
+CREATE TABLE Event_Registration (
+    Registration_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Event_id INTEGER NOT NULL,
+    User_id INTEGER NOT NULL,
+    ApprovalStatus TEXT DEFAULT 'pending' NOT NULL CHECK(ApprovalStatus IN ('approved', 'pending', 'rejected')),
+    created_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Event_id) REFERENCES Events(Event_id),
+    FOREIGN KEY (User_id) REFERENCES Users(UserID)
+    CONSTRAINT UniqueEventUserID UNIQUE (Event_id, User_id)
+);
+
+
+CREATE TRIGGER IF NOT EXISTS insert_timestamp_trigger
+AFTER INSERT ON Event_Registration
+FOR EACH ROW
+BEGIN
+    UPDATE Event_Registration SET created_timestamp = IFNULL(NEW.created_timestamp, CURRENT_TIMESTAMP) WHERE Registration_id = NEW.Registration_id;
+END;
+
+
+CREATE TRIGGER IF NOT EXISTS update_timestamp_trigger
+BEFORE UPDATE ON Event_Registration
+FOR EACH ROW
+BEGIN
+    UPDATE Event_Registration SET updated_timestamp = CURRENT_TIMESTAMP WHERE Registration_id = NEW.Registration_id;
+END;

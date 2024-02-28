@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Coordinator Page{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            background-color: black; 
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+        .sport-container {
+            margin-top: 50px;
+            
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+        .coordinator-card {
+            flex: 1 0 300px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0.5, 0.5);
+            text-align: center;
+        }
+    .coordinator-card:nth-child(odd) {
+        margin-left: 50px;
+                margin-right: 50px;
+                margin-top: 20px;
+        margin-right: 50px;
+        background-image: linear-gradient(to right, #0e0e0e, #242323);
+    }
+    .coordinator-card:nth-child(even) {
+        margin-left: 50px;
+                margin-right: 50px;
+                margin-top: 20px;
+        margin-left: 50px;
+        background-image: linear-gradient(to left, #0e0e0e, #242323);
+    }
+
+
+
+
+        .coordinator-card h3 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+        .coordinator-card p {
+            margin-bottom: 20px;
+        }
+        button {
+    background-color: #dfe3e8;
+    font-weight: 555;
+    color: rgb(1, 0, 0);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background-color: #434445;
+    box-shadow: 0 0 10px 5px #434445; 
+}
+
+        p {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 16px;
+        }
+        footer {
+    position: static; 
+    width: 100%;
+    background-color: black;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(66, 66, 66);
+    padding: 5px;
+}
+
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<p>Welcome to the Club Coordinator page. Here you can view, edit and manage your ISEagles club!</p>
+
+<div class="coordinator-container">
+    <div class="coordinator-card">
+        <h3>Club Members</h3>
+        <button class="join-button" onclick="redirectToRegistrations('/coordinator_view_club_memberships')">View Registered Members</button>
+    </div>
+    <div class="coordinator-card">
+        <h3>Your Club's Upcoming Events</h3>
+        <button class="view-events-button" onclick="redirectToEvents('/coordinator_view_club_events')">View Club Events</button>
+    </div>
+    <div class="coordinator-card">
+        <h3>Current Event Registrations</h3>
+        <button class="club-button" onclick="redirectToEventRegistrations('/coordinator_view_event_registrations')">View Event Registrations</button>
+    </div>
+    <div class="coordinator-card">
+        <h3>Pending Event Registrations</h3>
+        <button class="club-button" onclick="redirectToPendingEventRegistrations('/coordinator_view_pending_event_registrations')">View Pending Event Registrations</button>
+    </div>
+    <div class="coordinator-card">
+        <h3>Pending Club Registrations</h3>
+        <button class="join-button" onclick="redirectToPendingRegistrations('/coordinator_view_club_pending_memberships')">View Pending Club Registrations</button>
+    </div>
+    <div class="coordinator-card">
+        <h3>Create Event</h3>
+        <button class="join-button" onclick="redirectToCreateEvent('/coordinator_create_event')">Create Now</button>
+    </div>
+</div>
+
+    
+    <script>
+        function redirectToRegistrations(url) {
+            window.location.href = url;
+        }
+    </script>
+    <script>
+        function redirectToEventRegistrations(url) {
+            window.location.href = url;
+        }
+    </script>
+    <script>
+        function redirectToPendingRegistrations(url) {
+            window.location.href = url;
+        }
+    </script>
+    <script>
+        function redirectToPendingEventRegistrations(url) {
+            window.location.href = url;
+        }
+    </script>
+    <script>
+        function redirectToEvents(url) {
+            window.location.href = url;
+        }
+    </script>
+    <script>
+        function redirectToCreateEvent(url) {
+            window.location.href = url;
+        }
+    </script>
+
+{% endblock %}

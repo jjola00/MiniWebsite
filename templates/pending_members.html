@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Pending Members{% endblock %}
+
+{% block style %}
+<style>
+    body {
+        background-color: #000000; 
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: auto;
+        padding: 40px;
+    }
+
+    .event-heading {
+        font-family: Arial;
+    }
+
+    .event-table {
+        font-family: Arial, Helvetica, sans-serif;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: rgba(0, 0, 0, 0.8);
+        box-shadow: 0 0 10px 5px #121212, 0 0 20px 10px #141414;
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+    .event-table:hover {
+        box-shadow: 0 0 20px 15px #161617, 0 0 40px 20px #1c1c1c;
+    }
+
+    .event-table th,
+    .event-table td {
+        border: 1px solid #fff;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .event-table th {
+        background-color: #333;
+        color: #fff;
+    }
+
+    .event-table tbody tr:nth-child(even) {
+        background-color: #222;
+    }
+
+    .event-table tbody tr:hover {
+        background-color: #444;
+    }
+
+    .action-buttons button {
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        margin-right: 5px;
+    }
+
+    .action-buttons button.reject-button {
+        background-color: #ff0000;
+    }
+    footer {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: black;
+        text-align: center;
+        font-family: 'Arial', Helvetica, 'sans-serif';
+        color: rgb(66, 66, 66);
+        padding: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="event-heading">Club Memberships</h1>
+    <table class="event-table">
+        <thead>
+            <tr>
+                <th>Membership ID</th>
+                <th>Club ID</th>
+                <th>Name</th>
+                <th>Approval Status</th>
+                <th>Action</th> 
+            </tr>
+        </thead>
+        <tbody>
+            {% for index, membership in pending_memberships|enumerate %}
+            <tr>
+                <td>{{ membership[0] }}</td> <!-- Membership ID -->
+                <td>{{ membership[1] }}</td> <!-- User ID -->
+                <td>{{ membership[2] }}</td> <!-- Club ID -->
+                <td>{{ membership[3] }}</td> <!-- Approval Status-->
+                <td class="action-buttons">
+                    <form action="/coordinator_accept_club_membership" method="post" style="display: inline;">
+                        <input type="hidden" name="membership_id" value="{{ membership[0] }}">
+                        <button type="submit" class="accept-button">Accept</button>
+                    </form>
+                    <form action="/coordinator_reject_club_membership" method="post" style="display: inline;">
+                        <input type="hidden" name="membership_id" value="{{ membership[0] }}">
+                        <button type="submit" class="reject-button">Reject</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

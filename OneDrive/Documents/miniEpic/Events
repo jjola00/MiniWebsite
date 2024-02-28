@@ -1,0 +1,31 @@
+CREATE TABLE Events (
+    Event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Club_id INTEGER,
+    Title VARCHAR(20) NOT NULL,
+    Description VARCHAR(30),
+    Date_ DATE NOT NULL,
+    Time_ TIME NOT NULL,
+    Venue_id INTEGER NOT NULL,
+    created_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Venue_id) REFERENCES Venues(Venue_id),
+    FOREIGN KEY (Club_id) REFERENCES Clubs(ClubID),
+    CONSTRAINT UniqueDateTimeVenue UNIQUE (Date_, Time_, Venue_id)
+);
+
+
+
+CREATE TRIGGER IF NOT EXISTS insert_timestamp_trigger
+AFTER INSERT ON Events
+FOR EACH ROW
+BEGIN
+    UPDATE Events SET created_timestamp = IFNULL(NEW.created_timestamp, CURRENT_TIMESTAMP) WHERE Event_id = NEW.Event_id;
+END;
+
+
+CREATE TRIGGER IF NOT EXISTS update_timestamp_trigger
+BEFORE UPDATE ON Events
+FOR EACH ROW
+BEGIN
+    UPDATE Events SET updated_timestamp = CURRENT_TIMESTAMP WHERE Event_id = NEW.Event_id;
+END;

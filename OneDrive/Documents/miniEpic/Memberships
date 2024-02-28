@@ -1,0 +1,37 @@
+CREATE TABLE ClubMemberships (
+    MembershipID INTEGER PRIMARY KEY AUTOINCREMENT,
+    UserID INTEGER NOT NULL,
+    ClubID INTEGER NOT NULL,
+    ApprovalStatus TEXT DEFAULT 'pending' NOT NULL CHECK(ApprovalStatus IN ('approved', 'pending', 'rejected')),
+    CreatedTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UpdatedTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ClubID) REFERENCES Clubs(ClubID)
+    CONSTRAINT UniqueUserClubID UNIQUE (UserID, ClubID)
+);
+
+CREATE TRIGGER IF NOT EXISTS clubmemberships_insert_trigger
+AFTER INSERT ON ClubMemberships
+FOR EACH ROW
+BEGIN
+    UPDATE ClubMemberships SET CreatedTimestamp = NEW.CreatedTimestamp WHERE MembershipID = NEW.MembershipID;
+END;
+
+CREATE TRIGGER IF NOT EXISTS clubmemberships_update_trigger
+AFTER UPDATE ON ClubMemberships
+FOR EACH ROW
+BEGIN
+    UPDATE ClubMemberships SET UpdatedTimestamp = CURRENT_TIMESTAMP WHERE MembershipID = NEW.MembershipID;
+END;
+
+CREATE TRIGGER MaxClubsPerUser
+BEFORE INSERT ON ClubMemberships
+FOR EACH ROW
+WHEN (
+    SELECT COUNT(*)
+    FROM ClubMemberships
+    WHERE UserID = NEW.UserID
+) >= 3
+BEGIN
+    SELECT RAISE(ABORT, 'Maximum number of clubs joined reached');
+END;

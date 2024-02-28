@@ -1,0 +1,24 @@
+CREATE TABLE Clubs (
+    ClubID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT NOT NULL,
+    CoordinatorID INTEGER NOT NULL UNIQUE,
+    Description TEXT,
+    ValidityStatus TEXT DEFAULT 'pending' NOT NULL CHECK(ValidityStatus IN ('approved', 'pending', 'rejected')),
+    CreatedTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UpdatedTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (CoordinatorID) REFERENCES Users(UserID)
+);
+
+CREATE TRIGGER IF NOT EXISTS clubs_insert_trigger
+AFTER INSERT ON Clubs
+FOR EACH ROW
+BEGIN
+    UPDATE Clubs SET CreatedTimestamp = NEW.CreatedTimestamp WHERE ClubID = NEW.ClubID;
+END;
+
+CREATE TRIGGER IF NOT EXISTS clubs_update_trigger
+AFTER UPDATE ON Clubs
+FOR EACH ROW
+BEGIN
+    UPDATE Clubs SET UpdatedTimestamp = CURRENT_TIMESTAMP WHERE ClubID = NEW.ClubID;
+END;

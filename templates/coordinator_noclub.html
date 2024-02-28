@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Coordinator{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('static/arena.png'); 
+            background-size: cover;
+            background-position: center;
+            margin: 0; 
+            padding: 0;
+            color: #fff;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            max-width: 600px;
+            max-height: 400px;
+            width: 100%;
+            margin: auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8); 
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            flex-grow: 1; 
+            padding-left: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #fff; 
+        }
+        .button {
+            display: block;
+            width: calc(100% - 40px);
+            padding: 15px; 
+            margin-bottom: 15px;
+            font-size: 16px; 
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8); 
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #000;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Create A Club</h1>
+        <div style="text-align: center; margin-top: 85px;">
+            <form action="/coordinator_noclub" method="POST">
+                <label for="name">Club Name:</label>
+                <input type="text" id="name" name="name" required><br><br>
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required><br><br>
+                <button type="submit" class="button">Create</button>
+                {% if message %}
+                <p style="color: rgb(255, 255, 255);">{{ message }}</p>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

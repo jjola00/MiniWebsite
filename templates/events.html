@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Events{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+        background-color: #000;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        font-family: Arial;
+    }
+
+    .container {
+        width: 700px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.8); 
+        margin-top: 150px;
+    }
+        h1 {
+            margin-bottom: 20px;
+            margin-left: 250px;
+            font-size: 60px;
+            color: #fff; 
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .button-container .button {
+            width: 250px;
+            padding: 20px;
+            margin: 0 10px;
+            font-size: 20px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8); 
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #000;
+            text-decoration: none;
+        }
+        .button-container .button:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        footer {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: black;
+            text-align: center;
+            font-family: 'Arial', Helvetica, 'sans-serif';
+            color: rgb(66, 66, 66);
+            padding: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Events</h1>
+        
+        <div class="button-container">
+            <a href="/view_events" class="button">View All Events</a>
+            <a href="/user_views_event_registrations" class="button">View Event Registrations</a>
+        </div>
+    </div>
+{% endblock %}

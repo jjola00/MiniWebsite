@@ -1,0 +1,119 @@
+/*Users*/
+INSERT INTO Users (Name, Surname, Email) VALUES ('Dawid', 'Jakubowski', 'dawijak@gmail.com'), ('James', 'Bond', 'jb.mi6@gmail.com'), ('Mike', 'Ryan', 'mryan@gmail.com'), ('Jacob', 'Stanely', 'jacobstan@gmail.com'), ('Adam', 'Murphy', 'smurf@gmail.com')
+
+UPDATE Users SET ApprovalStatus = 'approved' WHERE UserID < 10
+
+UPDATE Users SET Role = 'COORDINATOR' WHERE UserID = 2
+UPDATE Users SET Role = 'COORDINATOR' WHERE UserID = 3
+UPDATE Users SET Role = 'COORDINATOR' WHERE UserID = 4
+UPDATE Users SET Role = 'COORDINATOR' WHERE UserID = 5
+UPDATE Users SET Role = 'COORDINATOR' WHERE UserID = 6
+UPDATE Users SET Role = 'COORDINATOR' WHERE UserID = 8
+
+SELECT * FROM Users 
+
+
+/*Login*/
+INSERT INTO Login (UserID, Username, Password) VALUES (1, 'dawijak', 'ISE123'), (2, 'Bond', 'moneypenny'), (3, 'Michael', 'Portlaoise04'), (4, 'JacStan20', 'Biscuits29'), (5, 'Murpher35', 'icecream82')
+
+SELECT * FROM Login
+
+
+/*PhoneNumber*/
+INSERT INTO PhoneNumber (UserID, PhoneNumber) VALUES (1, '0872838474'), (2, '0864240572'), (3, '0892849291'), (4, '0892936471'), (5, '0862846208')
+
+SELECT * FROM PhoneNumber
+
+
+
+/*Clubs*/
+INSERT INTO Clubs (Name, CoordinatorID, Description) VALUES 
+("Archery", 2, "Develop archery skills by participating in weekly events"), 
+("Swimming", 3, "Become a professional swimmer by training in our olympic sized pool"), 
+("Tennis", 4, "Practice tennis in our well equipped tennis courts")
+
+UPDATE Clubs SET ValidityStatus = 'approved'
+
+SELECT * FROM Clubs
+
+
+/*Club Memberships*/
+INSERT INTO ClubMemberships (UserID, ClubID) VALUES 
+(8, 1), 
+(9, 2), 
+(5, 3), 
+(11, 1), 
+(8, 3), 
+(6, 2)
+
+UPDATE ClubMemberships SET ApprovalStatus = 'approved'
+
+SELECT * FROM ClubMemberships
+
+
+/*Events*/
+INSERT INTO Events (Club_id, Title, Description, Date_, Time_, Venue_id)
+VALUES
+  (1, 'Archery Tryouts', 'Opportunity to try archery', '2024-03-01', '14:00', 8),
+  (3, 'Tennis Championships', 'Tennis county finals', '2024-03-12', '12:00', 5),
+  (2, 'AquaAerobic', 'Fitness exercises in a swimming pool', '2024-03-15', '18:00', 6);
+
+SELECT * FROM Events
+
+
+/*Events Registration*/
+ INSERT INTO Event_Registration (Event_id, User_id) VALUES 
+(1, 8), 
+(1, 11), 
+(2, 5), 
+(3, 9), 
+(3, 6)
+
+SELECT * FROM Event_Registration
+
+
+
+
+
+INSERT INTO Venues (Venue_name) VALUES ("Tennis Courts"), ("Swimming Pool"), ("Sports Arena"), ("McGuire Fields")
+
+INSERT INTO Clubs (Name, CoordinatorID, Description) VALUES ("Archery", 2, "Develop archery skills by participating in weekly events"), ("Swimming", 3, "Become a professional swimmer by training in our olympic sized pool"), ("Tennis", 4, "Practice tennis in our well equipped tennis courts")
+UPDATE Clubs SET ValidityStatus = 'approved'
+
+INSERT INTO ClubMemberships (UserID, ClubID) VALUES (8, 1), (9, 2), (5, 3), (11, 1), (8, 3), (6, 2)
+UPDATE ClubMemberships SET ApprovalStatus = 'approved'
+
+INSERT INTO Events (Club_id, Title, Description, Date_, Time_, Venue_id)
+VALUES
+  (1, 'Archery Tryouts', 'Opportunity to try archery', '2024-03-01', '14:00', 8),
+  (3, 'Tennis Championships', 'Tennis county finals', '2024-03-12', '12:00', 5),
+  (2, 'AquaAerobic', 'Fitness exercises in a swimming pool', '2024-03-15', '18:00', 6);
+ 
+ 
+INSERT INTO Event_Registration (Event_id, User_id) VALUES (1, 8), (1, 11), (2, 5), (3, 9), (3, 6)
+
+
+/*Venues*/
+INSERT INTO Venues (Venue_name) VALUES 
+("Tennis Courts"), 
+("Swimming Pool"), 
+("Sports Arena"), 
+("McGuire Fields")
+
+
+/*Views*/
+SELECT * FROM AdminAccountView
+
+SELECT * FROM AdminAccountViewPending
+
+SELECT * FROM ClubsView
+
+SELECT * FROM AdminsClubView
+
+SELECT * FROM AdminClubMembershipView
+
+SELECT * FROM AdminClubsView
+
+SELECT * FROM AdminClubMembershipView
+
+SELECT * FROM ViewClubMemberships

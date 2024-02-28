@@ -1,0 +1,257 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+                header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background-color: #121212;
+            padding: 14px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+
+        }
+
+        nav img {
+            height: 16px;
+            margin-right: 30px;
+
+        }
+
+        nav a {
+            font-family: 'Sequel Sans Light Head', Rockwell;
+            font-size: smaller;
+            color: #aeaeb7;
+            text-decoration: none;
+            margin: 0 20px;
+        }
+
+        .hero-section h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 49px black;
+        }
+
+        .hero-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 60px black;
+
+        }
+
+        .features-section h2 {
+            font-family: 'Bebas Neue Pro Bold Italic', Rockwell;
+            color: white;
+            font-size: 107px;
+            line-height: 0.9;
+            text-shadow: none;
+            transition: font-size 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .features-section h2:hover {
+
+            transition: font-size 0.3s ease;
+            font-size: 109px;
+            text-shadow: 0 0 10px rgb(108, 108, 108);
+        }
+
+
+
+        .features-section {
+            background-color: black;
+            padding: 0px 0;
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+           
+        }
+
+        .feature {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0px;
+            width: 100%;
+            
+        }
+
+
+
+
+        .feature-content {
+            display: flex;
+            align-items: center;
+            position:relative;
+        }
+
+        .feature img {
+            width: 100%;
+            height: auto;            
+            
+        }
+
+        .text-content {
+            position: absolute;
+            color: white;
+            top: 07;
+            right: 10px;
+            
+        }
+
+        .custom-left {
+        left: 0;
+        right: unset;
+}
+
+        .text-content h3 {
+            font-size: 24px;
+            font-family: 'Sequel Sans Bold Head', Rockwell;
+            margin-bottom: 10px;
+        }
+
+        .text-content p {
+            font-size: 16px;
+            font-family: 'Sequel Sans Light Head', Rockwell;
+            
+        }
+
+
+
+        .button {
+            margin-bottom: 150px;
+            margin: 10px;
+            width: 150px;
+            background-color: white;
+            color: black;
+            font-family: 'Sequel Sans Semi Bold Head', Rockwell;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #000000;
+            color: white;
+            box-shadow: 0 0 20px rgba(28, 28, 28, 0.5);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .top-right-button {
+            position: absolute;
+            top: 60px;
+            right: calc(50% - 700px);
+        }
+        .user-button {
+            position: absolute;
+            right: calc(50% - 50px);
+            text-align: center;
+        }
+        .button-container {
+            display: flex;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .animated-element {
+            animation: bounce 1s infinite;
+        }
+
+        footer {
+            background-color: black;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            color: rgb(66, 66, 66);
+            padding: 10px;
+            margin-top: auto;
+        }
+
+
+         @font-face {
+            font-family: 'Sequel Sans Medium Head';
+            src: url('/static/fonts/Sequel Sans Book Head.otf') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'Sequel Sans Light Head';
+            src: url('/static/fonts/Sequel Sans Light Head.otf') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'Sequel Sans Bold Head';
+            src: url('/static/fonts/Sequel Sans Bold Head.otf') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'Sequel Sans Heavy Head';
+            src: url('/static/fonts/Sequel Sans Heavy Head.otf') format('opentype');
+        }
+
+
+        @font-face {
+            font-family: 'Bebas Neue Pro Bold Italic';
+            src: url('/static/fonts/Bebas Neue Pro Bold Italic.otf') format('opentype');
+        }
+
+
+        @font-face {
+            font-family: 'Sequel Sans Semi Bold Head';
+            src: url('/static/fonts/Sequel Sans Semi Bold Head.otf') format('opentype');
+        }
+    </style>
+    {% block style %}{% endblock %}
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+</head>
+<body>
+    <nav>
+        <img src="/static/clubhub_white.png" alt="Tiny Logo">
+        <a href="/">Home</a>
+        {% if roleCheck == 3 %}
+            <a href="clubs">Clubs</a>
+            <a href="events">Events</a>
+            <a href="memberships">Memberships</a>
+        {% elif roleCheck == 1 %}
+            <a href="your_club">Your Club</a>
+        {% elif roleCheck == 2 %}
+            <a href="users">Users</a>
+            <a href="coordinators">Coordinators</a>
+            <a href="admin_clubs">Pending Clubs</a>
+        {% endif %}
+        {% if 'username' in session %}
+            <a href="profile">{{username}}</a>
+        {% else %}
+            <a href="login">Login</a>
+        {% endif %}
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+<footer>
+    <p>&copy; ClubHub | Tom, JJ, Dara, Dawid</p>
+</footer>
+</html>

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Memberships{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            background-color: #000000;
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+        .sport-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+        .club-card {
+            width: 300px;
+            margin: 20px;
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0.5, 0.5);
+            text-align: center;
+        }
+        .club-card h3 {
+            font-size: 24px;
+            margin-top: 0;
+        }
+        .club-card p {
+            margin-bottom: 20px;
+        }
+        p {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 16px;
+        }
+
+        .button-container {
+        display: flex;
+        justify-content: center;
+        }   
+
+        .leave-button {
+            background-color: #ea0101;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            
+            transition: background-color 0.3s ease;
+        }
+        .leave-button:hover {
+            background-color: #990000;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+        footer {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: black;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            color: rgb(66, 66, 66);
+            padding: 10px;
+        }
+        
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="sport-container">
+    {% for index, club in joinedList|enumerate %}  
+    <div class="club-card">
+        <h3>{{club[1]}}</h3>
+        <p><strong>Membership ID:</strong> {{club[0]}}</p>
+        <p><strong>Status:</strong> {{club[5]}}</p>
+        <p><strong>Joined:</strong> {{club[7]}}</p>
+        <form method="POST" action="/delete_club_membership/{{ club[0] }}">
+            <div class="button-container">
+                <input type="hidden" name="membership_id" value="{{ club[0] }}">
+                <button type="submit" class="leave-button">Leave Club</button>
+            </div>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+<script>
+    function addMembership(sportName) {
+        // Send a POST request to the server to add membership
+        fetch('/add_membership', {
+            method: 'POST',
+            body: new URLSearchParams({
+                sportName: sportName
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            if (response.ok) {
+                // Membership added successfully
+                window.location.reload(); // Refresh the page
+            } else {
+                // Error occurred while adding membership
+                alert('Failed to add membership. Error occurred.');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('Failed to add membership. Error occurred.');
+        });
+    }
+</script>
+{% endblock %}

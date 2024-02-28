@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+        background-image: url('static/loginBackground.png');
+        margin: 0;
+        padding: 0;
+        
+    }
+
+    .container {
+        width: 300px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.8); 
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        flex-grow: 1;
+        margin-top: 150px;
+        font-family: Arial;
+    }
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-family: Arial;
+        }
+        input[type="submit"] {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            border: none;
+            cursor: pointer;
+            font-family: Arial;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+            font-family: Arial;
+        }
+        .register-link {
+            
+            border-radius: 4px;
+            text-align: center;
+            font-family: Arial;
+        }
+        .register-link input[type="submit"] {
+            text-decoration: none;
+            color: #000000;
+            background-color: #ffffff;
+            border: none;
+            cursor: pointer;
+            font-family: Arial;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+            font-family: Arial;
+        }
+
+
+        footer {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: black;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            color: rgb(66, 66, 66);
+            padding: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+        <div class="container">
+            <h2 style="font-family: Arial;color: white;">Login</h2>
+            <form id="loginForm" action="/login" method="POST">
+                <input type="text" id="username" name="username" placeholder="Username" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <input type="submit" value="Login">
+                {% if error_message %}
+                <p style="color: red;">{{ error_message }}</p>
+                {% endif %}
+            </form>
+            <form action="/register" method="GET" class="register-link">
+                <input type="submit" value="Register">
+            </form>
+        </div>
+{% endblock %}

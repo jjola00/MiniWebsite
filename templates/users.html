@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Users{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            background-color: rgb(37, 36, 36);
+            margin: 0;
+            padding: 0;
+            
+            
+        }
+
+        .container {
+            width: calc(50% - 120px);
+            margin: 35px; 
+            padding: 20px;
+            background-color: rgb(0, 0, 0);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(241, 22, 22, 0.1);
+            display: inline-block; 
+            vertical-align: top;
+        }
+
+        h2 {
+            font-family: Arial;
+            font-size: medium;
+            color: white;
+            font-weight: normal;
+        }
+        
+        .button {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 0px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #2a2a2a;
+            box-shadow: 0 0 10px rgba(21, 20, 20, 0.5);
+            
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+{% for index, user in user_list|enumerate %}
+    {% if user[5] == "STUDENT" %}
+        <div class="container">
+            <form method="POST" action="/delete_account/{{ user[0] }}">
+                <div class="button-container">
+                    {% if user[6] == "approved" %}
+                        <button type="submit" class="button">Delete Account</button>
+                        <button type="submit" formaction="/promote_user/{{ user[0] }}" class="button">Set as Coordinator</button>
+                    {% elif user[6] == "pending" %}
+                        <button type="submit" class="button">Reject Account</button>
+                        <button type="submit" formaction="/approve_user/{{ user[0] }}" class="button">Approve User</button>
+                    {% endif %}
+                </div>
+            </form>
+            <h2><strong>ID: </strong>{{ user[0] }}</h2>
+            <h2><strong>Full Name:</strong> {{ user[1] }}</h2>
+            <h2><strong>Username:</strong> {{ user[2] }}</h2>
+            <h2><strong>Email:</strong> {{ user[3] }}</h2>
+            <h2><strong>Phone Number:</strong> {{ user[4] }}</h2>
+            <h2><strong>Role:</strong> {{ user[5] }}</h2>
+            <h2><strong>Account Status:</strong> {{ user[6] }}</h2>
+            <h2><strong>Account Created:</strong> {{ user[7] }}</h2>
+        </div>
+    {% endif %}
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Event Successfully Created{% endblock %}
+
+{% block style %}
+<style>
+    body {
+        background-color: #000;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        text-align: center;
+        max-width: 400px; /* Smaller max-width */
+        margin: 180px auto; /* Center the container horizontally and add spacing from the top */
+        padding: 80px; /* Smaller padding */
+        background-color: #222; /* Darker grey background color */
+        border-radius: 10px; /* Rounded corners */
+    }
+
+    .return-button {
+        background-color: #4CAF50; /* Green color */
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: black;
+        text-align: center;
+        font-family: 'Arial', Helvetica, 'sans-serif';
+        color: rgb(66, 66, 66);
+        padding: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>You have successfully created an event!!</h2>
+    <a href="create_event" class="return-button">Return</a>
+</div>
+{% endblock %}

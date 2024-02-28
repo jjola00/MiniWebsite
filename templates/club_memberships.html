@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Your Club's Members{% endblock %}
+
+{% block style %}
+
+<style>
+    body {
+        background-color: #000000; 
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: auto;
+        padding: 40px;
+    }
+
+    .event-heading {
+        font-family: 'Arial';
+    }
+
+    .event-table {
+        font-family: Arial;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .event-table th,
+    .event-table td {
+        border: 1px solid #fff;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .event-table th {
+        background-color: #333;
+        color: #fff;
+    }
+
+    .event-table tbody tr:nth-child(even) {
+        background-color: #222;
+    }
+
+    .event-table tbody tr:hover {
+        background-color: #444;
+    }
+    footer {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: black;
+        text-align: center;
+        font-family: 'Arial';
+        color: rgb(66, 66, 66);
+        padding: 10px;
+    }
+    .delete-button {
+    background-color: #ff0000;
+    color: #fff; 
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="event-heading">Club Memberships</h1>
+    <table class="event-table">
+        <thead>
+            <tr>
+                <th>Membership ID</th>
+                <th>Coordinator ID</th>
+                <th>Name</th>
+                <th>User Name</th>
+                <th>Approval Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for index, membership in memberships|enumerate %}
+            <tr>
+                <td>{{ membership[0] }}</td>
+                <td>{{ membership[1] }}</td>
+                <td>{{ membership[2] }}</td>
+                <td>{{ membership[3] }}</td>
+                <td>{{ membership[4] }}</td>
+                <td>
+                    <form action="/delete_club_membership/{{ membership[0]}}" method="post">
+                        <input type="hidden" name="user_id" value="{{ membership[2] }}">
+                        <input type="hidden" name="membership_id" value="{{ membership[0] }}">
+                        <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this membership?')">Delete Membership</button>
+                    </form>
+                    
+                    
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

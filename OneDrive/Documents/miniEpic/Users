@@ -1,0 +1,24 @@
+CREATE TABLE Users (
+    UserID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT NOT NULL,
+    Surname TEXT NOT NULL,
+    Email TEXT NOT NULL UNIQUE,
+    Role TEXT DEFAULT 'STUDENT' NOT NULL CHECK(Role IN ('ADMIN', 'COORDINATOR', 'STUDENT')),
+    ApprovalStatus TEXT DEFAULT 'pending' NOT NULL CHECK(ApprovalStatus IN ('approved', 'pending', 'rejected')),
+    CreatedTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UpdatedTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TRIGGER IF NOT EXISTS users_insert_trigger
+AFTER INSERT ON Users
+FOR EACH ROW
+BEGIN
+    UPDATE Users SET CreatedTimestamp = NEW.CreatedTimestamp WHERE UserID = NEW.UserID;
+END;
+
+CREATE TRIGGER IF NOT EXISTS users_update_trigger
+AFTER UPDATE ON Users
+FOR EACH ROW
+BEGIN
+    UPDATE Users SET UpdatedTimestamp = CURRENT_TIMESTAMP WHERE UserID = NEW.UserID;
+END;

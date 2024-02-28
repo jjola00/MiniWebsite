@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Pending Clubs{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            background-color: rgb(16, 16, 16);
+            margin: 0;
+            padding: 0;
+        }
+        .container,
+        .container2 {
+            width: calc(50% - 120px);
+            margin: 35px; 
+            padding: 20px;
+            background-color: rgb(0, 0, 0);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block; 
+            vertical-align: top;
+        }
+
+        .container2 {
+            position: absolute;
+            top: 47%;
+            left: 47%;
+            width: 130px;
+            transform: translate(-50%, -50%);
+        }
+
+        footer {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: black;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            color: rgb(66, 66, 66);
+            padding: 10px;
+        }
+        .button {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 0px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #2a2a2a;
+            box-shadow: 0 0 10px rgba(21, 20, 20, 0.5);
+            
+        }
+
+        @media screen and (min-height: 1000px) {
+        body {
+            background-position-y: 100%;
+        }
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+{% if club_list %}
+    {% for index, club in club_list|enumerate %}
+        <div class="container">
+            <form method="POST" action="/approve_club/{{ club[0] }}">
+                <div class="button-container">
+                    <button type="submit" class="button">Approve Club</button>
+                    <button type="submit" formaction="/reject_club/{{ club[0] }}" class="button">Reject Club</button>
+                </div>
+            </form>
+            <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Club ID: {{ club[0] }}</h2>
+            <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Name: {{ club[1] }}</h2>
+            <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Description: {{ club[2] }}</h2>
+            <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Status: {{ club[3] }}</h2>
+            <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Club Created: {{ club[4] }}</h2>
+            </form>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="container2">
+        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">No Clubs Pending</h2>
+    </div>
+{% endif %}
+{% endblock %}

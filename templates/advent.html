@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Events{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            background-color: rgb(180, 180, 180);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: calc(50% - 380px);
+            margin: 35px; 
+            padding: 20px;
+            background-color: rgb(0, 0, 0);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block; 
+            vertical-align: top;
+        }
+
+        @media screen and (min-height: 1000px) {
+        body {
+            background-position-y: 100%;
+        }
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+{% for index, event in events_list|enumerate %}
+    <div class="container">
+        <form method="POST" action="/approve_registration/{{ event[0] }}">
+            <div class="button-container">
+                <button type="submit" class="button">Approve</button>
+            </div>
+        </form>
+        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Registration ID: {{ event[0] }}</h2>
+        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Event ID: {{ event[1] }}</h2>
+        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">User ID: {{ event[2] }}</h2>
+        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Approval Status: {{ event[3] }}</h2>
+        <h2 style="font-family: 'Bebas Neue Pro Bold Italic'; color: white;">Request Created: {{ event[4] }}</h2>
+    </div>
+{% endfor %}
+{% endblock %}

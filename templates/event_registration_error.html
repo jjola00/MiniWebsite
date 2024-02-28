@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Event Registration Error{% endblock %}
+
+{% block style %}
+<style>
+    body {
+        background-color: #000;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        text-align: center;
+        max-width: 400px; /* Smaller max-width */
+        margin: 180px auto; /* Center the container horizontally and add spacing from the top */
+        padding: 80px; /* Smaller padding */
+        background-color: #222; /* Darker grey background color */
+        border-radius: 10px; /* Rounded corners */
+    }
+
+    .return-button {
+        background-color: #FF0000;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .return-button:hover {
+        background-color: #710c0c;
+    }
+
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: black;
+        text-align: center;
+        font-family: 'Arial';
+        color: rgb(66, 66, 66);
+        padding: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<style>
+    .container {
+        font-family: Arial;
+    }
+</style>
+
+<div class="container">
+    <h2>You have already registered for this event!</h2>
+    <a href="view_events" class="return-button">Return</a>
+</div>
+{% endblock %}

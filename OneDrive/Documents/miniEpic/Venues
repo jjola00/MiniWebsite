@@ -1,0 +1,21 @@
+CREATE TABLE Venues(
+	Venue_id INTEGER PRIMARY KEY AUTOINCREMENT,
+	Venue_name VARCHAR(20) NOT NULL UNIQUE,
+	created_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+
+
+CREATE TRIGGER IF NOT EXISTS insert_timestamp_trigger
+AFTER INSERT ON Venues
+FOR EACH ROW
+BEGIN
+    UPDATE Venues SET created_timestamp = IFNULL(NEW.created_timestamp, CURRENT_TIMESTAMP) WHERE Venue_id = NEW.Venue_id;
+END;
+
+CREATE TRIGGER IF NOT EXISTS update_timestamp_trigger
+BEFORE UPDATE ON Venues
+FOR EACH ROW
+BEGIN
+    UPDATE Venues SET updated_timestamp = CURRENT_TIMESTAMP WHERE Venue_id = NEW.Venue_id;
+END;
