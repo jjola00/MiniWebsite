@@ -274,7 +274,7 @@ def coordinator_create_event():
         description = request.form.get("description")
         date_ = request.form.get("date")
         time_ = request.form.get("time")
-        venue_name = request.form.get("venue_name")
+        venue_name = request.form.get("venue_id")
 
         actual_venue_id = Events.get_VenueID_from_VenueName(venue_name)
         user_id = request.form.get("user_id")
