@@ -349,6 +349,7 @@ def CreateAdmin():
             row = cursor.fetchone()
             if row is None: 
                 Login.create_account("dawijak", "ISE123", "Dawid", "Jakubowski", "dawijak@gmail.com", "0874384024")
+                Login.promote_user(1)
     except Exception as e:
         print(e)
     finally:
