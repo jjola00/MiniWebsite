@@ -1,4 +1,10 @@
 # MiniWebsite
+
+This is a python based sports website that uses flask and javascript.
+
+
+
+
 For the virtual environment to run flask on any machine you have to be in MyRepos/MiniWebsite and then you have to execute these commands below: 
 python -m venv venv
 venv\Scripts\activate
